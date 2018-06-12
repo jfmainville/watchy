@@ -58,6 +58,7 @@ for show in shows:
                 data = pattern.string[0:count]
                 filtered_episodes.append(data)
                 filtered_episodes = list(sorted(set(filtered_episodes)))
+    # TODO: Filter the shows that were already downloaded
     files = os.listdir(tv_shows_path)
     for file in files:
         for filtered_episode in filtered_episodes:
