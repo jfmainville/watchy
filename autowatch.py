@@ -9,40 +9,32 @@ import pandas as pd
 import subprocess
 from selenium import webdriver
 
-# chrome_path = r'C:\Users\jfmainville\Downloads\chromedriver_win32\chromedriver'
-chrome_path = r'/usr/local/share/chromedriver'
 
-# VARIABLES
+chrome_path = r'/usr/local/share/chromedriver'
 url = "https://eztv.ag"
-# shows = [
-#     "Last Week Tonight With John Oliver;S05",
-#     "Supernatural;S13",
-#     "Doctor Who 2005;S11",
-#     "The Big Bang Theory;S07",
-#     "MasterChef US;S09",
-#     "The X Factor UK;S14",
-#     "Shark Tank;S09",
-#     "Dragons Den CA;S12",
-#     "Hells Kitchen US;S17",
-#     "Cops;S30",
-#     "Young Sheldon;S01",
-#     "The Night Manager;S01"
-# ]
 shows = [
-    "The Night Manager;S01",
-    "Young Sheldon;S01",
+    "Last Week Tonight With John Oliver;S05",
+    "Supernatural;S13",
+    "Doctor Who 2005;S11",
+    "The Big Bang Theory;S07",
+    "MasterChef US;S09",
+    "The X Factor UK;S15",
+    "Shark Tank;S10",
+    "Dragons Den CA;S13",
+    "Hells Kitchen US;S17",
+    "Young Sheldon;S02",
+    "The Night Manager;S01"
 ]
 process_timeout = "180"
 drive = "/mnt/plexdata"
 tv_shows_path = "/mnt/plexdata/TV Shows"
 downloads_path = "/mnt/plexdata/Downloads"
 cleanup_script_path = "/mnt/plexdata/Scripts/cleanup.sh"
-file_extensions = ("*.mp4", "*.mkv", "*.avi")
-output = ""
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
 options.add_argument('window-size=1200x600')
 chrome = webdriver.Chrome(executable_path=chrome_path, chrome_options=options)
+
 
 for show in shows:
     site_episodes = []
@@ -52,7 +44,7 @@ for show in shows:
     show_season = show.split(";")[1]
     search_query = show_name.replace(" ", "-")
     chrome.get(url + "/search/" + search_query)
-    time.sleep(3)
+    time.sleep(5)
 
     count = len(show_name) + 7
     episodes = chrome.find_elements_by_class_name("forum_thread_post")
@@ -85,5 +77,14 @@ for show in shows:
     for final_episode in final_episodes:
         subprocess.call(
             ["transmission-cli", "-w", downloads_path, "-f", cleanup_script_path, final_episode[1]])
+        time.sleep(3)
+        for root, directories, files in os.walk(downloads_path):
+            for file in files:
+                source_file_path = os.path.split(os.path.join(root, file))[0]
+                file_name = os.path.split(os.path.join(root, file))[1]
+                if re.findall("^(?!sample).*", file_name):
+                    file_extension = os.path.splitext(file_name)[1]
+                    os.rename(source_file_path + "/" + file_name,
+                              tv_shows_path + "/" + show_name + "/" + final_episode[0] + file_extension)
 
 chrome.quit()
