@@ -180,5 +180,3 @@ pyvenv.cfg
 .venv
 pip-selfcheck.json
 .idea\
-TVShowsDownload
-test.py
