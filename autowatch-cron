@@ -1,0 +1,1 @@
+* * * * * /usr/bin/python3.6 /usr/local/bin/autowatch/autowatch.py >> /var/log/autowatch.log 2>&1
