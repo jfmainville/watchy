@@ -83,13 +83,17 @@ for show in shows:
         except subprocess.TimeoutExpired:
             output = 1
         # TODO: Add a function to automatically create the TV show directory if it doesn't exist
-        for root, directories, files in os.walk(downloads_path):
-            for file in files:
-                source_file_path = os.path.split(os.path.join(root, file))[0]
-                file_name = os.path.split(os.path.join(root, file))[1]
-                if re.findall("^(?!sample).*", file_name):
-                    file_extension = os.path.splitext(file_name)[1]
-                    os.rename(source_file_path + "/" + file_name,
-                              tv_shows_path + "/" + show_name + "/" + final_episode[0] + file_extension)
+        if output == 0:
+            for root, directories, files in os.walk(downloads_path):
+                for file in files:
+                    source_file_path = os.path.split(os.path.join(root, file))[0]
+                    file_name = os.path.split(os.path.join(root, file))[1]
+                    if re.findall("^(?!sample).*", file_name):
+                        file_extension = os.path.splitext(file_name)[1]
+                        os.chmod(source_file_path + "/" + file_name, 0o755)
+                        os.rename(source_file_path + "/" + file_name,
+                                  tv_shows_path + "/" + show_name + "/" + final_episode[0] + file_extension)
+        else:
+            subprocess.call(["rm", "-r", "-f", downloads_path + "/*"])
 
 chrome.quit()
