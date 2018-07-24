@@ -74,9 +74,14 @@ for show in shows:
                 final_episodes = [max(g, key=lambda x: x[0]) for _, g in
                                   groupby(sorted(updated_episodes), lambda x: x[0])]
     for final_episode in final_episodes:
-        subprocess.call(
-            ["transmission-cli", "-w", downloads_path, "-f", cleanup_script_path, final_episode[1]])
-        time.sleep(3)
+        output = 0
+        try:
+            subprocess.run(
+                ["transmission-cli", "-w", downloads_path, "-f", cleanup_script_path, final_episode[1]],
+                timeout=300)
+            time.sleep(3)
+        except subprocess.TimeoutExpired:
+            output = 1
         # TODO: Add a function to automatically create the TV show directory if it doesn't exist
         for root, directories, files in os.walk(downloads_path):
             for file in files:
