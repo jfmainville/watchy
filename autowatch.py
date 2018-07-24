@@ -20,7 +20,7 @@ shows = [
     "The X Factor UK;S15",
     "Shark Tank;S10",
     "Dragons Den CA;S13",
-    "Hells Kitchen US;S17",
+    "Hells Kitchen US;S18",
     "Young Sheldon;S02",
     "The Night Manager;S01",
 ]
