@@ -78,7 +78,7 @@ for show in shows:
         try:
             subprocess.run(
                 ["transmission-cli", "-w", downloads_path, "-f", cleanup_script_path, final_episode[1]],
-                timeout=300)
+                timeout=600)
             time.sleep(3)
         except subprocess.TimeoutExpired:
             output = 1
