@@ -22,7 +22,7 @@ shows = [
     "Dragons Den CA;S13",
     "Hells Kitchen US;S18",
     "Young Sheldon;S02",
-    "The Night Manager;S01",
+    "Americas Got Talent;S13"
 ]
 process_timeout = "180"
 drive = "/mnt/plexdata"
