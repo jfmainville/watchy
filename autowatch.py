@@ -50,6 +50,10 @@ for show in shows:
     episodes = chrome.find_elements_by_class_name("forum_thread_post")
     magnets = chrome.find_elements_by_class_name("magnet")
 
+    show_directory = os.path.join(tv_shows_path, show_name)
+    if not os.path.exists(show_directory):
+        os.makedirs(show_directory)
+
     for episode in episodes:
         data = episode.get_attribute("innerText")
         site_episodes.append(data)
