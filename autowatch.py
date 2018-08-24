@@ -53,6 +53,7 @@ for show in shows:
     show_directory = os.path.join(tv_shows_path, show_name)
     if not os.path.exists(show_directory):
         os.makedirs(show_directory)
+        os.chmod(show_directory, 0o775)
 
     for episode in episodes:
         data = episode.get_attribute("innerText")
