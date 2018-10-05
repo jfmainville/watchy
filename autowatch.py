@@ -102,3 +102,5 @@ for show in shows:
             subprocess.call(["rm", "-r", "-f", downloads_path + "/*"])
 
 chrome.quit()
+subprocess.run(["pkill", "chrom"], timeout=30)
+subprocess.run(["pkill", "transmission-cli"], timeout=30)
