@@ -5,12 +5,11 @@ import time
 import re
 import fnmatch
 import glob
-import pandas as pd
+from itertools import groupby
 import subprocess
 from selenium import webdriver
 
-
-chrome_path = r'/usr/local/share/chromedriver'
+chrome_path = r'/usr/bin/chromedriver'
 url = "https://eztv.ag"
 shows = [
     "Last Week Tonight With John Oliver;S05",
@@ -21,24 +20,26 @@ shows = [
     "The X Factor UK;S15",
     "Shark Tank;S10",
     "Dragons Den CA;S13",
-    "Hells Kitchen US;S17",
+    "Hells Kitchen US;S18",
     "Young Sheldon;S02",
-    "The Night Manager;S01"
+    "Americas Got Talent;S13",
+    "Live PD;S03"
 ]
 process_timeout = "180"
 drive = "/mnt/plexdata"
 tv_shows_path = "/mnt/plexdata/TV Shows"
 downloads_path = "/mnt/plexdata/Downloads"
-cleanup_script_path = "/mnt/plexdata/Scripts/cleanup.sh"
+cleanup_script_path = "/usr/local/bin/autowatch/cleanup.sh"
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
 options.add_argument('window-size=1200x600')
+options.add_argument('--no-sandbox')
 chrome = webdriver.Chrome(executable_path=chrome_path, chrome_options=options)
-
 
 for show in shows:
     site_episodes = []
     filtered_episodes = []
+    updated_episodes = []
     final_episodes = []
     show_name = show.split(";")[0]
     show_season = show.split(";")[1]
@@ -49,6 +50,11 @@ for show in shows:
     count = len(show_name) + 7
     episodes = chrome.find_elements_by_class_name("forum_thread_post")
     magnets = chrome.find_elements_by_class_name("magnet")
+
+    show_directory = os.path.join(tv_shows_path, show_name)
+    if not os.path.exists(show_directory):
+        os.makedirs(show_directory)
+        os.chmod(show_directory, 0o775)
 
     for episode in episodes:
         data = episode.get_attribute("innerText")
@@ -70,21 +76,31 @@ for show in shows:
             modified_episode = filtered_episode.replace(" ", ".")
             link = magnet.get_attribute("Href")
             if re.search(modified_episode, link):
-                final_episodes.append([filtered_episode, link])
-                data_frame = pd.DataFrame(final_episodes)
-                data_frame = data_frame.drop_duplicates([0], keep='first')
-                final_episodes = data_frame.values.tolist()
+                updated_episodes.append([filtered_episode, link])
+                final_episodes = [max(g, key=lambda x: x[0]) for _, g in
+                                  groupby(sorted(updated_episodes), lambda x: x[0])]
     for final_episode in final_episodes:
-        subprocess.call(
-            ["transmission-cli", "-w", downloads_path, "-f", cleanup_script_path, final_episode[1]])
-        time.sleep(3)
-        for root, directories, files in os.walk(downloads_path):
-            for file in files:
-                source_file_path = os.path.split(os.path.join(root, file))[0]
-                file_name = os.path.split(os.path.join(root, file))[1]
-                if re.findall("^(?!sample).*", file_name):
-                    file_extension = os.path.splitext(file_name)[1]
-                    os.rename(source_file_path + "/" + file_name,
-                              tv_shows_path + "/" + show_name + "/" + final_episode[0] + file_extension)
+        output = 0
+        try:
+            subprocess.run(
+                ["transmission-cli", "-w", downloads_path, "-f", cleanup_script_path, final_episode[1]],
+                timeout=600)
+            time.sleep(3)
+        except subprocess.TimeoutExpired:
+            output = 1
+        if output == 0:
+            for root, directories, files in os.walk(downloads_path):
+                for file in files:
+                    source_file_path = os.path.split(os.path.join(root, file))[0]
+                    file_name = os.path.split(os.path.join(root, file))[1]
+                    if re.findall("^(?!sample).*", file_name):
+                        file_extension = os.path.splitext(file_name)[1]
+                        os.chmod(source_file_path + "/" + file_name, 0o775)
+                        os.rename(source_file_path + "/" + file_name,
+                                  tv_shows_path + "/" + show_name + "/" + final_episode[0] + file_extension)
+        else:
+            subprocess.call(["rm", "-r", "-f", downloads_path + "/*"])
 
 chrome.quit()
+subprocess.run(["pkill", "chrom"], timeout=30)
+subprocess.run(["pkill", "transmission-cli"], timeout=30)

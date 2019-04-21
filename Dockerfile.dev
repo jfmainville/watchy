@@ -1,0 +1,7 @@
+FROM python:3.7.3-alpine3.9
+WORKDIR /app/serieswatcher
+COPY . /app/serieswatcher
+RUN apk add --no-cache aria2 chromium-chromedriver
+RUN pip3 install -r ./requirements/dev.txt
+EXPOSE 3000
+CMD ["crond", "-f"]
