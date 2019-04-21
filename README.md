@@ -2,8 +2,6 @@
 
 The SeriesWatcher program is used to automatically download the desired TV shows from EZTV and automatically publish them to a Plex Server via a SMB share.
 
-This repository
-
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
