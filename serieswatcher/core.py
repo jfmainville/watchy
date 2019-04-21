@@ -9,7 +9,7 @@ from itertools import groupby
 import subprocess
 from selenium import webdriver
 
-chrome_path = r'/usr/local/share/chromedriver'
+chrome_path = r'/usr/bin/chromedriver'
 url = "https://eztv.ag"
 shows = [
     "Last Week Tonight With John Oliver;S05",
