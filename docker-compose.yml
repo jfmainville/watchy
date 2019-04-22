@@ -1,9 +1,11 @@
 version: "3"
 services:
-  serieswatcher:
+  series:
     build:
       context: ./
       dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
     volumes:
       - ./serieswatcher:/app/serieswatcher
     env_file:
