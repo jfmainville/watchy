@@ -180,3 +180,6 @@ pyvenv.cfg
 .venv
 pip-selfcheck.json
 .idea\
+
+# VS Code
+.vscode
