@@ -30,4 +30,4 @@ def extract_watchlist_series():
     watchlist_response = api_connection["connection"].getresponse()
     watchlist_data = watchlist_response.read()
     watchlist_series = json.loads(watchlist_data)
-    return watchlist_series
+    return watchlist_series["results"]
