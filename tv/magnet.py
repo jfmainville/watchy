@@ -8,7 +8,7 @@ import subprocess
 from selenium import webdriver
 
 
-def eztv_extract(show):
+def eztv_extract(show_name, show_season):
     chrome_path = r'/usr/bin/chromedriver'
     url = "https://eztv.ag"
     tv_shows_path = "/mnt/plexdata/TV Shows"
@@ -22,8 +22,6 @@ def eztv_extract(show):
     filtered_episodes = []
     updated_episodes = []
     final_episodes = []
-    show_name = show.split(";")[0]
-    show_season = show.split(";")[1]
     search_query = show_name.replace(" ", "-")
     chrome.get(url + "/search/" + search_query)
     time.sleep(5)
@@ -41,11 +39,13 @@ def eztv_extract(show):
         data = episode.get_attribute("innerText")
         site_episodes.append(data)
         for site_episode in site_episodes:
-            pattern = re.match((show_name + " " + show_season), site_episode)
+            pattern = re.match(
+                (show_name + " " + "S" + show_season), site_episode)
             if pattern:
                 data = pattern.string[0:count]
                 filtered_episodes.append(data)
                 filtered_episodes = list(sorted(set(filtered_episodes)))
+                print(filtered_episodes)
     for directory in os.walk(tv_shows_path):
         for file_path in glob.glob(os.path.join(directory[0], '*.*')):
             file_name = (os.path.split(file_path)[1])
@@ -60,4 +60,6 @@ def eztv_extract(show):
                 updated_episodes.append([filtered_episode, link])
                 final_episodes = [max(g, key=lambda x: x[0]) for _, g in
                                   groupby(sorted(updated_episodes), lambda x: x[0])]
-    return episodes, magnets
+    # Kill all the Chrome processes
+    chrome.quit()
+    return episodes

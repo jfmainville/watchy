@@ -12,7 +12,7 @@ from itertools import groupby
 import subprocess
 
 
-def tmdb_api_connection(username, password, api_key, account_id):
+def authenticate(username, password, api_key, account_id):
     # Send a GET request to receive the request token
     connection_api = http.client.HTTPSConnection("api.themoviedb.org")
     connection_api.request(
@@ -29,8 +29,6 @@ def tmdb_api_connection(username, password, api_key, account_id):
     })
     connection_api.request("POST", "/3/authentication/token/validate_with_login?api_key=" + api_key,
                            validate_with_login_payload, headers={'Content-type': 'application/json'})
-    validate_with_login_response = connection_api.getresponse()
-    validate_with_login_data = validate_with_login_response.read().decode()
 
     # Send a POST request to get the session id
     request_token_payload = JSONEncoder().encode(
