@@ -1,12 +1,12 @@
-# SeriesWatcher
+# Watchy
 
-The SeriesWatcher program is used to automatically download the desired TV shows from EZTV and automatically publish them to a Plex Server via a SMB share.
+This repository contains the code required to automatically download the TV Shows and Movies from a TMDB Watchlist.
 
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Prerequisities
+### Prerequisites
 
 The following applications need to be installed on the local computer in order to run the project locally:
 
@@ -21,11 +21,11 @@ Once you installed all the required prerequisites, you can now proceed with the 
 
 1. Execute the below command to download the repository to the local machine:
 
-    `git clone https://github.com/jfmainville/serieswatcher`
+    `git clone https://github.com/jfmainville/watchy.git`
 
 2. Navigate to the directory:
 
-    `cd serieswatcher`
+    `cd watchy`
 
 3. You can now run the following command to start the development environment:
 
