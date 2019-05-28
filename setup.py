@@ -1,13 +1,13 @@
 from distutils.core import setup
 
 setup(
-    name='SeriesWatcher',
+    name='Watchy',
     version='1.0.0',
     author='Jean-Frederic Mainville',
     author_email='jfmainville@outlook.com',
     packages=['selemium'],
-    scripts=['serieswatcher/download.py'],
-    url='https://github.com/jfmainville/serieswatcher',
-    description='This repository contains the code required to automatically download the desired TV shows from EZTV.',
+    scripts=['watchy/tv/main.py'],
+    url='https://github.com/jfmainville/watchy',
+    description='This repository contains the code required to automatically download the TV Shows and Movies from a TMDB Watchlist',
     long_description=open('README.md').read()
 )
