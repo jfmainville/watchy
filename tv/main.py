@@ -1,26 +1,26 @@
 import os
 import json
-from json import JSONEncoder
-from eztv_extract import eztv_extract
-from tmdb_extract_watchlist import extract_watchlist_series
-from tmdb_api_connection import tmdb_api_connection
+from watchlist import extract_watchlist_series, extract_show_details
+from tmdb.authenticate import authenticate
 
-# Execute the tmdb_api_connection function to extract the user information
-api_connection = tmdb_api_connection(os.environ.get('TMDB_USERNAME'),
-                                     os.environ.get('TMDB_PASSWORD'),
-                                     os.environ.get('TMDB_API_KEY'),
-                                     os.environ.get('TMDB_ACCOUNT_ID')
-                                     )
 
-shows = extract_watchlist_series()
+tmdb_api_url = "api.themoviedb.org"
+tmdb_username = os.environ.get('TMDB_USERNAME')
+tmdb_password = os.environ.get('TMDB_PASSWORD')
+tmdb_api_key = os.environ.get('TMDB_API_KEY')
+tmdb_account_id = os.environ.get('TMDB_ACCOUNT_ID')
+
+# Extract all the shows from the TMDB API
+tmdb_session_id = authenticate(tmdb_api_url=tmdb_api_url, tmdb_username=tmdb_username,
+                               tmdb_password=tmdb_password, tmdb_api_key=tmdb_api_key, tmdb_account_id=tmdb_account_id)
+
+# Extract the shows details from the TMDB API
+shows = extract_watchlist_series(
+    tmdb_api_url=tmdb_api_url, tmdb_account_id=tmdb_account_id, tmdb_session_id=tmdb_session_id, tmdb_api_key=tmdb_api_key)
 
 for show in shows:
-    api_connection["connection"].request("GET",
-                                         "/3/tv/" + str(show["id"]) + "?api_key=" + api_connection["api_key"] + "&language=en-US")
-    show_details_response = api_connection["connection"].getresponse()
-    show_details_data = show_details_response.read()
-    show_details = json.loads(show_details_data)
+    show_details = extract_show_details(tmdb_api_url=tmdb_api_url,
+                                        tmdb_api_key=tmdb_api_key, show=show)
     show_name = show["name"]
     show_season = str(
         show_details["last_episode_to_air"]["season_number"]).zfill(2)
-    episodes = eztv_extract(show_name, show_season)
