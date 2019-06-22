@@ -29,3 +29,6 @@ for show in shows:
     show_name = show["name"]
     show_season = str(
         show_details["last_episode_to_air"]["season_number"]).zfill(2)
+    # Create the local TV show directory if it doesn't already exists
+    create_tv_show_folder(
+        tv_shows_directory=tv_shows_directory, show_name=show_name)
