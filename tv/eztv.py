@@ -8,7 +8,7 @@ import subprocess
 from selenium import webdriver
 
 
-def eztv_extract(show_name, show_season):
+def eztv_extract_tv_show_episodes(show_name, show_season):
     chrome_path = r'/usr/bin/chromedriver'
     url = "https://eztv.ag"
     tv_shows_path = "/mnt/plexdata/TV Shows"
