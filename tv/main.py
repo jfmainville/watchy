@@ -32,3 +32,7 @@ for show in shows:
     # Create the local TV show directory if it doesn't already exists
     create_tv_show_folder(
         tv_shows_directory=tv_shows_directory, show_name=show_name)
+    # List all the TV show episodes that were already downloaded
+    tv_show_directory_episodes = get_tv_show_folder_episodes(
+        tv_shows_directory=tv_shows_directory, show_name=show_name)
+    # Extract the list of the TV show episodes available on EZTV
