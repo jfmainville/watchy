@@ -1,7 +1,8 @@
 import os
 import json
+from authenticate import authenticate
 from watchlist import extract_watchlist_series, extract_show_details
-from tmdb.authenticate import authenticate
+from folder import create_tv_show_folder, get_tv_show_folder_episodes
 
 
 tmdb_api_url = "api.themoviedb.org"
