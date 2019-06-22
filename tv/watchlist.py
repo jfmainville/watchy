@@ -1,7 +1,6 @@
 import json
 import http.client
 import os
-from tmdb.authenticate import authenticate
 
 
 # Send a GET request to get the list of series in the watchlist
