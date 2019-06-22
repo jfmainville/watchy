@@ -183,3 +183,6 @@ pip-selfcheck.json
 
 # VS Code
 .vscode
+
+# Sample files
+samples
