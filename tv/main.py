@@ -5,6 +5,10 @@ from watchlist import extract_watchlist_series, extract_show_details
 from folder import create_tv_show_folder, get_tv_show_folder_episodes
 
 
+# Local root folder for the TV shows
+tv_shows_directory = "/app/watchy/tv/samples"
+
+# TMDB API informations
 tmdb_api_url = "api.themoviedb.org"
 tmdb_username = os.environ.get('TMDB_USERNAME')
 tmdb_password = os.environ.get('TMDB_PASSWORD')
