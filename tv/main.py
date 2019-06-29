@@ -40,3 +40,24 @@ for tmdb_show in tmdb_shows:
         tv_shows_directory=tv_shows_directory, show_name=tmdb_show_name)
     # Extract the list of the TV show episodes available on EZTV
     eztv_shows = eztv_extract_tv_show_episodes(tmdb_show_id=tmdb_show_id)
+    eztv_show_dictionary = []
+    for eztv_show in eztv_shows:
+        eztv_show_title = eztv_show["title"]
+        eztv_show_timestamp = eztv_show["date_released_unix"]
+        eztv_show_seeds = eztv_show["seeds"]
+        eztv_show_magnet = eztv_show["magnet_url"]
+
+        # EZTV dictionnary creation
+        tmdb_show_name_length = len(tmdb_show_name) + 7
+        eztv_show_full_name = eztv_show_title[0:tmdb_show_name_length]
+        eztv_show_dictionary.append({
+            "name": eztv_show_full_name.title(),
+            "seeds": eztv_show_seeds,
+            "magnet": eztv_show_magnet,
+            "timestamp": eztv_show_timestamp
+        })
+    for eztv_show_dictionary_item in eztv_show_dictionary:
+        eztv_show_title = eztv_show_dictionary_item["name"]
+        while eztv_show_title not in tv_show_directory_episodes:
+            print(eztv_show_dictionary)
+            break
