@@ -3,6 +3,7 @@ import json
 from authenticate import authenticate
 from watchlist import extract_watchlist_series, extract_show_details
 from folder import create_tv_show_folder, get_tv_show_folder_episodes
+from eztv import eztv_extract_tv_show_episodes
 
 
 # Local root folder for the TV shows
@@ -36,3 +37,4 @@ for show in shows:
     tv_show_directory_episodes = get_tv_show_folder_episodes(
         tv_shows_directory=tv_shows_directory, show_name=show_name)
     # Extract the list of the TV show episodes available on EZTV
+    eztv_shows = eztv_extract_tv_show_episodes(tmdb_show_id=tmdb_show_id)
