@@ -8,6 +8,7 @@ from eztv import eztv_extract_tv_show_episodes
 
 # Local root folder for the TV shows
 tv_shows_directory = "/app/watchy/tv/samples"
+tv_shows_download_directory = "/app/watch/downloads/tv"
 
 # TMDB API informations
 tmdb_api_url = "api.themoviedb.org"
