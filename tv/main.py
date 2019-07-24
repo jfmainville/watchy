@@ -2,7 +2,7 @@ import os
 import json
 from authenticate import authenticate
 from watchlist import tmdb_extract_watchlist_series, tmdb_extract_show_details
-from folder import create_tv_show_folder, get_tv_show_folder_episodes
+from folder import create_tv_show_folders, get_tv_show_folder_episodes
 from eztv import eztv_extract_tv_show_episodes
 from magnet import download_magnet_link
 
@@ -35,7 +35,7 @@ for tmdb_show in tmdb_shows:
     tmdb_show_season = str(
         tmdb_show_details["last_episode_to_air"]["season_number"]).zfill(2)
     # Create the local TV show directory if it doesn't already exists
-    create_tv_show_folder(
+    create_tv_show_folders(
         tv_shows_directory=tv_shows_directory, show_name=tmdb_show_name)
     # List all the TV show episodes that were already downloaded
     tv_show_directory_episodes = get_tv_show_folder_episodes(
@@ -46,7 +46,7 @@ for tmdb_show in tmdb_shows:
     for eztv_show in eztv_shows:
         eztv_show_title = eztv_show["title"]
         eztv_show_timestamp = eztv_show["date_released_unix"]
-        eztv_show_seeds = eztv_show["seeds"]
+        eztv_how_seeds = eztv_show["seeds"]
         eztv_show_magnet = eztv_show["magnet_url"]
 
         # EZTV dictionnary creation

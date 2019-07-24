@@ -2,11 +2,14 @@ import os
 import glob
 
 
-def create_tv_show_folder(tv_shows_directory, show_name):
+def create_tv_show_folders(tv_shows_directory, tv_shows_download_directory, show_name):
     # Create the TV show folder if it doesn't already exists
     tv_show_directory = os.path.join(tv_shows_directory, show_name)
+    tv_show_download_directory = os.path.join(tv_shows_download_directory)
     if os.path.isdir(tv_show_directory) is False:
         os.makedirs(tv_show_directory)
+    if os.path.isdir(tv_show_download_directory) is False:
+        os.makedirs(tv_show_download_directory)
 
 
 def get_tv_show_folder_episodes(tv_shows_directory, show_name):
