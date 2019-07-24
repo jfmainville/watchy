@@ -4,6 +4,7 @@ from authenticate import authenticate
 from watchlist import tmdb_extract_watchlist_series, tmdb_extract_show_details
 from folder import create_tv_show_folder, get_tv_show_folder_episodes
 from eztv import eztv_extract_tv_show_episodes
+from magnet import download_magnet_link
 
 
 # Local root folder for the TV shows
@@ -70,3 +71,6 @@ for tmdb_show in tmdb_shows:
                 "magnet": filtered_eztv_show_dictionary_item["magnet"]
             })
             break
+    for download_tv_show in download_tv_shows:
+        download_magnet_link(download_tv_show=download_tv_show,
+                             tv_shows_download_directory=tv_shows_download_directory)
