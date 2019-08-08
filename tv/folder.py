@@ -46,9 +46,11 @@ def move_tv_show_episode(download_tv_show, tv_show_download_directory, tv_shows_
                     if fnmatch(name, file_extension):
                         tv_show_file_extension = file_extension.split(".")[1]
                         tv_show_download_file = os.path.join(path, name)
-        os.chmod(path=tv_show_download_file, mode=0o775)
-        move(src=tv_show_download_file, dst=tv_shows_directory +
-             "/" + show_name + "/" + download_tv_show["name"] + "." + tv_show_file_extension)
+        # Move file only if the correct file is found with the right extension
+        if tv_show_download_file != []:
+            os.chmod(path=tv_show_download_file, mode=0o775)
+            move(src=tv_show_download_file, dst=tv_shows_directory +
+                 "/" + show_name + "/" + download_tv_show["name"] + "." + tv_show_file_extension)
     if returncode > 7:
         # Create an empty file with a movie extension
         pass
