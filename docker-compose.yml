@@ -5,6 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     volumes:
+      - ./downloads:/app/watchy/downloads
       - ./requirements:/app/watchy/requirements
       - ./tmdb:/app/watchy/tmdb
       - ./tv:/app/watchy/tv
