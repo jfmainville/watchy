@@ -46,7 +46,7 @@ for tmdb_show in tmdb_shows:
     for eztv_show in eztv_shows:
         eztv_show_title = eztv_show["title"]
         eztv_show_timestamp = eztv_show["date_released_unix"]
-        eztv_how_seeds = eztv_show["seeds"]
+        eztv_show_seeds = eztv_show["seeds"]
         eztv_show_magnet = eztv_show["magnet_url"]
 
         # EZTV dictionnary creation
