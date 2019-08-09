@@ -20,3 +20,7 @@ def download_magnet_link(download_tv_show, tv_shows_download_directory):
         if error.returncode == 7:
             returncode = 7
             return returncode
+    except subprocess.TimeoutExpired as error:
+        # Return code 2 if the aria2c command timeout
+        returncode = 2
+        return returncode
