@@ -18,7 +18,7 @@ def get_tv_show_folder_episodes(tv_shows_directory, show_name):
     # Get the list of TV show episodes that were already downloaded
     tv_show_directory = os.path.join(tv_shows_directory, show_name)
     os.chdir(tv_show_directory)
-    file_extensions = ("*.mp4", "*.avi", "*.mkv")
+    file_extensions = ("*.mp4", "*.avi", "*.mkv", "*.old")
     tv_show_directory_episodes_extension = []
     tv_show_directory_episodes = []
     if os.path.isdir(tv_show_directory):
