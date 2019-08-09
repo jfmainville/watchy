@@ -1,7 +1,6 @@
 import os
 import json
-from authenticate import authenticate
-from watchlist import tmdb_extract_watchlist_series, tmdb_extract_show_details
+from tmdb import tmdb_authenticate, tmdb_extract_watchlist_series, tmdb_extract_show_details
 from folder import create_tv_show_folders, get_tv_show_folder_episodes, move_tv_show_episode
 from eztv import eztv_extract_tv_show_episodes
 from magnet import download_magnet_link
@@ -20,8 +19,8 @@ tmdb_api_key = os.environ.get('TMDB_API_KEY')
 tmdb_account_id = os.environ.get('TMDB_ACCOUNT_ID')
 
 # Extract all the shows from the TMDB API
-tmdb_session_id = authenticate(tmdb_api_url=tmdb_api_url, tmdb_username=tmdb_username,
-                               tmdb_password=tmdb_password, tmdb_api_key=tmdb_api_key, tmdb_account_id=tmdb_account_id)
+tmdb_session_id = tmdb_authenticate(tmdb_api_url=tmdb_api_url, tmdb_username=tmdb_username,
+                                    tmdb_password=tmdb_password, tmdb_api_key=tmdb_api_key, tmdb_account_id=tmdb_account_id)
 
 # Extract the shows details from the TMDB API
 tmdb_shows = tmdb_extract_watchlist_series(
