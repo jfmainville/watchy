@@ -1,7 +1,7 @@
 import os
 import glob
 from fnmatch import fnmatch
-from shutil import move
+from shutil import move, rmtree
 
 
 def create_tv_show_folders(tv_shows_directory, tv_shows_download_directory, show_name):
@@ -40,6 +40,7 @@ def move_tv_show_episode(download_tv_show, tv_show_download_directory, tv_shows_
         # Move the episode file to the TV show directory
         file_extensions = ("*.mp4", "*.avi", "*.mkv")
         tv_show_download_file = []
+        # Extract all the videos files from the TV shows download directory
         for path, subdirs, files in os.walk(tv_show_download_directory):
             for name in files:
                 for file_extension in file_extensions:
@@ -48,10 +49,16 @@ def move_tv_show_episode(download_tv_show, tv_show_download_directory, tv_shows_
                         tv_show_download_file = os.path.join(path, name)
         # Move file only if the correct file is found with the right extension
         if tv_show_download_file != []:
+            # Update the file permissions
             os.chmod(path=tv_show_download_file, mode=0o775)
+            # Move the TV show file to the TV show directory
             move(src=tv_show_download_file, dst=tv_shows_directory +
                  "/" + show_name + "/" + download_tv_show["name"] + "." + tv_show_file_extension)
-    if returncode > 7:
+            # Remove all the files under the TV shows download directory
+            rmtree(path=tv_show_download_directory)
+    if returncode > 0:
         # Create an empty file with a movie extension
-        pass
-
+        open(file=os.path.join(tv_shows_directory, show_name,
+                               download_tv_show["name"]) + ".old", mode='a')
+        # Remove all the files under the TV shows download directory
+        rmtree(path=tv_show_download_directory)
