@@ -1,10 +1,10 @@
-import http.client
 import json
+import http.client
 import os
 from json import JSONEncoder
 
 
-def authenticate(tmdb_api_url, tmdb_username, tmdb_password, tmdb_api_key, tmdb_account_id):
+def tmdb_authenticate(tmdb_api_url, tmdb_username, tmdb_password, tmdb_api_key, tmdb_account_id):
     # Send a GET request to receive the request token
     api_connection = http.client.HTTPSConnection(tmdb_api_url)
     headers = {
@@ -37,3 +37,25 @@ def authenticate(tmdb_api_url, tmdb_username, tmdb_password, tmdb_api_key, tmdb_
     tmdb_session_id_data = tmdb_session_id_response.read()
     tmdb_session_id = json.loads(tmdb_session_id_data)['session_id']
     return tmdb_session_id
+
+
+def tmdb_extract_watchlist_series(tmdb_api_url, tmdb_account_id, tmdb_session_id, tmdb_api_key):
+    # Send a GET request to get the list of series in the watchlist
+    api_connection = http.client.HTTPSConnection(tmdb_api_url)
+    api_connection.request("GET", "/3/account/" + tmdb_account_id + "/watchlist/tv?api_key=" +
+                           tmdb_api_key + "&language=en-US&session_id=" + tmdb_session_id + "&sort_by=created_at.asc")
+    watchlist_response = api_connection.getresponse()
+    watchlist_data = watchlist_response.read()
+    watchlist_series = json.loads(watchlist_data)
+    return watchlist_series["results"]
+
+
+def tmdb_extract_show_details(tmdb_api_url, tmdb_api_key, tmdb_show):
+    # Send a GET request to extract the details for each TV show in the watchlist
+    api_connection = http.client.HTTPSConnection(tmdb_api_url)
+    api_connection.request("GET",
+                           "/3/tv/" + str(tmdb_show["id"]) + "?api_key=" + tmdb_api_key + "&language=en-US&append_to_response=external_ids")
+    show_details_response = api_connection.getresponse()
+    show_details_data = show_details_response.read()
+    show_details = json.loads(show_details_data)
+    return show_details
