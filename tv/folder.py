@@ -59,6 +59,6 @@ def move_tv_show_episode(download_tv_show, tv_show_download_directory, tv_shows_
     if returncode > 0:
         # Create an empty file with a movie extension
         open(file=os.path.join(tv_shows_directory, show_name,
-                               download_tv_show["name"]) + ".old", mode='a')
+                               download_tv_show["name"]) + ".dead", mode='a')
         # Remove all the files under the TV shows download directory
         rmtree(path=tv_show_download_directory)
