@@ -3,7 +3,7 @@ WORKDIR /app/watchy
 COPY ./requirements /app/watchy/requirements
 COPY ./tv /app/watchy/tv
 COPY ./movie /app/watchy/movie
-RUN apk add --no-cache aria2 chromium-chromedriver
+RUN apk add --no-cache aria2 chromium chromium-chromedriver
 RUN pip3 install -r ./requirements/dev.txt
 RUN mkdir /var/log/watchy
 RUN touch /var/log/watchy/tv.log
