@@ -1,0 +1,70 @@
+import os
+import glob
+from fnmatch import fnmatch
+from shutil import move, rmtree
+
+
+def create_movie_folders(movies_directory, movies_download_directory, movie_title):
+    # Create the movie folders if they don't already exists
+    movie_directory = os.path.join(movies_directory, movie_title)
+    movie_download_directory = os.path.join(movies_download_directory)
+    if os.path.isdir(movie_directory) is False:
+        os.makedirs(movie_directory)
+    if os.path.isdir(movie_download_directory) is False:
+        os.makedirs(movie_download_directory)
+
+
+def get_local_movies(movies_directory, tmdb_movie_title):
+    # Get the list of movies that were already downloaded
+    movie_directory = os.path.join(movies_directory, tmdb_movie_title)
+    os.chdir(movie_directory)
+    file_extensions = ("*.mp4", "*.avi", "*.mkv", "*.timeout", "*.dead")
+    movie_extensions = []
+    local_movies = []
+    if os.path.isdir(movie_directory):
+        # Extract all the files with the required extensions
+        for file_extension in file_extensions:
+            movie_extensions.extend(
+                glob.glob(file_extension))
+        # Export the episode name only without the extension
+        for movie_extension in movie_extensions:
+            split_text = movie_extension.split(".")[
+                0]
+            local_movies.append(split_text)
+    return local_movies
+
+
+def move_local_movie(download_movie, movie_download_directory, movies_directory, movie_title, returncode):
+    # Move the download file to the movie directory
+    if returncode == 0:
+        # Move the episode file to the movies directory
+        file_extensions = ("*.mp4", "*.avi", "*.mkv")
+        movie_download_file = []
+        # Extract all the videos files from the movies download directory
+        for path, subdirs, files in os.walk(movie_download_directory):
+            for name in files:
+                for file_extension in file_extensions:
+                    if fnmatch(name, file_extension):
+                        movie_file_extension = file_extension.split(".")[1]
+                        movie_download_file = os.path.join(path, name)
+        # Move file only if the correct file is found with the right extension
+        if movie_download_file != []:
+            # Update the file permissions
+            os.chmod(path=movie_download_file, mode=0o775)
+            # Move the movie file to the movie directory
+            move(src=movie_download_file, dst=movies_directory +
+                 "/" + movie_title + "/" + download_movie["name"] + "." + movie_file_extension)
+            # Remove all the files under the movies download directory
+            rmtree(path=movie_download_directory)
+    if returncode == 2:
+        # Create an empty file with the *.timeout extension if the torrent took too long to download
+        open(file=os.path.join(movies_directory, movie_title,
+                               download_movie["name"]) + ".timeout", mode='a')
+        # Remove all the files under the movies download directory
+        rmtree(path=movie_download_directory)
+    if returncode == 7:
+        # Create an empty file with the *.dead extension if the movie torrent is unavailable
+        open(file=os.path.join(movies_directory, movie_title,
+                               download_movie["name"]) + ".dead", mode='a')
+        # Remove all the files under the movies download directory
+        rmtree(path=movie_download_directory)
