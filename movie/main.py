@@ -1,9 +1,11 @@
 import os
 import json
+from datetime import date
+import time
 from tmdb import tmdb_authenticate, tmdb_extract_watchlist_movies, tmdb_extract_movie_release_dates
 from folder import create_movie_folders, get_local_movies, move_local_movie
-# from leet import leet_extract_movies
-# from magnet import download_magnet_link
+from leet import leet_extract_movies
+from magnet import download_magnet_link
 
 
 # Movies main directory
@@ -44,22 +46,29 @@ for tmdb_watchlist_movie in tmdb_watchlist_movies:
     # List all the movies that were already downloaded
     local_movies = get_local_movies(
         movies_directory=movies_directory, movie_title=tmdb_movie_title)
-#    # Movie dictionnary list that contains all the files that needs to be downloaded
-#    download_movies=[]
-#    for filtered_movie_dictionary_item in filtered_movie_listdict:
-#        movie_title=filtered_movie_dictionary_item["name"]
-#        while movie_title not in movies_directory:
-#            # Add the movies that needs to be downloaded to the list
-#            download_movies.append({
-#                "title": filtered_movie_dictionary_item["title"],
-#                "seeds": filtered_movie_dictionary_item["seeds"],
-#                "magnet": filtered_movie_dictionary_item["magnet"]
-#            })
-#            break
-#    for download_movie in download_movies:
-#        # Download the movie magnet using the aria2 application
-#        returncode=download_magnet_link(download_movie = download_movie,
-#                                          movies_download_directory = movies_download_directory)
-#        # Move the movie download file to the movies directory
-#        move_local_movie(download_movie=download_movie, movies_download_directory=movies_download_directory,
-#                              movies_directory=movies_directory, movie_title=tmdb_movie_title, returncode=returncode)
+    # Convert the DVD release date to a time format
+    tmdb_movie_dvd_release_date_convert = time.strptime(
+        str(tmdb_movie_dvd_release_date), "%Y-%m-%d")
+    today = time.strptime(str(date.today()), "%Y-%m-%d")
+    # Check if the DVD release date is earlier than today
+    if tmdb_movie_dvd_release_date_convert < today:
+        # Extract the 1337x amount of seeds and magnet link for each movie
+        seeds, magnet_link = leet_extract_movies(movie_title=tmdb_movie_title)
+        # Movie dictionnary that contains the required movie information to download it
+        download_movie = {}
+        tmdb_movie_title_full = (tmdb_movie_title.replace(
+            ":", " -")) + " (" + tmdb_movie_release_year + ")"
+        while tmdb_movie_title_full not in local_movies:
+            # Add the movies that needs to be downloaded to the list
+            download_movie.update({
+                "title": tmdb_movie_title_full,
+                "seeds": int(seeds),
+                "magnet": magnet_link
+            })
+            break
+        # Download the movie magnet using the aria2 application
+        returncode = download_magnet_link(download_movie=download_movie,
+                                          movies_download_directory=movies_download_directory)
+        # Move the movie download file to the movies directory
+        move_local_movie(download_movie=download_movie, movies_download_directory=movies_download_directory,
+                         movies_directory=movies_directory, movie_title=tmdb_movie_title, returncode=returncode)
