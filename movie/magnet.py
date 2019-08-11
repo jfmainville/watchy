@@ -8,7 +8,7 @@ def download_magnet_link(download_movie, movies_download_directory):
         # Download only torrents that have 5 seeds or more
         if download_movie["seeds"] >= 5:
             subprocess.check_output(
-                ["aria2c", "-d", movies_download_directory, "--bt-stop-timeout=300", "--seed-time=0", download_movie["magnet"]], timeout=600)
+                ["aria2c", "-d", movies_download_directory, "--bt-stop-timeout=300", "--seed-time=0", download_movie["magnet"]], timeout=1800)
             returncode = 0
             return returncode
         else:
