@@ -14,14 +14,13 @@ def create_movie_folders(movies_directory, movies_download_directory, movie_titl
         os.makedirs(movie_download_directory)
 
 
-def get_local_movies(movies_directory, tmdb_movie_title):
+def get_local_movies(movies_directory, movie_title):
     # Get the list of movies that were already downloaded
-    movie_directory = os.path.join(movies_directory, tmdb_movie_title)
-    os.chdir(movie_directory)
+    os.chdir(movies_directory)
     file_extensions = ("*.mp4", "*.avi", "*.mkv", "*.timeout", "*.dead")
     movie_extensions = []
     local_movies = []
-    if os.path.isdir(movie_directory):
+    if os.path.isdir(movies_directory):
         # Extract all the files with the required extensions
         for file_extension in file_extensions:
             movie_extensions.extend(
