@@ -6,7 +6,7 @@ from shutil import move, rmtree
 
 def create_movie_folders(movies_directory, movies_download_directory, movie_title):
     # Create the movie folders if they don't already exists
-    movie_directory = os.path.join(movies_directory, movie_title)
+    movie_directory = os.path.join(movies_directory)
     movie_download_directory = os.path.join(movies_download_directory)
     if os.path.isdir(movie_directory) is False:
         os.makedirs(movie_directory)
