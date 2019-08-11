@@ -43,7 +43,7 @@ for tmdb_watchlist_movie in tmdb_watchlist_movies:
         movies_directory=movies_directory, movies_download_directory=movies_download_directory, movie_title=tmdb_movie_title)
     # List all the movies that were already downloaded
     local_movies = get_local_movies(
-        movies_directory=movies_directory, movie_name=tmdb_movie_title)
+        movies_directory=movies_directory, movie_title=tmdb_movie_title)
 #    # Movie dictionnary list that contains all the files that needs to be downloaded
 #    download_movies=[]
 #    for filtered_movie_dictionary_item in filtered_movie_listdict:
