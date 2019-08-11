@@ -1,7 +1,6 @@
 FROM python:3.7.3-alpine3.9
 WORKDIR /app/watchy
 COPY ./requirements /app/watchy/requirements
-COPY ./tmdb /app/watchy/tmdb
 COPY ./tv /app/watchy/tv
 COPY ./movie /app/watchy/movie
 RUN apk add --no-cache aria2 chromium-chromedriver

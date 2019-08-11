@@ -7,7 +7,6 @@ services:
     volumes:
       - ./downloads:/app/watchy/downloads
       - ./requirements:/app/watchy/requirements
-      - ./tmdb:/app/watchy/tmdb
       - ./tv:/app/watchy/tv
       - ./movie:/app/watchy/movie
     env_file:
