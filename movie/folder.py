@@ -52,18 +52,18 @@ def move_local_movie(download_movie, movies_download_directory, movies_directory
             os.chmod(path=movie_download_file, mode=0o775)
             # Move the movie file to the movie directory
             move(src=movie_download_file, dst=movies_directory + "/" +
-                 download_movie["name"] + "(" + download_movie["release_date_year"] + ")" + "." + movie_file_extension)
+                 download_movie["title"] + "(" + download_movie["release_date_year"] + ")" + "." + movie_file_extension)
             # Remove all the files under the movies download directory
             rmtree(path=movies_download_directory)
     if returncode == 2:
         # Create an empty file with the *.timeout extension if the torrent took too long to download
         open(file=os.path.join(movies_directory,
-                               download_movie["name"]) + "(" + download_movie["release_date_year"] + ")" + ".timeout", mode='a')
+                               download_movie["title"]) + "(" + download_movie["release_date_year"] + ")" + ".timeout", mode='a')
         # Remove all the files under the movies download directory
         rmtree(path=movies_download_directory)
     if returncode == 7:
         # Create an empty file with the *.dead extension if the movie torrent is unavailable
         open(file=os.path.join(movies_directory,
-                               download_movie["name"]) + "(" + download_movie["release_date_year"] + ")" + ".dead", mode='a')
+                               download_movie["title"]) + "(" + download_movie["release_date_year"] + ")" + ".dead", mode='a')
         # Remove all the files under the movies download directory
         rmtree(path=movies_download_directory)
