@@ -9,7 +9,7 @@ from magnet import download_magnet_link
 # TV shows main directory
 tv_shows_directory = "/app/watchy/tv/samples"
 # TV shows download directory
-tv_shows_download_directory = "/app/watch/downloads/tv"
+tv_shows_download_directory = "/app/watchy/downloads/tv"
 
 # TMDB API informations
 tmdb_api_url = "api.themoviedb.org"
