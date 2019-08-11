@@ -9,7 +9,7 @@ from folder import create_movie_folders, get_local_movies, move_local_movie
 # Movies main directory
 movies_directory = "/app/watchy/movie/samples"
 # Movies download directory
-movies_download_directory = "/app/watch/downloads/movie"
+movies_download_directory = "/app/watchy/downloads/movie"
 
 # TMDB API informations
 tmdb_api_url = "api.themoviedb.org"
