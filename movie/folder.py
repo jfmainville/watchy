@@ -33,14 +33,14 @@ def get_local_movies(movies_directory, movie_title):
     return local_movies
 
 
-def move_local_movie(download_movie, movie_download_directory, movies_directory, movie_title, returncode):
+def move_local_movie(download_movie, movies_download_directory, movies_directory, movie_title, returncode):
     # Move the download file to the movie directory
     if returncode == 0:
         # Move the episode file to the movies directory
         file_extensions = ("*.mp4", "*.avi", "*.mkv")
         movie_download_file = []
         # Extract all the videos files from the movies download directory
-        for path, subdirs, files in os.walk(movie_download_directory):
+        for path, subdirs, files in os.walk(movies_download_directory):
             for name in files:
                 for file_extension in file_extensions:
                     if fnmatch(name, file_extension):
@@ -51,19 +51,19 @@ def move_local_movie(download_movie, movie_download_directory, movies_directory,
             # Update the file permissions
             os.chmod(path=movie_download_file, mode=0o775)
             # Move the movie file to the movie directory
-            move(src=movie_download_file, dst=movies_directory +
-                 "/" + movie_title + "/" + download_movie["name"] + "." + movie_file_extension)
+            move(src=movie_download_file, dst=movies_directory + "/" +
+                 download_movie["name"] + "(" + download_movie["release_date_year"] + ")" + "." + movie_file_extension)
             # Remove all the files under the movies download directory
-            rmtree(path=movie_download_directory)
+            rmtree(path=movies_download_directory)
     if returncode == 2:
         # Create an empty file with the *.timeout extension if the torrent took too long to download
-        open(file=os.path.join(movies_directory, movie_title,
-                               download_movie["name"]) + ".timeout", mode='a')
+        open(file=os.path.join(movies_directory,
+                               download_movie["name"]) + "(" + download_movie["release_date_year"] + ")" + ".timeout", mode='a')
         # Remove all the files under the movies download directory
-        rmtree(path=movie_download_directory)
+        rmtree(path=movies_download_directory)
     if returncode == 7:
         # Create an empty file with the *.dead extension if the movie torrent is unavailable
-        open(file=os.path.join(movies_directory, movie_title,
-                               download_movie["name"]) + ".dead", mode='a')
+        open(file=os.path.join(movies_directory,
+                               download_movie["name"]) + "(" + download_movie["release_date_year"] + ")" + ".dead", mode='a')
         # Remove all the files under the movies download directory
-        rmtree(path=movie_download_directory)
+        rmtree(path=movies_download_directory)
