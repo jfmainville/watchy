@@ -186,3 +186,6 @@ pip-selfcheck.json
 
 # Sample files
 samples
+
+# Jetbrains Folder
+.idea
