@@ -9,9 +9,9 @@ from magnet import download_magnet_link
 
 
 # Movies main directory
-movies_directory = "/app/watchy/movie/samples"
+movies_directory = os.environ.get('MOVIE_DIRECTORY')
 # Movies download directory
-movies_download_directory = "/app/watchy/downloads/movie"
+movies_download_directory = os.environ.get('MOVIE_DOWNLOAD_DIRECTORY')
 
 # TMDB API information
 tmdb_api_url = "api.themoviedb.org"
