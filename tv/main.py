@@ -5,7 +5,6 @@ from folder import create_tv_show_folders, get_tv_show_folder_episodes, move_tv_
 from eztv import eztv_extract_tv_show_episodes
 from magnet import download_magnet_link
 
-
 # TV shows main directory
 tv_shows_directory = os.environ.get('TV_SHOW_DIRECTORY')
 # TV shows download directory
@@ -20,11 +19,13 @@ tmdb_account_id = os.environ.get('TMDB_ACCOUNT_ID')
 
 # Extract all the shows from the TMDB API
 tmdb_session_id = tmdb_authenticate(tmdb_api_url=tmdb_api_url, tmdb_username=tmdb_username,
-                                    tmdb_password=tmdb_password, tmdb_api_key=tmdb_api_key, tmdb_account_id=tmdb_account_id)
+                                    tmdb_password=tmdb_password, tmdb_api_key=tmdb_api_key,
+                                    tmdb_account_id=tmdb_account_id)
 
 # Extract the shows details from the TMDB API
 tmdb_shows = tmdb_extract_watchlist_series(
-    tmdb_api_url=tmdb_api_url, tmdb_account_id=tmdb_account_id, tmdb_session_id=tmdb_session_id, tmdb_api_key=tmdb_api_key)
+    tmdb_api_url=tmdb_api_url, tmdb_account_id=tmdb_account_id, tmdb_session_id=tmdb_session_id,
+    tmdb_api_key=tmdb_api_key)
 
 for tmdb_show in tmdb_shows:
     tmdb_show_details = tmdb_extract_show_details(tmdb_api_url=tmdb_api_url,
@@ -36,7 +37,8 @@ for tmdb_show in tmdb_shows:
         tmdb_show_details["last_episode_to_air"]["season_number"]).zfill(2)
     # Create the local TV show directory if it doesn't already exists
     create_tv_show_folders(
-        tv_shows_directory=tv_shows_directory, tv_shows_download_directory=tv_shows_download_directory, show_name=tmdb_show_name)
+        tv_shows_directory=tv_shows_directory, tv_shows_download_directory=tv_shows_download_directory,
+        show_name=tmdb_show_name)
     # List all the TV show episodes that were already downloaded
     tv_show_directory_episodes = get_tv_show_folder_episodes(
         tv_shows_directory=tv_shows_directory, show_name=tmdb_show_name)
@@ -49,7 +51,7 @@ for tmdb_show in tmdb_shows:
         eztv_show_seeds = eztv_show["seeds"]
         eztv_show_magnet = eztv_show["magnet_url"]
 
-        # EZTV dictionnary creation
+        # EZTV dictionary creation
         tmdb_show_name_length = len(tmdb_show_name) + 7
         eztv_show_full_name = (
             eztv_show_title[0:tmdb_show_name_length]).title()
@@ -59,10 +61,10 @@ for tmdb_show in tmdb_shows:
             "magnet": eztv_show_magnet,
             "timestamp": eztv_show_timestamp
         })
-    # Refactor the eztv_show_listdict list dictionnary to only show unique values
+    # Refactor the eztv_show_listdict list dictionary to only show unique values
     filtered_eztv_show_listdict = list(
         {value['name']: value for value in eztv_show_listdict}.values())
-    # TV show dictionnary list that contains all the files that needs to be downloaded
+    # TV show  list that contains all the files that needs to be downloaded
     download_tv_shows = []
     for filtered_eztv_show_dictionary_item in filtered_eztv_show_listdict:
         eztv_show_title = filtered_eztv_show_dictionary_item["name"]
