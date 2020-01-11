@@ -13,7 +13,7 @@ movies_directory = "/app/watchy/movie/samples"
 # Movies download directory
 movies_download_directory = "/app/watchy/downloads/movie"
 
-# TMDB API informations
+# TMDB API information
 tmdb_api_url = "api.themoviedb.org"
 tmdb_username = os.environ.get('TMDB_USERNAME')
 tmdb_password = os.environ.get('TMDB_PASSWORD')
@@ -47,7 +47,7 @@ for tmdb_watchlist_movie in tmdb_watchlist_movies:
     # List all the movies that were already downloaded
     local_movies = get_local_movies(
         movies_directory=movies_directory, movie_title=tmdb_movie_title)
-    if tmdb_movie_dvd_release_date != []:
+    if tmdb_movie_dvd_release_date:
         # Convert the DVD release date to a time format
         tmdb_movie_dvd_release_date_convert = time.strptime(
             str(tmdb_movie_dvd_release_date[0]), "%Y-%m-%d")
@@ -59,7 +59,7 @@ for tmdb_watchlist_movie in tmdb_watchlist_movies:
     if tmdb_movie_dvd_release_date_convert < today:
         # Extract the 1337x amount of seeds and magnet link for each movie
         seeds, magnet_link = leet_extract_movies(movie_title=tmdb_movie_title)
-        # Movie dictionnary that contains the required movie information to download it
+        # Movie dictionary that contains the required movie information to download it
         download_movie = {}
         tmdb_movie_title_full = (tmdb_movie_title.replace(
             ":", " -")) + " (" + tmdb_movie_release_year + ")"
