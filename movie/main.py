@@ -73,8 +73,8 @@ for tmdb_watchlist_movie in tmdb_watchlist_movies:
             break
         if download_movie != {}:
             # Download the movie magnet using the aria2 application
-            returncode = download_magnet_link(download_movie=download_movie,
-                                              movies_download_directory=movies_download_directory)
+            return_code = download_magnet_link(download_movie=download_movie,
+                                               movies_download_directory=movies_download_directory)
             # Move the movie download file to the movies directory
             move_local_movie(download_movie=download_movie, movies_download_directory=movies_download_directory,
-                             movies_directory=movies_directory, movie_title=tmdb_movie_title, returncode=returncode)
+                             movies_directory=movies_directory, movie_title=tmdb_movie_title, return_code=return_code)

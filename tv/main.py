@@ -78,8 +78,8 @@ for tmdb_show in tmdb_shows:
             break
     for download_tv_show in download_tv_shows:
         # Download the TV show magnet using the aria2 application
-        returncode = download_magnet_link(download_tv_show=download_tv_show,
-                                          tv_shows_download_directory=tv_shows_download_directory)
+        return_code = download_magnet_link(download_tv_show=download_tv_show,
+                                           tv_shows_download_directory=tv_shows_download_directory)
         # Move the TV show download file to the TV shows directory
         move_tv_show_episode(download_tv_show=download_tv_show, tv_show_download_directory=tv_shows_download_directory,
-                             tv_shows_directory=tv_shows_directory, show_name=tmdb_show_name, returncode=returncode)
+                             tv_shows_directory=tv_shows_directory, show_name=tmdb_show_name, return_code=return_code)

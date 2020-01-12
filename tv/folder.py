@@ -34,9 +34,9 @@ def get_tv_show_folder_episodes(tv_shows_directory, show_name):
     return tv_show_directory_episodes
 
 
-def move_tv_show_episode(download_tv_show, tv_show_download_directory, tv_shows_directory, show_name, returncode):
+def move_tv_show_episode(download_tv_show, tv_show_download_directory, tv_shows_directory, show_name, return_code):
     # Move the download file to the TV show directory
-    if returncode == 0:
+    if return_code == 0:
         # Move the episode file to the TV show directory
         file_extensions = ("*.mp4", "*.avi", "*.mkv")
         tv_show_download_file = []
@@ -53,16 +53,17 @@ def move_tv_show_episode(download_tv_show, tv_show_download_directory, tv_shows_
             os.chmod(path=tv_show_download_file, mode=0o775)
             # Move the TV show file to the TV show directory
             move(src=tv_show_download_file, dst=tv_shows_directory +
-                 "/" + show_name + "/" + download_tv_show["name"] + "." + tv_show_file_extension)
+                                                "/" + show_name + "/" + download_tv_show[
+                                                    "name"] + "." + tv_show_file_extension)
             # Remove all the files under the TV shows download directory
             rmtree(path=tv_show_download_directory)
-    if returncode == 2:
+    if return_code == 2:
         # Create an empty file with the *.timeout extension if the torrent took too long to download
         open(file=os.path.join(tv_shows_directory, show_name,
                                download_tv_show["name"]) + ".timeout", mode='a')
         # Remove all the files under the TV shows download directory
         rmtree(path=tv_show_download_directory)
-    if returncode == 7:
+    if return_code == 7:
         # Create an empty file with the *.dead extension if the TV Show torrent is unavailable
         open(file=os.path.join(tv_shows_directory, show_name,
                                download_tv_show["name"]) + ".dead", mode='a')
