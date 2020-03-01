@@ -14,7 +14,7 @@ movies_directory = os.environ.get('MOVIE_DIRECTORY')
 movies_download_directory = os.environ.get('MOVIE_DOWNLOAD_DIRECTORY')
 
 # TMDB API information
-tmdb_api_url = "api.themoviedb.org"
+tmdb_api_url = os.environ.get('TMDB_API_URL')
 tmdb_username = os.environ.get('TMDB_USERNAME')
 tmdb_password = os.environ.get('TMDB_PASSWORD')
 tmdb_api_key = os.environ.get('TMDB_API_KEY')
