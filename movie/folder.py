@@ -47,7 +47,7 @@ def move_local_movie(download_movie, movies_download_directory, movies_directory
                         movie_file_extension = file_extension.split(".")[1]
                         movie_download_file = os.path.join(path, name)
         # Move file only if the correct file is found with the right extension
-        if movie_download_file != []:
+        if movie_download_file:
             # Update the file permissions
             os.chmod(path=movie_download_file, mode=0o775)
             # Move the movie file to the movie directory
