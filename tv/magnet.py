@@ -18,7 +18,7 @@ def download_magnet_link(download_tv_show, tv_shows_download_directory):
             return return_code
     except subprocess.CalledProcessError as error:
         # Return code 7 if the aria2c command line application crashes
-        if error.return_code == 7:
+        if error.returncode == 7:
             return_code = 7
             return return_code
     except subprocess.TimeoutExpired as error:
