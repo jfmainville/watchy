@@ -1,4 +1,5 @@
 import time
+import re
 from selenium import webdriver
 
 
@@ -26,7 +27,10 @@ def leet_extract_movies(movie_title):
     # Create a list of all the torrent movies
     for leet_movie_torrent in leet_movie_torrents:
         for leet_movie_torrent_name in leet_movie_torrent.get_attribute("innerText").split("\n"):
-            if movie_title in leet_movie_torrent_name:
+            # Cleanup the movie title string before comparison
+            clean_movie_title = re.sub('[^A-Za-z0-9]+', ' ', movie_title).lower()
+            clean_leet_movie_torrent_name = re.sub('[^A-Za-z0-9]+', ' ', leet_movie_torrent_name).lower()
+            if clean_movie_title in clean_leet_movie_torrent_name:
                 leet_movies_list.append(leet_movie_torrent_name)
     # Extract the full URL of the torrent with the most seeds
     torrent_link = chrome.find_element_by_partial_link_text(
