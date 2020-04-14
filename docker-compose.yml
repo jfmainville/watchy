@@ -8,5 +8,6 @@ services:
       - ./requirements:/app/watchy/requirements
       - ./tv:/app/watchy/tv
       - ./movie:/app/watchy/movie
+      - ./downloads:/app/watchy/downloads
     env_file:
       - .env
