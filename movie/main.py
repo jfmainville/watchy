@@ -38,7 +38,7 @@ for tmdb_watchlist_movie in tmdb_watchlist_movies:
     for tmdb_movie_release_date in tmdb_movie_release_dates["results"]:
         for release_dates in tmdb_movie_release_date["release_dates"]:
             # Check that the release date is set
-            if release_dates["type"] == 4 and tmdb_movie_release_date["iso_3166_1"] == "BR":
+            if release_dates["type"] == 4 or release_dates["type"] == 5:
                 tmdb_movie_dvd_release_date.append(
                     release_dates["release_date"].split("T")[0])
     # Create the local movies directory if it doesn't already exists
