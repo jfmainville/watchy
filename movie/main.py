@@ -22,15 +22,18 @@ tmdb_account_id = os.environ.get('TMDB_ACCOUNT_ID')
 
 # Extract all the movies from the TMDB API
 tmdb_session_id = tmdb_authenticate(tmdb_api_url=tmdb_api_url, tmdb_username=tmdb_username,
-                                    tmdb_password=tmdb_password, tmdb_api_key=tmdb_api_key, tmdb_account_id=tmdb_account_id)
+                                    tmdb_password=tmdb_password, tmdb_api_key=tmdb_api_key,
+                                    tmdb_account_id=tmdb_account_id)
 
 # Extract the movies details from the TMDB API
 tmdb_watchlist_movies = tmdb_extract_watchlist_movies(
-    tmdb_api_url=tmdb_api_url, tmdb_account_id=tmdb_account_id, tmdb_session_id=tmdb_session_id, tmdb_api_key=tmdb_api_key)
+    tmdb_api_url=tmdb_api_url, tmdb_account_id=tmdb_account_id, tmdb_session_id=tmdb_session_id,
+    tmdb_api_key=tmdb_api_key)
 
 for tmdb_watchlist_movie in tmdb_watchlist_movies:
     tmdb_movie_release_dates = tmdb_extract_movie_release_dates(tmdb_api_url=tmdb_api_url,
-                                                                tmdb_api_key=tmdb_api_key, tmdb_watchlist_movie=tmdb_watchlist_movie)
+                                                                tmdb_api_key=tmdb_api_key,
+                                                                tmdb_watchlist_movie=tmdb_watchlist_movie)
     tmdb_movie_title = tmdb_watchlist_movie["title"]
     tmdb_movie_release_year = (
         tmdb_watchlist_movie["release_date"]).split("-")[0]
@@ -43,7 +46,8 @@ for tmdb_watchlist_movie in tmdb_watchlist_movies:
                     release_dates["release_date"].split("T")[0])
     # Create the local movies directory if it doesn't already exists
     create_movie_folders(
-        movies_directory=movies_directory, movies_download_directory=movies_download_directory, movie_title=tmdb_movie_title)
+        movies_directory=movies_directory, movies_download_directory=movies_download_directory,
+        movie_title=tmdb_movie_title)
     # List all the movies that were already downloaded
     local_movies = get_local_movies(
         movies_directory=movies_directory, movie_title=tmdb_movie_title)
@@ -58,7 +62,8 @@ for tmdb_watchlist_movie in tmdb_watchlist_movies:
     # Check if the DVD release date is earlier than today
     if tmdb_movie_dvd_release_date_convert < today:
         # Extract the 1337x amount of seeds and magnet link for each movie
-        seeds, magnet_link = leet_extract_movies(movie_title=tmdb_movie_title)
+        seeds, magnet_link = leet_extract_movies(movie_title=tmdb_movie_title,
+                                                 movie_release_year=tmdb_movie_release_year)
         # Movie dictionary that contains the required movie information to download it
         download_movie = {}
         tmdb_movie_title_full = (tmdb_movie_title.replace(
