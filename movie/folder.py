@@ -38,21 +38,26 @@ def move_local_movie(download_movie, movies_download_directory, movies_directory
     if return_code == 0:
         # Move the episode file to the movies directory
         file_extensions = ("*.mp4", "*.avi", "*.mkv")
-        movie_download_file = []
+        movie_download_files = []
         # Extract all the videos files from the movies download directory
         for path, subdirs, files in os.walk(movies_download_directory):
             for name in files:
                 for file_extension in file_extensions:
                     if fnmatch(name, file_extension):
                         movie_file_extension = file_extension.split(".")[1]
-                        movie_download_file = os.path.join(path, name)
+                        movie_download_files.append({
+                            "path": os.path.join(path, name),
+                            "size": os.path.getsize(os.path.join(path, name))
+                        })
+        # Extract the largest movie file from the list
+        movie_download_file = max(movie_download_files, key=lambda d: d['size'])
         # Move file only if the correct file is found with the right extension
         if movie_download_file:
             # Update the file permissions
-            os.chmod(path=movie_download_file, mode=0o775)
+            os.chmod(path=movie_download_file["path"], mode=0o775)
             # Move the movie file to the movie directory
-            move(src=movie_download_file, dst=movies_directory + "/" +
-                                              download_movie["title"] + "." + movie_file_extension)
+            move(src=movie_download_file["path"], dst=movies_directory + "/" +
+                                                      download_movie["title"] + "." + movie_file_extension)
             # Remove all the files under the movies download directory
             rmtree(path=movies_download_directory, ignore_errors=True)
     if return_code == 2:
