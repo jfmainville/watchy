@@ -9,7 +9,7 @@ def download_magnet_link(download_tv_show, tv_shows_download_directory):
         if download_tv_show["seeds"] >= 5:
             subprocess.check_output(
                 ["aria2c", "-d", tv_shows_download_directory, "--bt-stop-timeout=300", "--seed-time=0",
-                 download_tv_show["magnet"]], timeout=600)
+                 download_tv_show["magnet"]], timeout=1800)
             return_code = 0
             return return_code
         else:
