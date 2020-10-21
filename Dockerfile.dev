@@ -1,4 +1,4 @@
-FROM python:3.7.3-alpine3.9
+FROM ubuntu:20.04
 WORKDIR /app/watchy
 COPY ./requirements /app/watchy/requirements
 COPY ./tv /app/watchy/tv
