@@ -10,4 +10,4 @@ RUN pip3 install -r ./requirements/dev.txt
 RUN mkdir /var/log/watchy
 RUN touch /var/log/watchy/tv.log
 RUN touch /var/log/watchy/movie.log
-CMD ["crond", "-f"]
+CMD cron -f
