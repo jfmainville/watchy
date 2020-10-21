@@ -12,4 +12,4 @@ RUN echo '*/30 * * * * python3.7 /app/watchy/movie/main.py' >> /etc/crontabs/roo
 RUN mkdir /var/log/watchy
 RUN touch /var/log/watchy/tv.log
 RUN touch /var/log/watchy/movie.log
-CMD ["crond", "-f"]
+CMD cron -f
