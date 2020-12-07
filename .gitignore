@@ -184,7 +184,8 @@ pip-selfcheck.json
 # VS Code
 .vscode
 
-# Sample files
+# Temporary folders
+downloads
 samples
 
 # Jetbrains Folder
