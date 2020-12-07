@@ -4,7 +4,7 @@ import os
 from json import JSONEncoder
 
 
-def tmdb_authenticate(tmdb_api_url, tmdb_username, tmdb_password, tmdb_api_key, tmdb_account_id):
+def tmdb_authenticate(tmdb_api_url, tmdb_username, tmdb_password, tmdb_api_key):
     # Send a GET request to receive the request token
     api_connection = http.client.HTTPSConnection(tmdb_api_url)
     headers = {
@@ -39,10 +39,11 @@ def tmdb_authenticate(tmdb_api_url, tmdb_username, tmdb_password, tmdb_api_key, 
     return tmdb_session_id
 
 
-def tmdb_extract_watchlist_series(tmdb_api_url, tmdb_account_id, tmdb_session_id, tmdb_api_key):
+def tmdb_extract_watchlist(tmdb_api_url, tmdb_account_id, tmdb_session_id, tmdb_api_key, tmdb_watchlist_content_type):
     # Send a GET request to get the list of series in the watchlist
     api_connection = http.client.HTTPSConnection(tmdb_api_url)
-    api_connection.request("GET", "/3/account/" + tmdb_account_id + "/watchlist/tv?api_key=" +
+    api_connection.request("GET",
+                           "/3/account/" + tmdb_account_id + "/watchlist/" + tmdb_watchlist_content_type + "?api_key=" +
                            tmdb_api_key + "&language=en-US&session_id=" + tmdb_session_id + "&sort_by=created_at.asc")
     watchlist_response = api_connection.getresponse()
     watchlist_data = watchlist_response.read()
@@ -50,11 +51,23 @@ def tmdb_extract_watchlist_series(tmdb_api_url, tmdb_account_id, tmdb_session_id
     return watchlist_series["results"]
 
 
+def tmdb_extract_movie_release_dates(tmdb_api_url, tmdb_api_key, tmdb_watchlist_movie):
+    # Send a GET request to extract the details for each movie in the watchlist
+    api_connection = http.client.HTTPSConnection(tmdb_api_url)
+    api_connection.request("GET",
+                           "/3/movie/" + str(tmdb_watchlist_movie["id"]) + "/release_dates?api_key=" + tmdb_api_key)
+    movie_release_dates_response = api_connection.getresponse()
+    movie_release_dates_data = movie_release_dates_response.read()
+    movie_release_dates = json.loads(movie_release_dates_data)
+    return movie_release_dates
+
+
 def tmdb_extract_show_details(tmdb_api_url, tmdb_api_key, tmdb_show):
     # Send a GET request to extract the details for each TV show in the watchlist
     api_connection = http.client.HTTPSConnection(tmdb_api_url)
     api_connection.request("GET",
-                           "/3/tv/" + str(tmdb_show["id"]) + "?api_key=" + tmdb_api_key + "&language=en-US&append_to_response=external_ids")
+                           "/3/tv/" + str(tmdb_show["id"])
+                           + "?api_key=" + tmdb_api_key + "&language=en-US&append_to_response=external_ids")
     show_details_response = api_connection.getresponse()
     show_details_data = show_details_response.read()
     show_details = json.loads(show_details_data)

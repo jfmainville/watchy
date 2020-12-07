@@ -1,8 +1,7 @@
 FROM ubuntu:20.04
 WORKDIR /app/watchy
 COPY ./requirements /app/watchy/requirements
-COPY ./tv /app/watchy/tv
-COPY ./movie /app/watchy/movie
+COPY ./watchy /app/watchy/watchy
 ENV TIMEZONE=America/Montreal
 RUN ln -snf /usr/share/zoneinfo/TIMEZONE /etc/localtime && echo $TIMEZONE > /etc/timezone
 RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get install --quiet --assume-yes python3-pip aria2 chromium-bsu chromium-chromedriver cron

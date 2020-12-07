@@ -6,8 +6,7 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./requirements:/app/watchy/requirements
-      - ./tv:/app/watchy/tv
-      - ./movie:/app/watchy/movie
+      - ./watchy:/app/watchy/watchy
       - ./downloads:/app/watchy/downloads
     env_file:
       - .env
