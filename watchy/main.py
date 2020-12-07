@@ -6,6 +6,17 @@ from folder import create_content_folders, get_folder_content, move_content_file
 from leet import leet_extract_movies
 from eztv import eztv_extract_tv_show_episodes
 from magnet import download_magnet_link
+from dotenv import load_dotenv, find_dotenv
+
+in_docker = os.environ.get('IN_DOCKER')
+
+if not in_docker:
+    load_dotenv(find_dotenv())
+
+# Movies main directory
+movies_directory = os.environ.get('MOVIE_DIRECTORY')
+# Movies download directory
+movies_download_directory = os.environ.get('MOVIE_DOWNLOAD_DIRECTORY')
 
 # TV shows main directory
 tv_shows_directory = os.environ.get('TV_SHOW_DIRECTORY')
