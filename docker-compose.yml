@@ -9,4 +9,4 @@ services:
       - ./watchy:/app/watchy/watchy
       - ./downloads:/app/watchy/downloads
     env_file:
-      - .env
+      - .env_test
