@@ -7,6 +7,7 @@ from leet import leet_extract_movies
 from eztv import eztv_extract_tv_show_episodes
 from magnet import download_magnet_link
 from dotenv import load_dotenv, find_dotenv
+import argparse
 
 in_docker = os.environ.get('IN_DOCKER')
 
@@ -30,6 +31,13 @@ tmdb_username = os.environ.get('TMDB_USERNAME')
 tmdb_password = os.environ.get('TMDB_PASSWORD')
 tmdb_api_key = os.environ.get('TMDB_API_KEY')
 tmdb_account_id = os.environ.get('TMDB_ACCOUNT_ID')
+
+# Parser to determine which function to execute
+parser = argparse.ArgumentParser(description='type selector')
+parser.add_argument("--movie", "-m", dest="movie", action="store_true", help="execute the movie related function")
+parser.add_argument("--tv", "-t", dest="tv", action="store_true", help='execute the TV show related function')
+
+args = parser.parse_args()
 
 # Extract all the movies from the TMDB API
 tmdb_session_id = tmdb_authenticate(tmdb_api_url=tmdb_api_url, tmdb_username=tmdb_username,
@@ -161,5 +169,9 @@ def tv_show():
                               return_code=return_code)
 
 
-if __name__ == "__main__":
+if args.movie:
+    # Execute the movie function
+    movie()
+elif args.tv:
+    # Execute the TV show function
     tv_show()
