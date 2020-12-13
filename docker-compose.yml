@@ -3,7 +3,7 @@ services:
   watchy:
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     volumes:
       - ./requirements:/app/watchy/requirements
       - ./watchy:/app/watchy/watchy
