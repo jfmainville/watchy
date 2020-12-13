@@ -5,7 +5,7 @@ from selenium import webdriver
 
 def leet_extract_movies(movie_title, movie_release_year):
     # Extract the movies list from the 1337x site
-    chrome_path = r'/usr/lib/chromium/chromedriver'
+    chrome_path = r'/usr/bin/chromedriver'
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
     options.add_argument('window-size=1200x600')
