@@ -2,11 +2,13 @@ import os
 import glob
 from fnmatch import fnmatch
 from shutil import move, rmtree
+import unidecode
 
 
 def create_content_folders(content_folder, content_download_folder, content_title):
     # Create the content folders if they don't already exists
-    content_folder_path = os.path.join(content_folder, content_title)
+    unaccented_content_title = unidecode.unidecode(content_title)
+    content_folder_path = os.path.join(content_folder, unaccented_content_title)
     content_download_folder_path = os.path.join(content_download_folder)
     if os.path.isdir(content_folder_path) is False:
         os.makedirs(content_folder_path)
