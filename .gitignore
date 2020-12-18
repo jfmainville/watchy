@@ -84,7 +84,6 @@ celerybeat-schedule
 *.sage.py
 
 # Environments
-.env_test
 .venv
 env/
 venv/
@@ -162,7 +161,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env_test
+.env*
 
 # next.js build output
 .next
