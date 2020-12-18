@@ -15,6 +15,10 @@ RUN unzip ~/chromedriver_linux64.zip -d ~/
 RUN mv ~/chromedriver /usr/bin/chromedriver
 RUN chmod +x /usr/bin/chromedriver
 RUN pip3 install -r ./requirements/dev.txt
+RUN mkdir -p "/mnt/plexdata/TV Shows"
+RUN mkdir -p "/mnt/plexdata/Downloads/tv_shows"
+RUN mkdir -p "/mnt/plexdata/Movies"
+RUN mkdir -p "/mnt/plexdata/Downloads/movies"
 RUN mkdir /var/log/watchy
 RUN touch /var/log/watchy/tv.log
 RUN touch /var/log/watchy/movie.log
