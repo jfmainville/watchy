@@ -7,6 +7,5 @@ services:
     volumes:
       - ./requirements:/app/watchy/requirements
       - ./watchy:/app/watchy/watchy
-      - ./downloads:/app/watchy/downloads
     env_file:
       - .env_test
