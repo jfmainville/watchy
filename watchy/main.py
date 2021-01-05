@@ -1,5 +1,6 @@
 import os
 import time
+import unidecode
 from datetime import date
 from tmdb import tmdb_authenticate, tmdb_extract_watchlist, tmdb_extract_movie_release_dates, tmdb_extract_show_details
 from folder import create_content_folders, get_folder_content, move_content_file
@@ -116,7 +117,7 @@ def tv_show():
                                                       tmdb_api_key=tmdb_api_key, tmdb_show=tmdb_show)
         tmdb_show_id = (
             tmdb_show_details["external_ids"]["imdb_id"]).replace("tt", "")
-        tmdb_show_name = tmdb_show["name"]
+        tmdb_show_name = unidecode.unidecode(tmdb_show["name"])
         # Create the local TV show directory if it doesn't already exists
         create_content_folders(
             content_folder=tv_shows_directory, content_download_folder=tv_shows_download_directory,
