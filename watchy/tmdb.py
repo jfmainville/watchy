@@ -44,11 +44,27 @@ def tmdb_extract_watchlist(tmdb_api_url, tmdb_account_id, tmdb_session_id, tmdb_
     api_connection = http.client.HTTPSConnection(tmdb_api_url)
     api_connection.request("GET",
                            "/3/account/" + tmdb_account_id + "/watchlist/" + tmdb_watchlist_content_type + "?api_key=" +
-                           tmdb_api_key + "&language=en-US&session_id=" + tmdb_session_id + "&sort_by=created_at.desc")
+                           tmdb_api_key + "&language=en-US&session_id=" + tmdb_session_id + "&sort_by=created_at.desc&page=1")
     watchlist_response = api_connection.getresponse()
     watchlist_data = watchlist_response.read()
-    watchlist_series = json.loads(watchlist_data)
-    return watchlist_series["results"]
+    watchlist_content = json.loads(watchlist_data)
+
+    watchlist_content_listdict = []
+
+    if watchlist_content["total_pages"] > 1:
+        for watchlist_page_number in range(1, watchlist_content["total_pages"]):
+            api_connection.request("GET",
+                                   "/3/account/" + tmdb_account_id + "/watchlist/" + tmdb_watchlist_content_type + "?api_key=" +
+                                   tmdb_api_key + "&language=en-US&session_id=" + tmdb_session_id + "&sort_by=created_at.desc" + "&page=" + str(
+                                       watchlist_page_number))
+            watchlist_response = api_connection.getresponse()
+            watchlist_data = watchlist_response.read()
+            watchlist_content = json.loads(watchlist_data)
+            watchlist_content_listdict.append(watchlist_content["results"])
+    else:
+        watchlist_content_listdict.append(watchlist_content["results"])
+
+    return watchlist_content_listdict[0]
 
 
 def tmdb_extract_movie_release_dates(tmdb_api_url, tmdb_api_key, tmdb_watchlist_movie):
