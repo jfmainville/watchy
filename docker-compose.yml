@@ -7,5 +7,6 @@ services:
     volumes:
       - ./requirements:/app/watchy/requirements
       - ./watchy:/app/watchy/watchy
+      - ./plexdata:/mnt/plexdata
     env_file:
       - .env_docker
