@@ -27,6 +27,7 @@ tv_shows_download_directory = os.environ.get('TV_SHOW_DOWNLOAD_DIRECTORY')
 
 # TMDB API information
 eztv_url = os.environ.get('EZTV_URL')
+leet_url = os.environ.get('LEET_URL')
 tmdb_api_url = os.environ.get('TMDB_API_URL')
 tmdb_username = os.environ.get('TMDB_USERNAME')
 tmdb_password = os.environ.get('TMDB_PASSWORD')
@@ -82,7 +83,7 @@ def movie():
         if tmdb_movie_dvd_release_date_convert < today:
             # Extract the 1337x amount of seeds and magnet link for each movie
             seeds, magnet_link = leet_extract_movies(movie_title=tmdb_movie_title,
-                                                     movie_release_year=tmdb_movie_release_year)
+                                                     movie_release_year=tmdb_movie_release_year, leet_url=leet_url)
             # Movie dictionary that contains the required movie information to download it
             download_movie = {}
             tmdb_movie_title_full = (tmdb_movie_title.replace(

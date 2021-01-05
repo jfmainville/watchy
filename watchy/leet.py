@@ -3,7 +3,7 @@ import re
 from selenium import webdriver
 
 
-def leet_extract_movies(movie_title, movie_release_year):
+def leet_extract_movies(movie_title, movie_release_year, leet_url):
     # Extract the movies list from the 1337x site
     chrome_path = r'/usr/bin/chromedriver'
     options = webdriver.ChromeOptions()
@@ -15,9 +15,8 @@ def leet_extract_movies(movie_title, movie_release_year):
         executable_path=chrome_path, chrome_options=options)
 
     # Navigate to the 1337x site and execute a search sorted search based on the number of seeds
-    leet_url = "https://1337x.to"
     encoded_movie_title = movie_title.replace(" ", "%20")
-    chrome.get(leet_url + "/sort-search/" +
+    chrome.get("https://" + leet_url + "/sort-search/" +
                encoded_movie_title + "%20" + movie_release_year + "/seeders/desc/1/")
     time.sleep(5)
 
