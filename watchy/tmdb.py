@@ -52,7 +52,7 @@ def tmdb_extract_watchlist(tmdb_api_url, tmdb_account_id, tmdb_session_id, tmdb_
     watchlist_content_listdict = []
 
     if watchlist_content["total_pages"] > 1:
-        for watchlist_page_number in range(1, watchlist_content["total_pages"]):
+        for watchlist_page_number in range(1, watchlist_content["total_pages"] + 1):
             api_connection.request("GET",
                                    "/3/account/" + tmdb_account_id + "/watchlist/" + tmdb_watchlist_content_type + "?api_key=" +
                                    tmdb_api_key + "&language=en-US&session_id=" + tmdb_session_id + "&sort_by=created_at.desc" + "&page=" + str(
