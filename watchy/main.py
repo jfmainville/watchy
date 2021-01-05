@@ -67,11 +67,9 @@ def movie():
                         release_dates["release_date"].split("T")[0])
         # Create the local movies directory if it doesn't already exists
         create_content_folders(
-            content_folder=movies_directory, content_download_folder=movies_download_directory,
-            content_title=tmdb_movie_title)
+            content_folder=movies_directory, content_download_folder=movies_download_directory, content_title=None)
         # List all the movies that were already downloaded
-        local_movies = get_folder_content(
-            content_folder=movies_directory, content_title=tmdb_movie_title)
+        local_movies = get_folder_content(content_folder=movies_directory, content_title=None)
         if tmdb_movie_dvd_release_date:
             # Convert the DVD release date to a time format
             tmdb_movie_dvd_release_date_convert = time.strptime(
