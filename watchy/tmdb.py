@@ -44,7 +44,7 @@ def tmdb_extract_watchlist(tmdb_api_url, tmdb_account_id, tmdb_session_id, tmdb_
     api_connection = http.client.HTTPSConnection(tmdb_api_url)
     api_connection.request("GET",
                            "/3/account/" + tmdb_account_id + "/watchlist/" + tmdb_watchlist_content_type + "?api_key=" +
-                           tmdb_api_key + "&language=en-US&session_id=" + tmdb_session_id + "&sort_by=created_at.asc")
+                           tmdb_api_key + "&language=en-US&session_id=" + tmdb_session_id + "&sort_by=created_at.desc")
     watchlist_response = api_connection.getresponse()
     watchlist_data = watchlist_response.read()
     watchlist_series = json.loads(watchlist_data)
