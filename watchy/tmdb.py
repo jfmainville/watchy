@@ -60,11 +60,13 @@ def tmdb_extract_watchlist(tmdb_api_url, tmdb_account_id, tmdb_session_id, tmdb_
             watchlist_response = api_connection.getresponse()
             watchlist_data = watchlist_response.read()
             watchlist_content = json.loads(watchlist_data)
-            watchlist_content_listdict.append(watchlist_content["results"])
+            # Append the JSON data to the listdict to avoid multiple indexes
+            for json_data in watchlist_content["results"]:
+                watchlist_content_listdict.append(json_data)
     else:
         watchlist_content_listdict.append(watchlist_content["results"])
 
-    return watchlist_content_listdict[0]
+    return watchlist_content_listdict
 
 
 def tmdb_extract_movie_release_dates(tmdb_api_url, tmdb_api_key, tmdb_watchlist_movie):
