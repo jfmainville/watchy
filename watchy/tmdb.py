@@ -63,7 +63,9 @@ def tmdb_extract_watchlist(tmdb_api_url, tmdb_account_id, tmdb_session_id, tmdb_
             for json_data in watchlist_content["results"]:
                 watchlist_content_listdict.append(json_data)
     else:
-        watchlist_content_listdict.append(watchlist_content["results"])
+        # Append the JSON data to the listdict to avoid multiple indexes
+        for json_data in watchlist_content["results"]:
+            watchlist_content_listdict.append(json_data)
 
     return watchlist_content_listdict
 
