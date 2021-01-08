@@ -1,6 +1,5 @@
 import json
 import http.client
-import os
 from json import JSONEncoder
 
 
