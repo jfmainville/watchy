@@ -56,7 +56,7 @@ def movie():
         tmdb_movie_release_dates = tmdb_extract_movie_release_dates(tmdb_api_url=tmdb_api_url,
                                                                     tmdb_api_key=tmdb_api_key,
                                                                     tmdb_watchlist_movie=tmdb_watchlist_movie)
-        tmdb_movie_title = tmdb_watchlist_movie["title"]
+        tmdb_movie_title = unidecode.unidecode(tmdb_watchlist_movie["title"])
         tmdb_movie_release_year = (
             tmdb_watchlist_movie["release_date"]).split("-")[0]
         tmdb_movie_dvd_release_date = []
