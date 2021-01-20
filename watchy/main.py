@@ -138,12 +138,13 @@ def tv_show():
             tmdb_show_name_length = len(tmdb_show_name) + 7
             eztv_show_full_name = (
                 eztv_show_title[0:tmdb_show_name_length]).title()
-            eztv_show_listdict.append({
-                "name": eztv_show_full_name,
-                "seeds": eztv_show_seeds,
-                "magnet": eztv_show_magnet,
-                "timestamp": eztv_show_timestamp
-            })
+            if tmdb_show_name.lower() in eztv_show_full_name.lower():
+                eztv_show_listdict.append({
+                    "name": eztv_show_full_name,
+                    "seeds": eztv_show_seeds,
+                    "magnet": eztv_show_magnet,
+                    "timestamp": eztv_show_timestamp
+                })
         # Refactor the eztv_show_listdict list dictionary to only show unique values
         filtered_eztv_show_listdict = list(
             {value['name']: value for value in eztv_show_listdict}.values())
