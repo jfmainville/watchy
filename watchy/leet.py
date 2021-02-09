@@ -1,4 +1,3 @@
-import time
 import re
 from selenium import webdriver
 
@@ -18,7 +17,7 @@ def leet_extract_movies(movie_title, movie_release_year, leet_url):
     encoded_movie_title = movie_title.replace(" ", "%20")
     browser.get("https://" + leet_url + "/sort-search/" +
                 encoded_movie_title + "%20" + movie_release_year + "/seeders/desc/1/")
-    time.sleep(5)
+    browser.implicitly_wait(5)
 
     leet_movie_torrents = browser.find_elements_by_class_name("name")
 
@@ -40,7 +39,7 @@ def leet_extract_movies(movie_title, movie_release_year, leet_url):
 
     # Navigate to the torrent page
     browser.get(torrent_link)
-    time.sleep(5)
+    browser.implicitly_wait(5)
 
     # Extract the number of seeds from the torrent page
     seeds = browser.find_elements_by_class_name(
