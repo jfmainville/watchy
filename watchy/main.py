@@ -85,25 +85,26 @@ def movie():
             # Extract the 1337x amount of seeds and magnet link for each movie
             seeds, magnet_link = leet_extract_movies(movie_title=tmdb_movie_title,
                                                      movie_release_year=tmdb_movie_release_year, leet_url=leet_url)
-            # Movie dictionary that contains the required movie information to download it
-            download_movie = {}
-            tmdb_movie_title_full = (tmdb_movie_title.replace(
-                ":", " -")) + " (" + tmdb_movie_release_year + ")"
-            while tmdb_movie_title_full not in local_movies:
-                # Add the movies that needs to be downloaded to the list
-                download_movie.update({
-                    "title": tmdb_movie_title_full,
-                    "seeds": int(seeds),
-                    "magnet": magnet_link
-                })
-                break
-            if download_movie != {}:
-                # Download the movie magnet using the aria2 application
-                return_code = download_magnet_link(download_entry=download_movie,
-                                                   download_directory=movies_download_directory)
-                # Move the movie download file to the movies directory
-                move_content_file(download_file=download_movie, content_download_folder=movies_download_directory,
-                                  content_folder=movies_directory, content_title=None, return_code=return_code)
+            if seeds and magnet_link:
+                # Movie dictionary that contains the required movie information to download it
+                download_movie = {}
+                tmdb_movie_title_full = (tmdb_movie_title.replace(
+                    ":", " -")) + " (" + tmdb_movie_release_year + ")"
+                while tmdb_movie_title_full not in local_movies:
+                    # Add the movies that needs to be downloaded to the list
+                    download_movie.update({
+                        "title": tmdb_movie_title_full,
+                        "seeds": int(seeds),
+                        "magnet": magnet_link
+                    })
+                    break
+                if download_movie != {}:
+                    # Download the movie magnet using the aria2 application
+                    return_code = download_magnet_link(download_entry=download_movie,
+                                                       download_directory=movies_download_directory)
+                    # Move the movie download file to the movies directory
+                    move_content_file(download_file=download_movie, content_download_folder=movies_download_directory,
+                                      content_folder=movies_directory, content_title=None, return_code=return_code)
 
 
 def tv_show():
