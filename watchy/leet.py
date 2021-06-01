@@ -34,21 +34,26 @@ def leet_extract_movies(movie_title, movie_release_year, leet_url):
                 leet_movies_list.append(leet_movie_torrent_name)
 
     # Extract the full URL of the torrent with the most seeds
-    torrent_link = browser.find_element_by_partial_link_text(
-        leet_movies_list[0]).get_attribute("href")
+    try:
+        torrent_link = browser.find_element_by_partial_link_text(
+            leet_movies_list[0]).get_attribute("href")
 
-    # Navigate to the torrent page
-    browser.get(torrent_link)
-    browser.implicitly_wait(5)
+        # Navigate to the torrent page
+        browser.get(torrent_link)
+        browser.implicitly_wait(5)
 
-    # Extract the number of seeds from the torrent page
-    seeds = browser.find_elements_by_class_name(
-        "seeds")[0].get_attribute("innerText")
+        # Extract the number of seeds from the torrent page
+        seeds = browser.find_elements_by_class_name(
+            "seeds")[0].get_attribute("innerText")
 
-    # Extract the magnet link from the torrent page
-    magnet_link = browser.find_element_by_css_selector(
-        '[href^=magnet]').get_attribute("href")
+        # Extract the magnet link from the torrent page
+        magnet_link = browser.find_element_by_css_selector(
+            '[href^=magnet]').get_attribute("href")
+        return seeds, magnet_link
+    except IndexError:
+        seeds = None
+        magnet_link = None
+        return seeds, magnet_link
 
     # Close the web browser application
     browser.quit()
-    return seeds, magnet_link
