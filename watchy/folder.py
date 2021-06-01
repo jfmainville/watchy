@@ -35,7 +35,7 @@ def get_folder_content(content_folder, content_title):
                 glob.glob(file_extension))
         # Export the content file name only without the extension
         for content_folder_episode_extension in content_folder_episodes_extension:
-            split_text = content_folder_episode_extension.split(".")[0]
+            split_text = os.path.splitext(content_folder_episode_extension)[0]
             content_folder_episodes.append(split_text)
     return content_folder_episodes
 
