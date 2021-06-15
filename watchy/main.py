@@ -159,8 +159,8 @@ def tv_show():
         # TV show  list that contains all the files that needs to be downloaded
         download_tv_shows = []
         for filtered_eztv_show_dictionary_item in filtered_eztv_show_listdict:
-            eztv_show_title = filtered_eztv_show_dictionary_item["name"]
-            while eztv_show_title not in tv_show_directory_episodes:
+            eztv_show_title_filtered = filtered_eztv_show_dictionary_item["name"]
+            while eztv_show_title_filtered not in tv_show_directory_episodes:
                 # Add the TV show episodes that needs to be downloaded to the list
                 download_tv_shows.append({
                     "title": filtered_eztv_show_dictionary_item["name"],
