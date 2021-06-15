@@ -6,7 +6,7 @@ from datetime import date
 from tmdb import tmdb_authenticate, tmdb_extract_watchlist, tmdb_extract_movie_imdb_id, \
     tmdb_extract_movie_release_dates, tmdb_extract_show_details
 from folder import create_content_folders, get_folder_content, move_content_file
-from leet import leet_extract_movies
+from yts import yts_extract_movie_torrent
 from eztv import eztv_extract_tv_show_episodes
 from magnet import download_magnet_link
 from dotenv import load_dotenv, find_dotenv
@@ -30,6 +30,7 @@ tv_shows_download_directory = os.environ.get('TV_SHOW_DOWNLOAD_DIRECTORY')
 # TMDB API information
 eztv_url = os.environ.get('EZTV_URL')
 leet_url = os.environ.get('LEET_URL')
+yts_url = os.environ.get('YTS_URL')
 tmdb_api_url = os.environ.get('TMDB_API_URL')
 tmdb_username = os.environ.get('TMDB_USERNAME')
 tmdb_password = os.environ.get('TMDB_PASSWORD')
@@ -89,9 +90,9 @@ def movie():
         today = time.strptime(str(date.today()), "%Y-%m-%d")
         # Check if the DVD release date is earlier than today
         if tmdb_movie_dvd_release_date_convert < today:
-            # Extract the 1337x amount of seeds and magnet link for each movie
-            seeds, magnet_link = leet_extract_movies(movie_title=tmdb_movie_title,
-                                                     movie_release_year=tmdb_movie_release_year, leet_url=leet_url)
+            # Extract the YTS seeds an magnet link for each movie
+            seeds, magnet_link = yts_extract_movie_torrent(movie_imdb_id=tmdb_movie_imdb_id, yts_url=yts_url)
+
             if seeds and magnet_link:
                 # Movie dictionary that contains the required movie information to download it
                 download_movie = {}
