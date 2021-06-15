@@ -138,16 +138,15 @@ def tv_show():
         eztv_shows = eztv_extract_tv_show_episodes(tmdb_show_id=tmdb_show_id, eztv_url=eztv_url)
         eztv_show_listdict = []
         for eztv_show in eztv_shows:
-            eztv_show_title = eztv_show["title"]
+            eztv_show_episode = "S" + str(eztv_show["season"]).zfill(2) + "E" + str(eztv_show["episode"]).zfill(2)
+            eztv_show_title = (eztv_show["title"]).split(eztv_show_episode)[0]
             eztv_show_timestamp = eztv_show["date_released_unix"]
             eztv_show_seeds = eztv_show["seeds"]
             eztv_show_magnet = eztv_show["magnet_url"]
 
             # EZTV dictionary creation
-            tmdb_show_name_length = len(tmdb_show_name) + 7
-            eztv_show_full_name = (
-                eztv_show_title[0:tmdb_show_name_length]).title()
-            if tmdb_show_name.lower() in eztv_show_full_name.lower():
+            eztv_show_full_name = tmdb_show_name.title() + " " + eztv_show_episode
+            if tmdb_show_name.lower() in eztv_show_title.lower():
                 eztv_show_listdict.append({
                     "name": eztv_show_full_name,
                     "seeds": eztv_show_seeds,
