@@ -82,7 +82,7 @@ def tmdb_extract_movie_imdb_id(tmdb_api_url, tmdb_api_key, tmdb_watchlist_movie)
 
 
 def tmdb_extract_movie_release_dates(tmdb_api_url, tmdb_api_key, tmdb_watchlist_movie):
-    # Send a GET request to extract the details for each movie in the watchlist
+    # Send a GET request to extract the movie release date for each movie in the watchlist
     api_connection = http.client.HTTPSConnection(tmdb_api_url)
     api_connection.request("GET",
                            "/3/movie/" + str(tmdb_watchlist_movie["id"]) + "/release_dates?api_key=" + tmdb_api_key)
