@@ -70,6 +70,17 @@ def tmdb_extract_watchlist(tmdb_api_url, tmdb_account_id, tmdb_session_id, tmdb_
     return watchlist_content_listdict
 
 
+def tmdb_extract_movie_imdb_id(tmdb_api_url, tmdb_api_key, tmdb_watchlist_movie):
+    # Send a GET request to extract the IMDB ID for each movie in the watchlist
+    api_connection = http.client.HTTPSConnection(tmdb_api_url)
+    api_connection.request("GET",
+                           "/3/movie/" + str(tmdb_watchlist_movie["id"]) + "?api_key=" + tmdb_api_key)
+    movie_imdb_id_response = api_connection.getresponse()
+    movie_imdb_id_response_data = movie_imdb_id_response.read()
+    movie_imdb_id = json.loads(movie_imdb_id_response_data)
+    return movie_imdb_id["imdb_id"]
+
+
 def tmdb_extract_movie_release_dates(tmdb_api_url, tmdb_api_key, tmdb_watchlist_movie):
     # Send a GET request to extract the details for each movie in the watchlist
     api_connection = http.client.HTTPSConnection(tmdb_api_url)

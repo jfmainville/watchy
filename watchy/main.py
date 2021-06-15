@@ -3,7 +3,8 @@ import re
 import time
 import unidecode
 from datetime import date
-from tmdb import tmdb_authenticate, tmdb_extract_watchlist, tmdb_extract_movie_release_dates, tmdb_extract_show_details
+from tmdb import tmdb_authenticate, tmdb_extract_watchlist, tmdb_extract_movie_imdb_id, \
+    tmdb_extract_movie_release_dates, tmdb_extract_show_details
 from folder import create_content_folders, get_folder_content, move_content_file
 from leet import leet_extract_movies
 from eztv import eztv_extract_tv_show_episodes
@@ -57,6 +58,12 @@ def movie():
         tmdb_movie_release_dates = tmdb_extract_movie_release_dates(tmdb_api_url=tmdb_api_url,
                                                                     tmdb_api_key=tmdb_api_key,
                                                                     tmdb_watchlist_movie=tmdb_watchlist_movie)
+
+        # Extract the IMDB ID for each movie
+        tmdb_movie_imdb_id = tmdb_extract_movie_imdb_id(tmdb_api_url=tmdb_api_url,
+                                                        tmdb_api_key=tmdb_api_key,
+                                                        tmdb_watchlist_movie=tmdb_watchlist_movie)
+
         tmdb_movie_title = unidecode.unidecode(tmdb_watchlist_movie["title"])
         tmdb_movie_release_year = (
             tmdb_watchlist_movie["release_date"]).split("-")[0]
