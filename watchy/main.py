@@ -3,9 +3,10 @@ import re
 import time
 import unidecode
 from datetime import date
-from tmdb import tmdb_authenticate, tmdb_extract_watchlist, tmdb_extract_movie_release_dates, tmdb_extract_show_details
+from tmdb import tmdb_authenticate, tmdb_extract_watchlist, tmdb_extract_movie_imdb_id, \
+    tmdb_extract_movie_release_dates, tmdb_extract_show_details
 from folder import create_content_folders, get_folder_content, move_content_file
-from leet import leet_extract_movies
+from yts import yts_extract_movie_torrent
 from eztv import eztv_extract_tv_show_episodes
 from magnet import download_magnet_link
 from dotenv import load_dotenv, find_dotenv
@@ -29,6 +30,7 @@ tv_shows_download_directory = os.environ.get('TV_SHOW_DOWNLOAD_DIRECTORY')
 # TMDB API information
 eztv_url = os.environ.get('EZTV_URL')
 leet_url = os.environ.get('LEET_URL')
+yts_url = os.environ.get('YTS_URL')
 tmdb_api_url = os.environ.get('TMDB_API_URL')
 tmdb_username = os.environ.get('TMDB_USERNAME')
 tmdb_password = os.environ.get('TMDB_PASSWORD')
@@ -57,6 +59,12 @@ def movie():
         tmdb_movie_release_dates = tmdb_extract_movie_release_dates(tmdb_api_url=tmdb_api_url,
                                                                     tmdb_api_key=tmdb_api_key,
                                                                     tmdb_watchlist_movie=tmdb_watchlist_movie)
+
+        # Extract the IMDB ID for each movie
+        tmdb_movie_imdb_id = tmdb_extract_movie_imdb_id(tmdb_api_url=tmdb_api_url,
+                                                        tmdb_api_key=tmdb_api_key,
+                                                        tmdb_watchlist_movie=tmdb_watchlist_movie)
+
         tmdb_movie_title = unidecode.unidecode(tmdb_watchlist_movie["title"])
         tmdb_movie_release_year = (
             tmdb_watchlist_movie["release_date"]).split("-")[0]
@@ -82,28 +90,29 @@ def movie():
         today = time.strptime(str(date.today()), "%Y-%m-%d")
         # Check if the DVD release date is earlier than today
         if tmdb_movie_dvd_release_date_convert < today:
-            # Extract the 1337x amount of seeds and magnet link for each movie
-            seeds, magnet_link = leet_extract_movies(movie_title=tmdb_movie_title,
-                                                     movie_release_year=tmdb_movie_release_year, leet_url=leet_url)
-            # Movie dictionary that contains the required movie information to download it
-            download_movie = {}
-            tmdb_movie_title_full = (tmdb_movie_title.replace(
-                ":", " -")) + " (" + tmdb_movie_release_year + ")"
-            while tmdb_movie_title_full not in local_movies:
-                # Add the movies that needs to be downloaded to the list
-                download_movie.update({
-                    "title": tmdb_movie_title_full,
-                    "seeds": int(seeds),
-                    "magnet": magnet_link
-                })
-                break
-            if download_movie != {}:
-                # Download the movie magnet using the aria2 application
-                return_code = download_magnet_link(download_entry=download_movie,
-                                                   download_directory=movies_download_directory)
-                # Move the movie download file to the movies directory
-                move_content_file(download_file=download_movie, content_download_folder=movies_download_directory,
-                                  content_folder=movies_directory, content_title=None, return_code=return_code)
+            # Extract the YTS seeds an magnet link for each movie
+            seeds, magnet_link = yts_extract_movie_torrent(movie_imdb_id=tmdb_movie_imdb_id, yts_url=yts_url)
+
+            if seeds and magnet_link:
+                # Movie dictionary that contains the required movie information to download it
+                download_movie = {}
+                tmdb_movie_title_full = (tmdb_movie_title.replace(
+                    ":", " -")) + " (" + tmdb_movie_release_year + ")"
+                while tmdb_movie_title_full not in local_movies:
+                    # Add the movies that needs to be downloaded to the list
+                    download_movie.update({
+                        "title": tmdb_movie_title_full,
+                        "seeds": int(seeds),
+                        "magnet": magnet_link
+                    })
+                    break
+                if download_movie != {}:
+                    # Download the movie magnet using the aria2 application
+                    return_code = download_magnet_link(download_entry=download_movie,
+                                                       download_directory=movies_download_directory)
+                    # Move the movie download file to the movies directory
+                    move_content_file(download_file=download_movie, content_download_folder=movies_download_directory,
+                                      content_folder=movies_directory, content_title=None, return_code=return_code)
 
 
 def tv_show():
@@ -129,16 +138,15 @@ def tv_show():
         eztv_shows = eztv_extract_tv_show_episodes(tmdb_show_id=tmdb_show_id, eztv_url=eztv_url)
         eztv_show_listdict = []
         for eztv_show in eztv_shows:
-            eztv_show_title = eztv_show["title"]
+            eztv_show_episode = "S" + str(eztv_show["season"]).zfill(2) + "E" + str(eztv_show["episode"]).zfill(2)
+            eztv_show_title = (eztv_show["title"]).split(eztv_show_episode)[0]
             eztv_show_timestamp = eztv_show["date_released_unix"]
             eztv_show_seeds = eztv_show["seeds"]
             eztv_show_magnet = eztv_show["magnet_url"]
 
             # EZTV dictionary creation
-            tmdb_show_name_length = len(tmdb_show_name) + 7
-            eztv_show_full_name = (
-                eztv_show_title[0:tmdb_show_name_length]).title()
-            if tmdb_show_name.lower() in eztv_show_full_name.lower():
+            eztv_show_full_name = tmdb_show_name.title() + " " + eztv_show_episode
+            if tmdb_show_name.lower() in eztv_show_title.lower():
                 eztv_show_listdict.append({
                     "name": eztv_show_full_name,
                     "seeds": eztv_show_seeds,
@@ -151,8 +159,8 @@ def tv_show():
         # TV show  list that contains all the files that needs to be downloaded
         download_tv_shows = []
         for filtered_eztv_show_dictionary_item in filtered_eztv_show_listdict:
-            eztv_show_title = filtered_eztv_show_dictionary_item["name"]
-            while eztv_show_title not in tv_show_directory_episodes:
+            eztv_show_title_filtered = filtered_eztv_show_dictionary_item["name"]
+            while eztv_show_title_filtered not in tv_show_directory_episodes:
                 # Add the TV show episodes that needs to be downloaded to the list
                 download_tv_shows.append({
                     "title": filtered_eztv_show_dictionary_item["name"],
