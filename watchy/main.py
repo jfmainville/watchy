@@ -215,7 +215,6 @@ def tv_show():
                                       content_download_folder=tv_shows_download_directory,
                                       content_folder=tv_shows_directory, content_title=tmdb_show_name,
                                       return_code=return_code)
-                    logger.info("tv_show")
 
 
 if args.movie:
