@@ -1,4 +1,7 @@
 import requests
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def tmdb_authenticate(tmdb_api_url, tmdb_username, tmdb_password, tmdb_api_key):
