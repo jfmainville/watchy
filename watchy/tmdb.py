@@ -160,8 +160,21 @@ def tmdb_extract_movie_release_dates(tmdb_api_url, tmdb_api_key, tmdb_watchlist_
 
 def tmdb_extract_show_details(tmdb_api_url, tmdb_api_key, tmdb_show):
     # Send a GET request to extract the details for each TV show in the watchlist
-    tmdb_show_id = str(tmdb_show["id"])
-    show_details_request = requests.get(tmdb_api_url +
-                                        "/3/tv/" + tmdb_show_id + "?api_key=" + tmdb_api_key + "&language=en-US&append_to_response=external_ids")
-    show_details = show_details_request.json()
-    return show_details
+    show_details = None
+    try:
+        tmdb_show_id = str(tmdb_show["id"])
+        show_details_request = requests.get(tmdb_api_url +
+                                            "/3/tv/" + tmdb_show_id + "?api_key=" + tmdb_api_key + "&language=en-US&append_to_response=external_ids")
+        show_details = show_details_request.json()
+    except requests.exceptions.ConnectionError as error:
+        logger.error("requests connection error: %s", error)
+    except requests.exceptions.Timeout as error:
+        logger.error("requests connection timeout: %s", error)
+    except requests.exceptions.HTTPError as error:
+        logger.error("requests HTTP error: %s", error)
+    if show_details:
+        return show_details
+    else:
+        logger.warning("unable to extract the details for the %s TV show",
+                       tmdb_show["name"])
+        return show_details
