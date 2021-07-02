@@ -1,4 +1,5 @@
 import os
+import sys
 import re
 import time
 import unidecode
@@ -11,6 +12,7 @@ from eztv import eztv_extract_tv_show_episodes
 from magnet import download_magnet_link
 from dotenv import load_dotenv, find_dotenv
 import argparse
+import logging
 
 in_docker = os.environ.get('IN_DOCKER')
 
@@ -36,6 +38,22 @@ tmdb_username = os.environ.get('TMDB_USERNAME')
 tmdb_password = os.environ.get('TMDB_PASSWORD')
 tmdb_api_key = os.environ.get('TMDB_API_KEY')
 tmdb_account_id = os.environ.get('TMDB_ACCOUNT_ID')
+
+# Logging information
+debug_level = os.environ.get('DEBUG_LEVEL')
+tv_show_log_file = os.environ.get('TV_SHOW_LOG_FILE')
+movie_log_file = os.environ.get('MOVIE_LOG_FILE')
+
+# Define the logging configuration
+level = logging.getLevelName(debug_level)
+root = logging.getLogger()
+root.setLevel(level)
+output_handler = logging.StreamHandler(sys.stdout)
+output_handler.setLevel(level)
+# Define the structure of the log output (the same format applies to both the stdout and file outputs)
+formatter = logging.Formatter('%(asctime)s - %(filename)s:%(funcName)s:%(lineno)s - %(levelname)s - %(message)s')
+output_handler.setFormatter(formatter)
+root.addHandler(output_handler)
 
 # Parser to determine which function to execute
 parser = argparse.ArgumentParser(description='type selector')
