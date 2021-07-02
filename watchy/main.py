@@ -78,64 +78,70 @@ def movie():
         tmdb_api_url=tmdb_api_url, tmdb_account_id=tmdb_account_id, tmdb_session_id=tmdb_session_id,
         tmdb_api_key=tmdb_api_key, tmdb_watchlist_content_type="movies")
 
-    for tmdb_watchlist_movie in tmdb_watchlist_movies:
-        tmdb_movie_release_dates = tmdb_extract_movie_release_dates(tmdb_api_url=tmdb_api_url,
-                                                                    tmdb_api_key=tmdb_api_key,
-                                                                    tmdb_watchlist_movie=tmdb_watchlist_movie)
+    # Skip the execution of the movie function entirely if there's nothing in the movie watchlist
+    if tmdb_watchlist_movies:
+        for tmdb_watchlist_movie in tmdb_watchlist_movies:
+            tmdb_movie_release_dates = tmdb_extract_movie_release_dates(tmdb_api_url=tmdb_api_url,
+                                                                        tmdb_api_key=tmdb_api_key,
+                                                                        tmdb_watchlist_movie=tmdb_watchlist_movie)
 
-        # Extract the IMDB ID for each movie
-        tmdb_movie_imdb_id = tmdb_extract_movie_imdb_id(tmdb_api_url=tmdb_api_url,
-                                                        tmdb_api_key=tmdb_api_key,
-                                                        tmdb_watchlist_movie=tmdb_watchlist_movie)
+            # Extract the IMDB ID for each movie
+            tmdb_movie_imdb_id = tmdb_extract_movie_imdb_id(tmdb_api_url=tmdb_api_url,
+                                                            tmdb_api_key=tmdb_api_key,
+                                                            tmdb_watchlist_movie=tmdb_watchlist_movie)
 
-        tmdb_movie_title = unidecode.unidecode(tmdb_watchlist_movie["title"])
-        tmdb_movie_release_year = (
-            tmdb_watchlist_movie["release_date"]).split("-")[0]
-        tmdb_movie_dvd_release_date = []
-        for tmdb_movie_release_date in tmdb_movie_release_dates["results"]:
-            for release_dates in tmdb_movie_release_date["release_dates"]:
-                # Check that the release date is set
-                if release_dates["type"] == 4 or release_dates["type"] == 5:
-                    tmdb_movie_dvd_release_date.append(
-                        release_dates["release_date"].split("T")[0])
-        # Create the local movies directory if it doesn't already exists
-        create_content_folders(
-            content_folder=movies_directory, content_download_folder=movies_download_directory, content_title=None)
-        # List all the movies that were already downloaded
-        local_movies = get_folder_content(content_folder=movies_directory, content_title=None)
-        if tmdb_movie_dvd_release_date:
-            # Convert the DVD release date to a time format
-            tmdb_movie_dvd_release_date_convert = time.strptime(
-                str(tmdb_movie_dvd_release_date[0]), "%Y-%m-%d")
-        else:
-            tmdb_movie_dvd_release_date_convert = time.strptime(
-                str(date.today()), "%Y-%m-%d")
-        today = time.strptime(str(date.today()), "%Y-%m-%d")
-        # Check if the DVD release date is earlier than today
-        if tmdb_movie_dvd_release_date_convert < today:
-            # Extract the YTS seeds an magnet link for each movie
-            seeds, magnet_link = yts_extract_movie_torrent(movie_imdb_id=tmdb_movie_imdb_id, yts_url=yts_url)
+            if tmdb_movie_release_dates and tmdb_movie_imdb_id:
+                tmdb_movie_title = unidecode.unidecode(tmdb_watchlist_movie["title"])
+                tmdb_movie_release_year = (
+                    tmdb_watchlist_movie["release_date"]).split("-")[0]
+                tmdb_movie_dvd_release_date = []
+                for tmdb_movie_release_date in tmdb_movie_release_dates["results"]:
+                    for release_dates in tmdb_movie_release_date["release_dates"]:
+                        # Check that the release date is set
+                        if release_dates["type"] == 4 or release_dates["type"] == 5:
+                            tmdb_movie_dvd_release_date.append(
+                                release_dates["release_date"].split("T")[0])
+                # Create the local movies directory if it doesn't already exists
+                create_content_folders(
+                    content_folder=movies_directory, content_download_folder=movies_download_directory,
+                    content_title=None)
+                # List all the movies that were already downloaded
+                local_movies = get_folder_content(content_folder=movies_directory, content_title=None)
+                if tmdb_movie_dvd_release_date:
+                    # Convert the DVD release date to a time format
+                    tmdb_movie_dvd_release_date_convert = time.strptime(
+                        str(tmdb_movie_dvd_release_date[0]), "%Y-%m-%d")
+                else:
+                    tmdb_movie_dvd_release_date_convert = time.strptime(
+                        str(date.today()), "%Y-%m-%d")
+                today = time.strptime(str(date.today()), "%Y-%m-%d")
+                # Check if the DVD release date is earlier than today
+                if tmdb_movie_dvd_release_date_convert < today:
+                    # Extract the YTS seeds an magnet link for each movie
+                    seeds, magnet_link = yts_extract_movie_torrent(movie_imdb_id=tmdb_movie_imdb_id, yts_url=yts_url)
 
-            if seeds and magnet_link:
-                # Movie dictionary that contains the required movie information to download it
-                download_movie = {}
-                tmdb_movie_title_full = (tmdb_movie_title.replace(
-                    ":", " -")) + " (" + tmdb_movie_release_year + ")"
-                while tmdb_movie_title_full not in local_movies:
-                    # Add the movies that needs to be downloaded to the list
-                    download_movie.update({
-                        "title": tmdb_movie_title_full,
-                        "seeds": int(seeds),
-                        "magnet": magnet_link
-                    })
-                    break
-                if download_movie != {}:
-                    # Download the movie magnet using the aria2 application
-                    return_code = download_magnet_link(download_entry=download_movie,
-                                                       download_directory=movies_download_directory)
-                    # Move the movie download file to the movies directory
-                    move_content_file(download_file=download_movie, content_download_folder=movies_download_directory,
-                                      content_folder=movies_directory, content_title=None, return_code=return_code)
+                    if seeds and magnet_link:
+                        # Movie dictionary that contains the required movie information to download it
+                        download_movie = {}
+                        tmdb_movie_title_full = (tmdb_movie_title.replace(
+                            ":", " -")) + " (" + tmdb_movie_release_year + ")"
+                        while tmdb_movie_title_full not in local_movies:
+                            # Add the movies that needs to be downloaded to the list
+                            download_movie.update({
+                                "title": tmdb_movie_title_full,
+                                "seeds": int(seeds),
+                                "magnet": magnet_link
+                            })
+                            break
+                        if download_movie != {}:
+                            # Download the movie magnet using the aria2 application
+                            return_code = download_magnet_link(download_entry=download_movie,
+                                                               download_directory=movies_download_directory)
+                            # Move the movie download file to the movies directory
+                            move_content_file(download_file=download_movie,
+                                              content_download_folder=movies_download_directory,
+                                              content_folder=movies_directory, content_title=None,
+                                              return_code=return_code)
 
 
 def tv_show():
