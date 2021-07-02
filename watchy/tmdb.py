@@ -70,29 +70,49 @@ def tmdb_authenticate(tmdb_api_url, tmdb_username, tmdb_password, tmdb_api_key):
 
 def tmdb_extract_watchlist(tmdb_api_url, tmdb_account_id, tmdb_session_id, tmdb_api_key, tmdb_watchlist_content_type):
     # Send a GET request to get the list of series in the watchlist
-    watchlist_content_request = requests.get(tmdb_api_url +
-                                             "/3/account/" + tmdb_account_id + "/watchlist/" + tmdb_watchlist_content_type + "?api_key=" +
-                                             tmdb_api_key + "&language=en-US&session_id=" + tmdb_session_id + "&sort_by=created_at.desc&page=1")
-    watchlist_content = watchlist_content_request.json()
+    watchlist_content = None
+    try:
+        watchlist_content_request = requests.get(tmdb_api_url +
+                                                 "/3/account/" + tmdb_account_id + "/watchlist/" + tmdb_watchlist_content_type + "?api_key=" +
+                                                 tmdb_api_key + "&language=en-US&session_id=" + tmdb_session_id + "&sort_by=created_at.desc&page=1")
+        watchlist_content = watchlist_content_request.json()
+    except requests.exceptions.ConnectionError as error:
+        logger.error("requests connection error: %s", error)
+    except requests.exceptions.Timeout as error:
+        logger.error("requests connection timeout: %s", error)
+    except requests.exceptions.HTTPError as error:
+        logger.error("requests HTTP error: %s", error)
 
     watchlist_content_listdict = []
 
-    if watchlist_content["total_pages"] > 1:
-        for watchlist_page_number in range(1, watchlist_content["total_pages"] + 1):
-            watchlist_content_request = requests.get(tmdb_api_url +
-                                                     "/3/account/" + tmdb_account_id + "/watchlist/" + tmdb_watchlist_content_type + "?api_key=" +
-                                                     tmdb_api_key + "&language=en-US&session_id=" + tmdb_session_id + "&sort_by=created_at.desc" + "&page=" + str(
-                watchlist_page_number))
-            watchlist_content = watchlist_content_request.json()
+    if watchlist_content:
+        if watchlist_content["total_pages"] > 1:
+            for watchlist_page_number in range(1, watchlist_content["total_pages"] + 1):
+                try:
+                    watchlist_content_request = requests.get(tmdb_api_url +
+                                                             "/3/account/" + tmdb_account_id + "/watchlist/" + tmdb_watchlist_content_type + "?api_key=" +
+                                                             tmdb_api_key + "&language=en-US&session_id=" + tmdb_session_id + "&sort_by=created_at.desc" + "&page=" + str(
+                        watchlist_page_number))
+                    watchlist_content = watchlist_content_request.json()
+                except requests.exceptions.ConnectionError as error:
+                    logger.error("requests connection error: %s", error)
+                except requests.exceptions.Timeout as error:
+                    logger.error("requests connection timeout: %s", error)
+                except requests.exceptions.HTTPError as error:
+                    logger.error("requests HTTP error: %s", error)
+
+                # Append the JSON data to the listdict to avoid multiple indexes
+                for json_data in watchlist_content["results"]:
+                    watchlist_content_listdict.append(json_data)
+        else:
             # Append the JSON data to the listdict to avoid multiple indexes
             for json_data in watchlist_content["results"]:
                 watchlist_content_listdict.append(json_data)
-    else:
-        # Append the JSON data to the listdict to avoid multiple indexes
-        for json_data in watchlist_content["results"]:
-            watchlist_content_listdict.append(json_data)
 
-    return watchlist_content_listdict
+        return watchlist_content_listdict
+    else:
+        logger.info("no content in the watchlist")
+        return None
 
 
 def tmdb_extract_movie_imdb_id(tmdb_api_url, tmdb_api_key, tmdb_watchlist_movie):
