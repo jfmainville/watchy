@@ -117,10 +117,23 @@ def tmdb_extract_watchlist(tmdb_api_url, tmdb_account_id, tmdb_session_id, tmdb_
 
 def tmdb_extract_movie_imdb_id(tmdb_api_url, tmdb_api_key, tmdb_watchlist_movie):
     # Send a GET request to extract the IMDB ID for each movie in the watchlist
-    movie_imdb_id_request = requests.get(tmdb_api_url +
-                                         "/3/movie/" + str(tmdb_watchlist_movie["id"]) + "?api_key=" + tmdb_api_key)
-    movie_imdb_id = movie_imdb_id_request.json()
-    return movie_imdb_id["imdb_id"]
+    movie_imdb_id = None
+    try:
+        movie_imdb_id_request = requests.get(tmdb_api_url +
+                                             "/3/movie/" + str(tmdb_watchlist_movie["id"]) + "?api_key=" + tmdb_api_key)
+        movie_imdb_id = movie_imdb_id_request.json()
+    except requests.exceptions.ConnectionError as error:
+        logger.error("requests connection error: %s", error)
+    except requests.exceptions.Timeout as error:
+        logger.error("requests connection timeout: %s", error)
+    except requests.exceptions.HTTPError as error:
+        logger.error("requests HTTP error: %s", error)
+
+    if movie_imdb_id:
+        return movie_imdb_id["imdb_id"]
+    else:
+        logger.error("unable to extract the IMDB ID for the %s movie", tmdb_watchlist_movie["title"])
+        return movie_imdb_id
 
 
 def tmdb_extract_movie_release_dates(tmdb_api_url, tmdb_api_key, tmdb_watchlist_movie):
