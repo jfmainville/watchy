@@ -68,6 +68,11 @@ tmdb_session_id = tmdb_authenticate(tmdb_api_url=tmdb_api_url, tmdb_username=tmd
 
 
 def movie():
+    # Define the logging file output configuration
+    file_handler = logging.FileHandler(filename=movie_log_file)
+    file_handler.setFormatter(formatter)
+    root.addHandler(file_handler)
+
     # Extract the movies details from the TMDB API
     tmdb_watchlist_movies = tmdb_extract_watchlist(
         tmdb_api_url=tmdb_api_url, tmdb_account_id=tmdb_account_id, tmdb_session_id=tmdb_session_id,
