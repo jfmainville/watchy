@@ -219,7 +219,9 @@ def tv_show():
 
 if args.movie:
     # Execute the movie function
-    movie()
+    if tmdb_session_id:
+        movie()
 elif args.tv:
     # Execute the TV show function
-    tv_show()
+    if tmdb_session_id:
+        tv_show()
