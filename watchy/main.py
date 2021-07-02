@@ -139,6 +139,11 @@ def movie():
 
 
 def tv_show():
+    # Define the logging file output configuration
+    file_handler = logging.FileHandler(filename=tv_show_log_file)
+    file_handler.setFormatter(formatter)
+    root.addHandler(file_handler)
+
     # Extract the shows details from the TMDB API
     tmdb_shows = tmdb_extract_watchlist(
         tmdb_api_url=tmdb_api_url, tmdb_account_id=tmdb_account_id, tmdb_session_id=tmdb_session_id,
