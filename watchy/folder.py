@@ -2,20 +2,25 @@ import os
 import glob
 from fnmatch import fnmatch
 from shutil import move, rmtree
-import unidecode
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def create_content_folders(content_folder, content_download_folder, content_title):
     # Create the content folders if they don't already exists
-    if content_title is not None:
-        content_folder_path = os.path.join(content_folder, content_title)
-    else:
-        content_folder_path = os.path.join(content_folder)
-    content_download_folder_path = os.path.join(content_download_folder)
-    if os.path.isdir(content_folder_path) is False:
-        os.makedirs(content_folder_path)
-    if os.path.isdir(content_download_folder_path) is False:
-        os.makedirs(content_download_folder_path)
+    try:
+        if content_title is not None:
+            content_folder_path = os.path.join(content_folder, content_title)
+        else:
+            content_folder_path = os.path.join(content_folder)
+        content_download_folder_path = os.path.join(content_download_folder)
+        if os.path.isdir(content_folder_path) is False:
+            os.makedirs(content_folder_path)
+        if os.path.isdir(content_download_folder_path) is False:
+            os.makedirs(content_download_folder_path)
+    except OSError as error:
+        logger.error("error while creating the content folders: %s", error)
 
 
 def get_folder_content(content_folder, content_title):
