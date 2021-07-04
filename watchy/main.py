@@ -97,7 +97,7 @@ def movie():
                 tmdb_movie_dvd_release_date = []
                 for tmdb_movie_release_date in tmdb_movie_release_dates["results"]:
                     for release_dates in tmdb_movie_release_date["release_dates"]:
-                        # Check that the release date is set
+                        # Check that the release date is set for the movie
                         if release_dates["type"] == 4 or release_dates["type"] == 5:
                             tmdb_movie_dvd_release_date.append(
                                 release_dates["release_date"].split("T")[0])
