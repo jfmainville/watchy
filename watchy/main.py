@@ -39,6 +39,10 @@ tmdb_password = os.environ.get('TMDB_PASSWORD')
 tmdb_api_key = os.environ.get('TMDB_API_KEY')
 tmdb_account_id = os.environ.get('TMDB_ACCOUNT_ID')
 
+# Torrent information
+seeds_minimum_count = int(os.environ.get('SEEDS_MINIMUM_COUNT'))
+process_timeout = int(os.environ.get('PROCESS_TIMEOUT'))
+
 # Logging information
 debug_level = os.environ.get('DEBUG_LEVEL')
 tv_show_log_file = os.environ.get('TV_SHOW_LOG_FILE')
@@ -136,7 +140,9 @@ def movie():
                         if download_movie != {}:
                             # Download the movie magnet using the aria2 application
                             return_code = download_magnet_link(download_entry=download_movie,
-                                                               download_directory=movies_download_directory)
+                                                               download_directory=movies_download_directory,
+                                                               seeds_minimum_count=seeds_minimum_count,
+                                                               process_timeout=process_timeout)
                             # Move the movie download file to the movies directory
                             move_content_file(download_file=download_movie,
                                               content_download_folder=movies_download_directory,
@@ -211,7 +217,9 @@ def tv_show():
                 for download_tv_show in download_tv_shows:
                     # Download the TV show magnet using the aria2 application
                     return_code = download_magnet_link(download_entry=download_tv_show,
-                                                       download_directory=tv_shows_download_directory)
+                                                       download_directory=tv_shows_download_directory,
+                                                       seeds_minimum_count=seeds_minimum_count,
+                                                       process_timeout=process_timeout)
                     # Move the TV show download file to the TV shows directory
                     move_content_file(download_file=download_tv_show,
                                       content_download_folder=tv_shows_download_directory,
