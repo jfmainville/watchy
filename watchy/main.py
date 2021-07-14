@@ -174,23 +174,25 @@ def tv_show():
                 # Extract the list of the TV show episodes available on EZTV
                 eztv_shows = eztv_extract_tv_show_episodes(tmdb_show_id=tmdb_show_id, eztv_url=eztv_url)
                 eztv_show_listdict = []
-                for eztv_show in eztv_shows:
-                    eztv_show_episode = "S" + str(eztv_show["season"]).zfill(2) + "E" + str(eztv_show["episode"]).zfill(
-                        2)
-                    eztv_show_title = (eztv_show["title"]).split(eztv_show_episode)[0]
-                    eztv_show_timestamp = eztv_show["date_released_unix"]
-                    eztv_show_seeds = eztv_show["seeds"]
-                    eztv_show_magnet = eztv_show["magnet_url"]
+                if eztv_shows:
+                    for eztv_show in eztv_shows:
+                        eztv_show_episode = "S" + str(eztv_show["season"]).zfill(2) + "E" + str(
+                            eztv_show["episode"]).zfill(
+                            2)
+                        eztv_show_title = (eztv_show["title"]).split(eztv_show_episode)[0]
+                        eztv_show_timestamp = eztv_show["date_released_unix"]
+                        eztv_show_seeds = eztv_show["seeds"]
+                        eztv_show_magnet = eztv_show["magnet_url"]
 
-                    # EZTV dictionary creation
-                    eztv_show_full_name = tmdb_show_name.title() + " " + eztv_show_episode
-                    if tmdb_show_name.lower() in eztv_show_title.lower():
-                        eztv_show_listdict.append({
-                            "name": eztv_show_full_name,
-                            "seeds": eztv_show_seeds,
-                            "magnet": eztv_show_magnet,
-                            "timestamp": eztv_show_timestamp
-                        })
+                        # EZTV dictionary creation
+                        eztv_show_full_name = tmdb_show_name.title() + " " + eztv_show_episode
+                        if tmdb_show_name.lower() in eztv_show_title.lower():
+                            eztv_show_listdict.append({
+                                "name": eztv_show_full_name,
+                                "seeds": eztv_show_seeds,
+                                "magnet": eztv_show_magnet,
+                                "timestamp": eztv_show_timestamp
+                            })
                 # Refactor the eztv_show_listdict list dictionary to only show unique values
                 filtered_eztv_show_listdict = list(
                     {value['name']: value for value in eztv_show_listdict}.values())

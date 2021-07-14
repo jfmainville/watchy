@@ -18,7 +18,13 @@ def eztv_extract_tv_show_episodes(eztv_url, tmdb_show_id):
         logger.error("requests HTTP error: %s", error)
 
     if eztv_shows:
-        return eztv_shows["torrents"]
+        try:
+            return eztv_shows["torrents"]
+        except KeyError:
+            logger.error(
+                "error while extracting the TV show episodes list from the EZTV REST API, the IMDB ID %s doesn't exist",
+                tmdb_show_id)
+            pass
     else:
         logger.error(
             "error while extracting the TV show episodes list from the EZTV REST API")
