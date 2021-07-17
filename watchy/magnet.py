@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 
 
 def download_magnet_link(download_entry, download_directory, seeds_minimum_count, process_timeout):
-    # Download the torrent using the magnet link
+    # Download the torrent file using the magnet link
     try:
         # Download only torrents that have a certain amount of seeds or more
         if download_entry["seeds"] >= seeds_minimum_count:

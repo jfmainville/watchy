@@ -25,7 +25,7 @@ def tmdb_authenticate(tmdb_api_url, tmdb_username, tmdb_password, tmdb_api_key):
     except requests.exceptions.HTTPError as error:
         logger.error("requests HTTP error: %s", error)
 
-    # Send a POST request to validate the request token with the username and password
+    # Validate the request token with the username and password of the user account
     if request_token:
         validate_login_payload = {
             "username": tmdb_username,
@@ -46,11 +46,10 @@ def tmdb_authenticate(tmdb_api_url, tmdb_username, tmdb_password, tmdb_api_key):
         tmdb_session_id = None
 
         if tmdb_validate_login_response and tmdb_validate_login_response.status_code == 200:
-            # Send a POST request to get the session ID
+            # Get the session ID for the user account
             request_token_payload = {
                 "request_token": request_token
             }
-
             try:
                 tmdb_session_id = requests.post(tmdb_api_url +
                                                 "/3/authentication/session/new?api_key=" + tmdb_api_key,
@@ -72,7 +71,7 @@ def tmdb_authenticate(tmdb_api_url, tmdb_username, tmdb_password, tmdb_api_key):
 
 
 def tmdb_extract_watchlist(tmdb_api_url, tmdb_account_id, tmdb_session_id, tmdb_api_key, tmdb_watchlist_content_type):
-    # Send a GET request to get the list of series in the watchlist
+    # Extract the list of content in the watchlist
     watchlist_content = None
     try:
         watchlist_content_request = requests.get(tmdb_api_url +
@@ -119,7 +118,7 @@ def tmdb_extract_watchlist(tmdb_api_url, tmdb_account_id, tmdb_session_id, tmdb_
 
 
 def tmdb_extract_movie_imdb_id(tmdb_api_url, tmdb_api_key, tmdb_watchlist_movie):
-    # Send a GET request to extract the IMDB ID for each movie in the watchlist
+    # Extract the IMDB ID for each movie in the watchlist
     movie_imdb_id = None
     try:
         movie_imdb_id_request = requests.get(tmdb_api_url +
@@ -140,7 +139,7 @@ def tmdb_extract_movie_imdb_id(tmdb_api_url, tmdb_api_key, tmdb_watchlist_movie)
 
 
 def tmdb_extract_movie_release_dates(tmdb_api_url, tmdb_api_key, tmdb_watchlist_movie):
-    # Send a GET request to extract the details for each movie in the watchlist
+    # Extract the details for each movie in the watchlist
     movie_release_dates = None
     try:
         movie_release_dates_request = requests.get(tmdb_api_url +
@@ -162,7 +161,7 @@ def tmdb_extract_movie_release_dates(tmdb_api_url, tmdb_api_key, tmdb_watchlist_
 
 
 def tmdb_extract_show_details(tmdb_api_url, tmdb_api_key, tmdb_show):
-    # Send a GET request to extract the details for each TV show in the watchlist
+    # Extract the details for each TV show in the watchlist
     show_details = None
     try:
         tmdb_show_id = str(tmdb_show["id"])

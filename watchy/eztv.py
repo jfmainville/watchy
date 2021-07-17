@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 
 
 def eztv_extract_tv_show_episodes(eztv_url, tmdb_show_id):
-    # Extract the TV show episodes from the EZTV API
+    # Extract the TV show episodes list from the EZTV API
     eztv_shows = None
     try:
         eztv_shows_request = requests.get(eztv_url + "/api/get-torrents?imdb_id=" + tmdb_show_id)

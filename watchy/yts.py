@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 
 
 def yts_extract_movie_torrent(yts_url, movie_imdb_id):
-    # Send a GET request to extract the movie torrent data for each movie in the watchlist
+    # Extract the movie torrent data for each movie in the watchlist
     yts_movie = None
     try:
         yts_movie_request = requests.get(yts_url +

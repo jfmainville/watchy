@@ -77,7 +77,7 @@ def movie():
     file_handler.setFormatter(formatter)
     root.addHandler(file_handler)
 
-    # Extract the movies details from the TMDB API
+    # Extract the movies details from the TMDB REST API
     tmdb_watchlist_movies = tmdb_extract_watchlist(
         tmdb_api_url=tmdb_api_url, tmdb_account_id=tmdb_account_id, tmdb_session_id=tmdb_session_id,
         tmdb_api_key=tmdb_api_key, tmdb_watchlist_content_type="movies")
@@ -121,11 +121,11 @@ def movie():
                 today = time.strptime(str(date.today()), "%Y-%m-%d")
                 # Check if the DVD release date is earlier than today
                 if tmdb_movie_dvd_release_date_convert < today:
-                    # Extract the YTS seeds an magnet link for each movie
+                    # Extract the YTS seeds magnet link for each movie
                     seeds, magnet_link = yts_extract_movie_torrent(movie_imdb_id=tmdb_movie_imdb_id, yts_url=yts_url)
 
                     if seeds and magnet_link:
-                        # Movie dictionary that contains the required movie information to download it
+                        # Movie dictionary that contains the required movie information in order to download it
                         download_movie = {}
                         tmdb_movie_title_full = (tmdb_movie_title.replace(
                             ":", " -")) + " (" + tmdb_movie_release_year + ")"
@@ -138,7 +138,7 @@ def movie():
                             })
                             break
                         if download_movie != {}:
-                            # Download the movie magnet using the aria2 application
+                            # Download the movie magnet using the aria2c application
                             return_code = download_magnet_link(download_entry=download_movie,
                                                                download_directory=movies_download_directory,
                                                                seeds_minimum_count=seeds_minimum_count,
@@ -156,7 +156,7 @@ def tv_show():
     file_handler.setFormatter(formatter)
     root.addHandler(file_handler)
 
-    # Extract the shows details from the TMDB API
+    # Extract the TV shows details from the TMDB REST API
     tmdb_shows = tmdb_extract_watchlist(
         tmdb_api_url=tmdb_api_url, tmdb_account_id=tmdb_account_id, tmdb_session_id=tmdb_session_id,
         tmdb_api_key=tmdb_api_key, tmdb_watchlist_content_type="tv")
@@ -202,7 +202,7 @@ def tv_show():
                 # Refactor the eztv_show_listdict list dictionary to only show unique values
                 filtered_eztv_show_listdict = list(
                     {value['name']: value for value in eztv_show_listdict}.values())
-                # TV show  list that contains all the files that needs to be downloaded
+                # TV show list that contains all the files that needs to be downloaded
                 download_tv_shows = []
                 for filtered_eztv_show_dictionary_item in filtered_eztv_show_listdict:
                     eztv_show_title_filtered = filtered_eztv_show_dictionary_item["name"]

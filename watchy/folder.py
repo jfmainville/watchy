@@ -46,7 +46,7 @@ def get_folder_content(content_folder, content_title):
 
 
 def move_content_file(download_file, content_download_folder, content_folder, content_title, return_code):
-    # Move the downloaded file to the content folder
+    # Move the downloaded file to their appropriate content folder
     if return_code == 0:
         # Move the downloaded content file to the content folder
         file_extensions = ("*.mp4", "*.avi", "*.mkv")
