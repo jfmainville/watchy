@@ -5,11 +5,15 @@ logger = logging.getLogger(__name__)
 
 
 def tmdb_authenticate(tmdb_api_url, tmdb_username, tmdb_password, tmdb_api_key):
-    # Send a GET request to receive the request token
+    # Complete the authentication process for the defined user account
+    request_token = None
+    tmdb_validate_login_response = None
+    tmdb_session_id = None
+
     headers = {
         "Content-Type": "application/json"
     }
-    request_token = None
+
     try:
         request_token_data = requests.get(tmdb_api_url +
                                           "/3/authentication/token/new?api_key=" + tmdb_api_key, headers=headers)
@@ -28,7 +32,6 @@ def tmdb_authenticate(tmdb_api_url, tmdb_username, tmdb_password, tmdb_api_key):
             "password": tmdb_password,
             "request_token": request_token
         }
-        tmdb_validate_login_response = None
         try:
             tmdb_validate_login_response = requests.post(
                 tmdb_api_url + "/3/authentication/token/validate_with_login?api_key=" + tmdb_api_key,
