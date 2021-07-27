@@ -9,7 +9,8 @@ def download_magnet_link(download_entry, download_directory, seeds_minimum_count
     try:
         # Download only torrents that have a certain amount of seeds or more
         if download_entry["seeds"] >= seeds_minimum_count:
-            logger.info("starting download for %s", download_entry["title"])
+            logger.info(
+                "starting download for {0} (seeds_count={1})".format(download_entry["title"], download_entry["seeds"]))
             subprocess.check_output(
                 ["aria2c", "-d", download_directory, "--bt-stop-timeout=" + str(process_timeout - 100), "--seed-time=0",
                  download_entry["magnet"]], timeout=process_timeout)
