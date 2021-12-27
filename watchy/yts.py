@@ -9,7 +9,8 @@ def yts_extract_movie_torrent(yts_url, movie_imdb_id):
     yts_movie = None
     try:
         yts_movie_request = requests.get(yts_url +
-                                         "/api/v2/list_movies.json?sort=seeds&limit=5&query_term=" + str(movie_imdb_id))
+                                         "/api/v2/list_movies.json?quality=720p&quality=1080p&sort=seeds&limit=5&query_term=" +
+                                         str(movie_imdb_id))
         yts_movie = yts_movie_request.json()
     except requests.exceptions.ConnectionError as error:
         logger.error("requests connection error: %s", error)
