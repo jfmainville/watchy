@@ -5,7 +5,7 @@ import time
 import unidecode
 from datetime import date
 from tmdb import tmdb_authenticate, tmdb_extract_watchlist, tmdb_extract_movie_imdb_id, \
-    tmdb_extract_movie_release_dates, tmdb_extract_show_details
+    tmdb_extract_movie_release_dates, tmdb_extract_show_details, tmdb_remove_watchlist_movie
 from folder import create_content_folders, get_folder_content, move_content_file
 from yts import yts_extract_movie_torrent
 from eztv import eztv_extract_tv_show_episodes
@@ -148,6 +148,11 @@ def movie():
                                               content_download_folder=movies_download_directory,
                                               content_folder=movies_directory, content_title=None,
                                               return_code=return_code)
+                            # Remove the movie from the watchlist once it's downloaded
+                            tmdb_remove_watchlist_movie(tmdb_api_url=tmdb_api_url, tmdb_account_id=tmdb_account_id,
+                                                        tmdb_session_id=tmdb_session_id,
+                                                        tmdb_api_key=tmdb_api_key,
+                                                        tmdb_watchlist_movie=tmdb_watchlist_movie)
 
 
 def tv_show():
