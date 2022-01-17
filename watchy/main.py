@@ -31,7 +31,6 @@ tv_shows_download_directory = os.environ.get('TV_SHOW_DOWNLOAD_DIRECTORY')
 
 # TMDB API information
 eztv_url = os.environ.get('EZTV_URL')
-leet_url = os.environ.get('LEET_URL')
 yts_url = os.environ.get('YTS_URL')
 tmdb_api_url = os.environ.get('TMDB_API_URL')
 tmdb_username = os.environ.get('TMDB_USERNAME')
