@@ -51,11 +51,11 @@ def tmdb_authenticate(tmdb_api_url, tmdb_username, tmdb_password, tmdb_api_key):
                 "request_token": request_token
             }
             try:
-                tmdb_session_id = requests.post(tmdb_api_url +
-                                                "/3/authentication/session/new?api_key=" + tmdb_api_key,
-                                                params=request_token_payload,
-                                                headers=headers)
-                tmdb_session_id = tmdb_session_id.json()['session_id']
+                tmdb_session_id_data = requests.post(tmdb_api_url +
+                                                     "/3/authentication/session/new?api_key=" + tmdb_api_key,
+                                                     params=request_token_payload,
+                                                     headers=headers)
+                tmdb_session_id = tmdb_session_id_data.json()['session_id']
             except requests.exceptions.ConnectionError as error:
                 logger.error("requests connection error: %s", error)
             except requests.exceptions.Timeout as error:
