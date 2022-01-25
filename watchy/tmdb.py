@@ -184,7 +184,6 @@ def tmdb_extract_show_details(tmdb_api_url, tmdb_api_key, tmdb_show):
 
 def tmdb_remove_watchlist_movie(tmdb_api_url, tmdb_account_id, tmdb_session_id, tmdb_api_key, tmdb_watchlist_movie):
     # Remove the movie from the watchlist
-    # https://api.themoviedb.org/3/account/7998642/watchlist?api_key=6283426b8973d72a48d4dc2a2bdd2365&session_id=0af5e7aeb2baf2f6cb48f5ddc518f85248e8f6cc
 
     try:
         tmdb_movie_id = str(tmdb_watchlist_movie["id"])
