@@ -70,6 +70,28 @@ def tmdb_authenticate(tmdb_api_url, tmdb_username, tmdb_password, tmdb_api_key):
         return request_token
 
 
+def tmdb_remove_session(tmdb_api_url, tmdb_session_id, tmdb_api_key):
+    # Remove the TMDB session ID once the data extraction is completed
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    request_session_id = {
+        "session_id": tmdb_session_id
+    }
+
+    try:
+        requests.delete(tmdb_api_url +
+                        "/3/authentication/session?api_key=" + tmdb_api_key,
+                        params=request_session_id, headers=headers)
+    except requests.exceptions.ConnectionError as error:
+        logger.error("requests connection error: %s", error)
+    except requests.exceptions.Timeout as error:
+        logger.error("requests connection timeout: %s", error)
+    except requests.exceptions.HTTPError as error:
+        logger.error("requests HTTP error: %s", error)
+
+
 def tmdb_extract_watchlist(tmdb_api_url, tmdb_account_id, tmdb_session_id, tmdb_api_key, tmdb_watchlist_content_type):
     # Extract the list of content in the watchlist
     watchlist_content = None
