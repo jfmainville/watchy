@@ -4,7 +4,7 @@ import re
 import time
 import unidecode
 from datetime import date
-from tmdb import tmdb_authenticate, tmdb_extract_watchlist, tmdb_extract_movie_imdb_id, \
+from tmdb import tmdb_authenticate, tmdb_remove_session, tmdb_extract_watchlist, tmdb_extract_movie_imdb_id, \
     tmdb_extract_movie_release_dates, tmdb_extract_show_details, tmdb_remove_watchlist_movie
 from folder import create_content_folders, get_folder_content, move_content_file
 from yts import yts_extract_movie_torrent
@@ -239,3 +239,7 @@ elif args.tv:
     # Execute the TV show function
     if tmdb_session_id:
         tv_show()
+
+# Remove the session ID once all main method has completed
+tmdb_remove_session(tmdb_api_url=tmdb_api_url, tmdb_session_id=tmdb_session_id,
+                    tmdb_api_key=tmdb_api_key)
