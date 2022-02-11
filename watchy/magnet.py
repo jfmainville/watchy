@@ -12,7 +12,8 @@ def download_magnet_link(download_entry, download_directory, seeds_minimum_count
             logger.info(
                 "starting download for {0} (seeds_count={1})".format(download_entry["title"], download_entry["seeds"]))
             subprocess.check_output(
-                ["aria2c", "-d", download_directory, "--bt-stop-timeout=" + str(process_timeout - 100), "--seed-time=0",
+                ["aria2c", "-d", download_directory, "--disable-ipv6",
+                 "--bt-stop-timeout=" + str(process_timeout - 100), "--seed-time=0",
                  download_entry["magnet"]], timeout=process_timeout)
             return_code = 0
             logger.info("completed download for {0} (return_code={1})".format(download_entry["title"], return_code))
