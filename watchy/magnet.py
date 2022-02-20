@@ -4,7 +4,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def download_magnet_link(download_entry, download_directory, seeds_minimum_count, process_timeout):
+def download_magnet_link(download_entry, download_directory, seeds_minimum_count, process_timeout, vpn_username,
+                         vpn_listen_port, vpn_dht_listen_port):
     # Download the torrent file using the magnet link
     try:
         # Download only torrents that have a certain amount of seeds or more
@@ -12,9 +13,10 @@ def download_magnet_link(download_entry, download_directory, seeds_minimum_count
             logger.info(
                 "starting download for {0} (seeds_count={1})".format(download_entry["title"], download_entry["seeds"]))
             subprocess.check_output(
-                ["aria2c", "-d", download_directory, "--disable-ipv6",
+                ["sudo -u " + vpn_username + " -i --", "aria2c", "-d", download_directory, "--disable-ipv6",
+                 "--listen-port", vpn_listen_port, "--listen-dht-port", vpn_dht_listen_port,
                  "--bt-stop-timeout=" + str(process_timeout - 100), "--seed-time=0",
-                 download_entry["magnet"]], timeout=process_timeout)
+                 download_entry["magnet"]], timeout=process_timeout, shell=True)
             return_code = 0
             logger.info("completed download for {0} (return_code={1})".format(download_entry["title"], return_code))
             return return_code
