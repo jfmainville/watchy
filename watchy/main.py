@@ -144,7 +144,11 @@ def movie():
                             return_code = download_magnet_link(download_entry=download_movie,
                                                                download_directory=movies_download_directory,
                                                                seeds_minimum_count=seeds_minimum_count,
-                                                               process_timeout=process_timeout)
+                                                               process_timeout=process_timeout,
+                                                               vpn_username=vpn_username,
+                                                               vpn_listen_port=vpn_listen_port,
+                                                               vpn_dht_listen_port=vpn_dht_listen_port,
+                                                               )
                             # Move the movie download file to the movies directory
                             move_content_file(download_file=download_movie,
                                               content_download_folder=movies_download_directory,
@@ -226,7 +230,11 @@ def tv_show():
                     return_code = download_magnet_link(download_entry=download_tv_show,
                                                        download_directory=tv_shows_download_directory,
                                                        seeds_minimum_count=seeds_minimum_count,
-                                                       process_timeout=process_timeout)
+                                                       process_timeout=process_timeout,
+                                                       vpn_username=vpn_username,
+                                                       vpn_listen_port=vpn_listen_port,
+                                                       vpn_dht_listen_port=vpn_dht_listen_port,
+                                                       )
                     # Move the TV show download file to the TV shows directory
                     move_content_file(download_file=download_tv_show,
                                       content_download_folder=tv_shows_download_directory,
