@@ -37,6 +37,9 @@ tmdb_username = os.environ.get('TMDB_USERNAME')
 tmdb_password = os.environ.get('TMDB_PASSWORD')
 tmdb_api_key = os.environ.get('TMDB_API_KEY')
 tmdb_account_id = os.environ.get('TMDB_ACCOUNT_ID')
+vpn_username = os.environ.get('VPN_USERNAME')
+vpn_listen_port = os.environ.get('VPN_LISTEN_PORT')
+vpn_dht_listen_port = os.environ.get('VPN_DHT_LISTEN_PORT')
 
 # Torrent information
 seeds_minimum_count = int(os.environ.get('SEEDS_MINIMUM_COUNT'))
