@@ -17,8 +17,10 @@ def create_content_folders(content_folder, content_download_folder, content_titl
         content_download_folder_path = os.path.join(content_download_folder)
         if os.path.isdir(content_folder_path) is False:
             os.makedirs(content_folder_path)
+            os.chmod(path=content_folder_path, mode=0o777)
         if os.path.isdir(content_download_folder_path) is False:
             os.makedirs(content_download_folder_path)
+            os.chmod(path=content_download_folder_path, mode=0o777)
     except OSError as error:
         logger.error("error while creating the content folders: %s", error)
 
