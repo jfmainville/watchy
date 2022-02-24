@@ -2,6 +2,8 @@ import os
 import glob
 from fnmatch import fnmatch
 from shutil import move, rmtree
+import getpass
+import subprocess
 import logging
 
 logger = logging.getLogger(__name__)
@@ -67,6 +69,10 @@ def move_content_file(download_file, content_download_folder, content_folder, co
         content_download_file = max(content_download_files, key=lambda d: d['size'])
         # Move file only if the correct file is found with the right extension
         if content_download_file:
+            # Update the file owner to use the main user
+            current_user = getpass.getuser()
+            subprocess.check_output(
+                "sudo chown -R " + current_user + ":" + current_user + " " + content_download_folder, shell=True)
             # Update the file permissions
             os.chmod(path=content_download_file["path"], mode=0o777)
             # Move the content file to the content folder
