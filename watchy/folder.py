@@ -68,7 +68,7 @@ def move_content_file(download_file, content_download_folder, content_folder, co
         # Move file only if the correct file is found with the right extension
         if content_download_file:
             # Update the file permissions
-            os.chmod(path=content_download_file["path"], mode=0o775)
+            os.chmod(path=content_download_file["path"], mode=0o777)
             # Move the content file to the content folder
             if content_title is not None:
                 move(src=content_download_file["path"], dst=content_folder + "/" + content_title + "/" + download_file[
