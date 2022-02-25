@@ -38,6 +38,9 @@ The following environment variables needs to be set to use this application:
 | MOVIE_LOG_FILE             | Movie directory where the log file is located                                 | /var/log/watchy/movie.log        |
 | SEEDS_MINIMUM_COUNT        | Minimum amount of seeds required to start the download of the torrent file    | 3                                |
 | PROCESS_TIMEOUT            | Process timeout in seconds of the torrent file download command               | 3600                             |
+| VPN_USERNAME               | Username used for the VPN split tunnel connection                             | vpn                              |
+| TORRENT_LISTEN_PORT        | Torrent port to use for the torrent download connection                       | 7777                             |
+| TORRENT_DHT_LISTEN_PORT    | Torrent DHT port to use for the torrent download connection                   | 6800                             |
 
 ### Development
 
