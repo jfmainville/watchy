@@ -38,8 +38,8 @@ tmdb_password = os.environ.get('TMDB_PASSWORD')
 tmdb_api_key = os.environ.get('TMDB_API_KEY')
 tmdb_account_id = os.environ.get('TMDB_ACCOUNT_ID')
 vpn_username = os.environ.get('VPN_USERNAME')
-vpn_listen_port = os.environ.get('VPN_LISTEN_PORT')
-vpn_dht_listen_port = os.environ.get('VPN_DHT_LISTEN_PORT')
+torrent_listen_port = os.environ.get('TORRENT_LISTEN_PORT')
+torrent_dht_listen_port = os.environ.get('TORRENT_DHT_LISTEN_PORT')
 
 # Torrent information
 seeds_minimum_count = int(os.environ.get('SEEDS_MINIMUM_COUNT'))
@@ -146,8 +146,8 @@ def movie():
                                                                seeds_minimum_count=seeds_minimum_count,
                                                                process_timeout=process_timeout,
                                                                vpn_username=vpn_username,
-                                                               vpn_listen_port=vpn_listen_port,
-                                                               vpn_dht_listen_port=vpn_dht_listen_port,
+                                                               torrent_listen_port=torrent_listen_port,
+                                                               torrent_dht_listen_port=torrent_dht_listen_port,
                                                                )
                             # Move the movie download file to the movies directory
                             move_content_file(download_file=download_movie,
@@ -232,8 +232,8 @@ def tv_show():
                                                        seeds_minimum_count=seeds_minimum_count,
                                                        process_timeout=process_timeout,
                                                        vpn_username=vpn_username,
-                                                       vpn_listen_port=vpn_listen_port,
-                                                       vpn_dht_listen_port=vpn_dht_listen_port,
+                                                       torrent_listen_port=torrent_listen_port,
+                                                       torrent_dht_listen_port=torrent_dht_listen_port,
                                                        )
                     # Move the TV show download file to the TV shows directory
                     move_content_file(download_file=download_tv_show,
