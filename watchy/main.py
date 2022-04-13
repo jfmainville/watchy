@@ -181,7 +181,7 @@ def tv_show():
                 tmdb_show_id = (
                     tmdb_show_details["external_ids"]["imdb_id"]).replace("tt", "")
                 tmdb_show_name = re.sub('[^a-zA-Z0-9 \n]', '', unidecode.unidecode(tmdb_show["name"]))
-                # Create the local TV show directory if it doesn't already exists
+                # Create the local TV show directory if it doesn't already exist
                 create_content_folders(
                     content_folder=tv_shows_directory, content_download_folder=tv_shows_download_directory,
                     content_title=tmdb_show_name)
