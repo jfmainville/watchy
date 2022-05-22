@@ -178,7 +178,7 @@ def tv_show():
                                                           tmdb_api_key=tmdb_api_key, tmdb_show=tmdb_show)
 
             if tmdb_show_details:
-                tmdb_show_id = (
+                tmdb_show_imdb_id = (
                     tmdb_show_details["external_ids"]["imdb_id"]).replace("tt", "")
                 tmdb_show_name = re.sub('[^a-zA-Z0-9 \n]', '', unidecode.unidecode(tmdb_show["name"]))
                 # Create the local TV show directory if it doesn't already exist
