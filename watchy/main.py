@@ -189,7 +189,7 @@ def tv_show():
                 tv_show_directory_episodes = get_folder_content(
                     content_folder=tv_shows_directory, content_title=tmdb_show_name)
                 # Extract the list of the TV show episodes available on EZTV
-                eztv_shows = eztv_extract_tv_show_episodes(tmdb_show_id=tmdb_show_id, eztv_url=eztv_url)
+                eztv_shows = eztv_extract_tv_show_episodes(imdb_id=tmdb_show_imdb_id, eztv_url=eztv_url)
                 eztv_show_listdict = []
                 if eztv_shows:
                     for eztv_show in eztv_shows:

@@ -4,11 +4,11 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def eztv_extract_tv_show_episodes(eztv_url, tmdb_show_id):
+def eztv_extract_tv_show_episodes(eztv_url, imdb_id):
     # Extract the TV show episodes list from the EZTV API
     eztv_shows = None
     try:
-        eztv_shows_request = requests.get(eztv_url + "/api/get-torrents?imdb_id=" + tmdb_show_id)
+        eztv_shows_request = requests.get(eztv_url + "/api/get-torrents?imdb_id=" + imdb_id)
         eztv_shows = eztv_shows_request.json()
     except requests.exceptions.ConnectionError as error:
         logger.error("requests connection error: %s", error)
@@ -23,7 +23,7 @@ def eztv_extract_tv_show_episodes(eztv_url, tmdb_show_id):
         except KeyError:
             logger.error(
                 "error while extracting the TV show episodes list from the EZTV REST API, the IMDB ID %s doesn't exist",
-                tmdb_show_id)
+                imdb_id)
             pass
     else:
         logger.error(
