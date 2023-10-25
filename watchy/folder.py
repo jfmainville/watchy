@@ -1,10 +1,10 @@
-import os
-import glob
-from fnmatch import fnmatch
-from shutil import move, rmtree
 import getpass
-import subprocess
+import glob
 import logging
+import os
+import shutil
+import subprocess
+from fnmatch import fnmatch
 
 logger = logging.getLogger(__name__)
 
@@ -49,6 +49,16 @@ def get_folder_content(content_folder, content_title):
     return content_folder_episodes
 
 
+def delete_content_download_files(content_download_folder):
+    # Delete all the files under the content download folder
+    for filename in os.listdir(content_download_folder):
+        file_path = os.path.join(content_download_folder, filename)
+        if os.path.isfile(file_path) or os.path.islink(file_path):
+            os.unlink(file_path)
+        elif os.path.isdir(file_path):
+            shutil.rmtree(file_path)
+
+
 def move_content_file(download_file, content_download_folder, content_folder, content_title, return_code):
     # Move the downloaded file to their appropriate content folder
     if return_code == 0:
@@ -83,7 +93,7 @@ def move_content_file(download_file, content_download_folder, content_folder, co
                 move(src=content_download_file["path"],
                      dst=content_folder + "/" + download_file["title"] + "." + content_file_extension)
             # Remove all the files under the content download folder
-            rmtree(path=content_download_folder, ignore_errors=True)
+            delete_content_download_files(content_download_folder=content_download_folder)
     if return_code == 2:
         # Create an empty file with the *.timeout extension if the torrent took too long to download
         if content_title is not None:
@@ -91,7 +101,7 @@ def move_content_file(download_file, content_download_folder, content_folder, co
         else:
             open(file=os.path.join(content_folder, download_file["title"]) + ".timeout", mode='a')
         # Remove all the files under the content download folder
-        rmtree(path=content_download_folder, ignore_errors=True)
+        delete_content_download_files(content_download_folder=content_download_folder)
     if return_code == 7:
         # Create an empty file with the *.dead extension if the content torrent is unavailable
         if content_title is not None:
@@ -99,4 +109,4 @@ def move_content_file(download_file, content_download_folder, content_folder, co
         else:
             open(file=os.path.join(content_folder, download_file["title"]) + ".dead", mode='a')
         # Remove all the files under the content download folder
-        rmtree(path=content_download_folder, ignore_errors=True)
+        delete_content_download_files(content_download_folder=content_download_folder)
