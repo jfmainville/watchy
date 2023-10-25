@@ -12,9 +12,9 @@ purposes.
 The following applications need to be installed on the local computer in order to run the project locally:
 
 | Application | Minimum Version |                                       Link |
-| ----------- | :-------------: | -----------------------------------------: |
-| Python      |     3.7.3 +     |  [Link](https://www.python.org/downloads/) |
-| Docker      |    18.09.2 +    | [Link](https://www.docker.com/get-started) |
+|-------------|:---------------:|-------------------------------------------:|
+| Python      |    3.10.12 +    |  [Link](https://www.python.org/downloads/) |
+| Docker      |    24.0.5 +     | [Link](https://www.docker.com/get-started) |
 
 ### Environment Variables
 
