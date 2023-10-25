@@ -42,6 +42,15 @@ The following environment variables needs to be set to use this application:
 | TORRENT_LISTEN_PORT        | Torrent port to use for the torrent download connection                       | 7777                             |
 | TORRENT_DHT_LISTEN_PORT    | Torrent DHT port to use for the torrent download connection                   | 6800                             |
 
+### Usage
+
+There are two commands with different arguments that are available to run depending on the TMDB Watchlist type:
+
+| TMDB Watchlist Type | Command                   |
+|:--------------------|:--------------------------|
+| TV Show             | `python3 main.py --tv`    |
+| Movie               | `python3 main.py --movie` |
+
 ### Development
 
 Once you installed all the required prerequisites, you can now proceed with the deployment of the development
