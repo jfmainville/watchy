@@ -87,11 +87,12 @@ def move_content_file(download_file, content_download_folder, content_folder, co
             os.chmod(path=content_download_file["path"], mode=0o777)
             # Move the content file to the content folder
             if content_title is not None:
-                move(src=content_download_file["path"], dst=content_folder + "/" + content_title + "/" + download_file[
+                shutil.move(src=content_download_file["path"],
+                            dst=content_folder + "/" + content_title + "/" + download_file[
                     "title"] + "." + content_file_extension)
             else:
-                move(src=content_download_file["path"],
-                     dst=content_folder + "/" + download_file["title"] + "." + content_file_extension)
+                shutil.move(src=content_download_file["path"],
+                            dst=content_folder + "/" + download_file["title"] + "." + content_file_extension)
             # Remove all the files under the content download folder
             delete_content_download_files(content_download_folder=content_download_folder)
     if return_code == 2:
