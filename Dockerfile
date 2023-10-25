@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 WORKDIR /app/watchy
 COPY ./requirements /app/watchy/requirements
 COPY ./watchy /app/watchy/watchy
