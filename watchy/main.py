@@ -1,18 +1,20 @@
-import os
-import sys
-import re
-import time
-import unidecode
-from datetime import date
-from tmdb import tmdb_authenticate, tmdb_remove_session, tmdb_extract_watchlist, tmdb_extract_movie_imdb_id, \
-    tmdb_extract_movie_release_dates, tmdb_extract_show_details, tmdb_remove_watchlist_movie
-from folder import create_content_folders, get_folder_content, move_content_file
-from yts import yts_extract_movie_torrent
-from eztv import eztv_extract_tv_show_episodes
-from magnet import download_magnet_link
-from dotenv import load_dotenv, find_dotenv
 import argparse
 import logging
+import os
+import re
+import sys
+import time
+from datetime import date
+
+import unidecode
+from dotenv import load_dotenv, find_dotenv
+
+from eztv import eztv_extract_tv_show_episodes
+from folder import create_content_folders, get_folder_content, move_content_file
+from magnet import download_magnet_link
+from tmdb import tmdb_authenticate, tmdb_remove_session, tmdb_extract_watchlist, tmdb_extract_movie_imdb_id, \
+    tmdb_extract_movie_release_dates, tmdb_extract_show_details, tmdb_remove_watchlist_movie
+from yts import yts_extract_movie_torrent
 
 in_docker = os.environ.get('IN_DOCKER')
 
@@ -124,7 +126,8 @@ def movie():
                 # Check if the DVD release date is earlier than today
                 if tmdb_movie_dvd_release_date_convert < today:
                     # Extract the YTS seeds magnet link for each movie
-                    seeds, magnet_link = yts_extract_movie_torrent(movie_imdb_id=tmdb_movie_imdb_id, yts_url=yts_url)
+                    seeds, magnet_link = yts_extract_movie_torrent(movie_imdb_id=tmdb_movie_imdb_id,
+                                                                   movie_title=tmdb_movie_title, yts_url=yts_url)
 
                     if seeds and magnet_link:
                         # Movie dictionary that contains the required movie information in order to download it
