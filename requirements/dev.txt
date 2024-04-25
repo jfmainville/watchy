@@ -1,3 +1,0 @@
--r base.txt
-
-ptvsd==3.0.0
