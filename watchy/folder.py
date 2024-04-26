@@ -88,14 +88,18 @@ def move_content_file(download_file, content_download_folder, content_folder, co
             os.chmod(path=content_download_file["path"], mode=0o777)
             # Move the content file to the content folder
             if content_title is not None and content_file_extension is not None:
+                # Move the TV show file to the content folder
+                destination_path = os.path.join(content_folder, content_title, download_file["title"]) + "." + content_file_extension
                 shutil.move(src=content_download_file["path"],
-                            dst=content_folder + "/" + content_title + "/" + download_file[
-                    "title"] + "." + content_file_extension)
+                            dst=content_folder + "/" + content_title + "/" + download_file["title"] + "." + content_file_extension)
             else:
-                shutil.move(src=content_download_file["path"],
-                            dst=content_folder + "/" + download_file["title"] + "." + content_file_extension)
+                # Move the movie file to the content folder
+                destination_path = os.path.join(content_folder, download_file["title"]) + "." + content_file_extension
+                shutil.move(src=content_download_file["path"], dst=destination_path)
             # Remove all the files under the content download folder
             delete_content_download_files(content_download_folder=content_download_folder)
+
+            return destination_path
     if return_code == 2:
         # Create an empty file with the *.timeout extension if the torrent took too long to download
         if content_title is not None and content_file_extension is not None:
