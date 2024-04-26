@@ -106,3 +106,30 @@ def test_move_content_file_tv_show(tmpdir, monkeypatch):
     )
 
     assert destination_path == os.path.join(content_folder, content_title, content_file)
+
+
+def test_move_content_file_download_timeout(tmpdir, monkeypatch):
+    download_file = {"title": "The Creator (2023)"}
+    content_folder = tmpdir.mkdir("Movies")
+    content_download_folder = tmpdir.mkdir("Downloads")
+    content_file = "The Creator (2023).timeout"
+    content_title = None
+
+    content_download_folder.join(content_file).write("")
+
+    def mock_chmod_check_output(command, **kwargs):
+        return b"mock chmod permission change"
+
+    # Fake the change of folder to the content folder
+    monkeypatch.setattr(subprocess, "check_output", mock_chmod_check_output)
+
+    return_code = 2
+    destination_path = move_content_file(
+        download_file,
+        str(content_download_folder),
+        content_folder,
+        content_title,
+        return_code,
+    )
+
+    assert destination_path == os.path.join(content_folder, content_file)
