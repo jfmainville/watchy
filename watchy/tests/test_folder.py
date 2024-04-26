@@ -56,3 +56,23 @@ def test_move_content_file_movie(tmpdir, monkeypatch):
     destination_path = move_content_file(download_file, str(content_download_folder), content_folder, content_title, return_code)
 
     assert destination_path == os.path.join(content_folder, content_file)
+
+def test_move_content_file_tv_show(tmpdir, monkeypatch):
+    download_file = {"title": "Last Week Tonight With John Oliver S01E01"}
+    content_folder = tmpdir.mkdir("TV Shows")
+    content_download_folder = tmpdir.mkdir("Downloads")
+    content_file = "Last Week Tonight With John Oliver S01E01.mp4"
+    content_title = "Last Week Tonight With John Oliver"
+
+    content_download_folder.join(content_file).write("")
+
+    def mock_chmod_check_output(command, **kwargs):
+        return b"mock chmod permission change"
+
+    # Fake the change of folder to the content folder
+    monkeypatch.setattr(subprocess, "check_output", mock_chmod_check_output)
+
+    return_code = 0
+    destination_path = move_content_file(download_file, str(content_download_folder), content_folder, content_title, return_code)
+
+    assert destination_path == os.path.join(content_folder, content_title, content_file)
