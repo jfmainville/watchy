@@ -40,8 +40,7 @@ def get_folder_content(content_folder, content_title):
     if os.path.isdir(content_folder_path):
         # Extract all the files with the required extensions
         for file_extension in file_extensions:
-            content_folder_episodes_extension.extend(
-                glob.glob(file_extension))
+            content_folder_episodes_extension.extend(glob.glob(file_extension))
         # Export the content file name only without the extension
         for content_folder_episode_extension in content_folder_episodes_extension:
             split_text = os.path.splitext(content_folder_episode_extension)[0]
@@ -59,7 +58,9 @@ def delete_content_download_files(content_download_folder):
             shutil.rmtree(file_path)
 
 
-def move_content_file(download_file, content_download_folder, content_folder, content_title, return_code):
+def move_content_file(
+    download_file, content_download_folder, content_folder, content_title, return_code
+):
     # Move the downloaded file to their appropriate content folder
     content_file_extension = None
     if return_code == 0:
@@ -72,42 +73,74 @@ def move_content_file(download_file, content_download_folder, content_folder, co
                 for file_extension in file_extensions:
                     if fnmatch(name, file_extension):
                         content_file_extension = file_extension.split(".")[1]
-                        content_download_files.append({
-                            "path": os.path.join(path, name),
-                            "size": os.path.getsize(os.path.join(path, name))
-                        })
+                        content_download_files.append(
+                            {
+                                "path": os.path.join(path, name),
+                                "size": os.path.getsize(os.path.join(path, name)),
+                            }
+                        )
         # Extract the largest content file from the list
-        content_download_file = max(content_download_files, key=lambda d: d['size'])
+        content_download_file = max(content_download_files, key=lambda d: d["size"])
         # Move file only if the correct file is found with the right extension
         if content_download_file:
             # Update the file owner to use the main user
             current_user = getpass.getuser()
             subprocess.check_output(
-                "sudo chown -R " + current_user + ":" + current_user + " " + content_download_folder, shell=True)
+                "sudo chown -R "
+                + current_user
+                + ":"
+                + current_user
+                + " "
+                + content_download_folder,
+                shell=True,
+            )
             # Update the file permissions
             os.chmod(path=content_download_file["path"], mode=0o777)
             # Move the content file to the content folder
             if content_title is not None and content_file_extension is not None:
                 # Move the TV show file to the content folder
-                destination_path = os.path.join(content_folder, content_title, download_file["title"]) + "." + content_file_extension
-                shutil.move(src=content_download_file["path"],
-                            dst=content_folder + "/" + content_title + "/" + download_file["title"] + "." + content_file_extension)
+                destination_path = (
+                    os.path.join(content_folder, content_title, download_file["title"])
+                    + "."
+                    + content_file_extension
+                )
+                shutil.move(
+                    src=content_download_file["path"],
+                    dst=content_folder
+                    + "/"
+                    + content_title
+                    + "/"
+                    + download_file["title"]
+                    + "."
+                    + content_file_extension,
+                )
             else:
                 # Move the movie file to the content folder
-                destination_path = os.path.join(content_folder, download_file["title"]) + "." + content_file_extension
+                destination_path = (
+                    os.path.join(content_folder, download_file["title"])
+                    + "."
+                    + content_file_extension
+                )
                 shutil.move(src=content_download_file["path"], dst=destination_path)
             # Remove all the files under the content download folder
-            delete_content_download_files(content_download_folder=content_download_folder)
+            delete_content_download_files(
+                content_download_folder=content_download_folder
+            )
 
             return destination_path
     if return_code == 2:
         # Create an empty file with the *.timeout extension if the torrent took too long to download
         if content_title is not None and content_file_extension is not None:
-            destination_path = os.path.join(content_folder, content_title, download_file["title"]) + ".timeout"
-            open(file=destination_path, mode='a')
+            destination_path = (
+                os.path.join(content_folder, content_title, download_file["title"])
+                + ".timeout"
+            )
+            open(file=destination_path, mode="a")
         else:
-            destination_path = os.path.join(content_folder, download_file["title"]) + ".timeout"
-            open(file=destination_path, mode='a')
+            destination_path = (
+                os.path.join(content_folder, download_file["title"]) + ".timeout"
+            )
+            open(file=destination_path, mode="a")
         # Remove all the files under the content download folder
         delete_content_download_files(content_download_folder=content_download_folder)
 
@@ -115,12 +148,17 @@ def move_content_file(download_file, content_download_folder, content_folder, co
     if return_code == 7:
         # Create an empty file with the *.dead extension if the content torrent is unavailable
         if content_title is not None:
-            destination_path = os.path.join(content_folder, content_title, download_file["title"]) + ".dead"
-            open(file=destination_path, mode='a')
+            destination_path = (
+                os.path.join(content_folder, content_title, download_file["title"])
+                + ".dead"
+            )
+            open(file=destination_path, mode="a")
         else:
-            destination_path = os.path.join(content_folder, download_file["title"]) + ".dead"
-            open(file=destination_path, mode='a')
+            destination_path = (
+                os.path.join(content_folder, download_file["title"]) + ".dead"
+            )
+            open(file=destination_path, mode="a")
         # Remove all the files under the content download folder
         delete_content_download_files(content_download_folder=content_download_folder)
-        
+
         return destination_path
