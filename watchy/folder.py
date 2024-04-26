@@ -61,6 +61,7 @@ def delete_content_download_files(content_download_folder):
 
 def move_content_file(download_file, content_download_folder, content_folder, content_title, return_code):
     # Move the downloaded file to their appropriate content folder
+    content_file_extension = None
     if return_code == 0:
         # Move the downloaded content file to the content folder
         file_extensions = ("*.mp4", "*.avi", "*.mkv")
@@ -86,7 +87,7 @@ def move_content_file(download_file, content_download_folder, content_folder, co
             # Update the file permissions
             os.chmod(path=content_download_file["path"], mode=0o777)
             # Move the content file to the content folder
-            if content_title is not None:
+            if content_title is not None and content_file_extension is not None:
                 shutil.move(src=content_download_file["path"],
                             dst=content_folder + "/" + content_title + "/" + download_file[
                     "title"] + "." + content_file_extension)
@@ -97,7 +98,7 @@ def move_content_file(download_file, content_download_folder, content_folder, co
             delete_content_download_files(content_download_folder=content_download_folder)
     if return_code == 2:
         # Create an empty file with the *.timeout extension if the torrent took too long to download
-        if content_title is not None:
+        if content_title is not None and content_file_extension is not None:
             open(file=os.path.join(content_folder, content_title, download_file["title"]) + ".timeout", mode='a')
         else:
             open(file=os.path.join(content_folder, download_file["title"]) + ".timeout", mode='a')
