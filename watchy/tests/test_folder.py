@@ -1,5 +1,4 @@
 import os
-import pytest
 from ..folder import create_content_folders, get_folder_content, delete_content_download_files, move_content_file
 
 def test_create_content_folders(tmpdir):
