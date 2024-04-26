@@ -1,4 +1,5 @@
 import os
+import subprocess
 from ..folder import create_content_folders, get_folder_content, delete_content_download_files, move_content_file
 
 def test_create_content_folders(tmpdir):
@@ -36,3 +37,22 @@ def test_delete_content_download_files(tmpdir):
     
     assert content_download_folder_status == None
 
+def test_move_content_file_movie(tmpdir, monkeypatch):
+    download_file = {"title": "The Creator (2023)"}
+    content_folder = tmpdir.mkdir("Movies")
+    content_download_folder = tmpdir.mkdir("Downloads")
+    content_file = "The Creator (2023).mp4"
+    content_title = None
+
+    content_download_folder.join(content_file).write("")
+
+    def mock_chmod_check_output(command, **kwargs):
+        return b"mock chmod permission change"
+
+    # Fake the change of folder to the content folder
+    monkeypatch.setattr(subprocess, "check_output", mock_chmod_check_output)
+
+    return_code = 0
+    destination_path = move_content_file(download_file, str(content_download_folder), content_folder, content_title, return_code)
+
+    assert destination_path == os.path.join(content_folder, content_file)
