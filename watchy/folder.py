@@ -103,16 +103,24 @@ def move_content_file(download_file, content_download_folder, content_folder, co
     if return_code == 2:
         # Create an empty file with the *.timeout extension if the torrent took too long to download
         if content_title is not None and content_file_extension is not None:
-            open(file=os.path.join(content_folder, content_title, download_file["title"]) + ".timeout", mode='a')
+            destination_path = os.path.join(content_folder, content_title, download_file["title"]) + ".timeout"
+            open(file=destination_path, mode='a')
         else:
-            open(file=os.path.join(content_folder, download_file["title"]) + ".timeout", mode='a')
+            destination_path = os.path.join(content_folder, download_file["title"]) + ".timeout"
+            open(file=destination_path, mode='a')
         # Remove all the files under the content download folder
         delete_content_download_files(content_download_folder=content_download_folder)
+
+        return destination_path
     if return_code == 7:
         # Create an empty file with the *.dead extension if the content torrent is unavailable
         if content_title is not None:
-            open(file=os.path.join(content_folder, content_title, download_file["title"]) + ".dead", mode='a')
+            destination_path = os.path.join(content_folder, content_title, download_file["title"]) + ".dead"
+            open(file=destination_path, mode='a')
         else:
-            open(file=os.path.join(content_folder, download_file["title"]) + ".dead", mode='a')
+            destination_path = os.path.join(content_folder, download_file["title"]) + ".dead"
+            open(file=destination_path, mode='a')
         # Remove all the files under the content download folder
         delete_content_download_files(content_download_folder=content_download_folder)
+        
+        return destination_path
