@@ -178,7 +178,7 @@ typings/
 pyvenv.cfg
 .venv
 pip-selfcheck.json
-.idea\
+.idea
 
 # VS Code
 .vscode
