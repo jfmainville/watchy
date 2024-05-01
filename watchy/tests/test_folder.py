@@ -212,6 +212,6 @@ def test_cleanup_folder_content_tv_show(request, tmpdir, monkeypatch):
     monkeypatch.chdir(request.fspath.dirname)
 
     cleanup_content_files = cleanup_folder_content(content_folder, content_cleanup_days)
-    print("cleanup", cleanup_content_files)
+
     assert content_folder_file_path in cleanup_content_files
 
