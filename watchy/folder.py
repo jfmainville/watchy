@@ -166,7 +166,7 @@ def move_content_file(
         return destination_path
 
 
-def cleanup_folder_content(content_folder, content_cleanup_days):
+def cleanup_content_folder(content_folder, content_cleanup_days):
     """Cleanup content older than a specific date"""
     os.chdir(content_folder)
     deleted_content_files = []

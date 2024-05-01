@@ -3,7 +3,7 @@ import time
 import datetime
 import subprocess
 from ..folder import (
-    cleanup_folder_content,
+    cleanup_content_folder,
     create_content_folders,
     get_folder_content,
     delete_content_download_files,
@@ -187,7 +187,7 @@ def test_cleanup_folder_content_movie(request, tmpdir, monkeypatch):
     # Fake the change of folder to the content folder
     monkeypatch.chdir(request.fspath.dirname)
 
-    cleanup_content_files = cleanup_folder_content(content_folder, content_cleanup_days)
+    cleanup_content_files = cleanup_content_folder(content_folder, content_cleanup_days)
     
     for content_file in content_files: 
         assert os.path.join(content_folder, content_file) in cleanup_content_files
@@ -211,7 +211,7 @@ def test_cleanup_folder_content_tv_show(request, tmpdir, monkeypatch):
     # Fake the change of folder to the content folder
     monkeypatch.chdir(request.fspath.dirname)
 
-    cleanup_content_files = cleanup_folder_content(content_folder, content_cleanup_days)
+    cleanup_content_files = cleanup_content_folder(content_folder, content_cleanup_days)
 
     assert content_folder_file_path in cleanup_content_files
 
