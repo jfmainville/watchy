@@ -164,3 +164,33 @@ def move_content_file(
         delete_content_download_files(content_download_folder=content_download_folder)
 
         return destination_path
+
+
+def cleanup_folder_content(content_folder):
+    """Cleanup content older than a specific date"""
+    os.chdir(content_folder)
+    deleted_content_files = []
+    today_date = datetime.datetime.now()
+    # TODO: Update the days to use the environment variable
+    date_delta = today_date - datetime.timedelta(days=90)
+
+    specific_date = time.mktime(
+        (date_delta.year, date_delta.month, date_delta.day, 0, 0, 0, 0, 0, 0)
+    )
+    # List to store the older files
+    for path, subdirs, files in os.walk(content_folder):
+        for name in files:
+            file_path = os.path.join(path, name)
+            print("before", file_path)
+            file_modification_time = os.path.getmtime(file_path)
+
+            # Delete content files that are older than a specific time period
+            if file_modification_time < specific_date:
+                try:
+                    print("main", file_path)
+                    os.remove(file_path)
+                    deleted_content_files.append(file_path)
+                except:
+                    print("error")
+                    logger.error("unable to delete the following file: %s", file_path)
+    return deleted_content_files
