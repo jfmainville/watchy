@@ -166,13 +166,12 @@ def move_content_file(
         return destination_path
 
 
-def cleanup_folder_content(content_folder):
+def cleanup_folder_content(content_folder, content_cleanup_days):
     """Cleanup content older than a specific date"""
     os.chdir(content_folder)
     deleted_content_files = []
     today_date = datetime.datetime.now()
-    # TODO: Update the days to use the environment variable
-    date_delta = today_date - datetime.timedelta(days=90)
+    date_delta = today_date - datetime.timedelta(days=content_cleanup_days)
 
     specific_date = time.mktime(
         (date_delta.year, date_delta.month, date_delta.day, 0, 0, 0, 0, 0, 0)
