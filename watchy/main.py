@@ -53,6 +53,7 @@ torrent_dht_listen_port = os.environ.get("TORRENT_DHT_LISTEN_PORT")
 # Torrent information
 seeds_minimum_count = os.environ.get("SEEDS_MINIMUM_COUNT")
 process_timeout = os.environ.get("PROCESS_TIMEOUT")
+content_cleanup_days = os.environ.get("CONTENT_CLEANUP_DAYS")
 
 # Logging information
 debug_level = os.environ.get("DEBUG_LEVEL")
