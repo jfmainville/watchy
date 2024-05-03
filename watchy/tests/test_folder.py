@@ -164,7 +164,7 @@ def test_move_content_file_download_dead(tmpdir, monkeypatch):
 
     assert destination_path == os.path.join(content_folder, content_file)
 
-def test_cleanup_folder_content_movie(request, tmpdir, monkeypatch):
+def test_cleanup_content_folder_movie(request, tmpdir, monkeypatch):
     content_cleanup_days = 90
     content_folder = tmpdir.mkdir("Movies")
     content_files = [
@@ -193,7 +193,7 @@ def test_cleanup_folder_content_movie(request, tmpdir, monkeypatch):
         assert os.path.join(content_folder, content_file) in cleanup_content_files
 
 
-def test_cleanup_folder_content_tv_show(request, tmpdir, monkeypatch):
+def test_cleanup_content_folder_tv_show(request, tmpdir, monkeypatch):
     content_cleanup_days = 90
     content_file = "Last Week Tonight With John Oliver S01E01.mp4"
     content_title = "Last Week Tonight With John Oliver"
@@ -216,7 +216,7 @@ def test_cleanup_folder_content_tv_show(request, tmpdir, monkeypatch):
     assert content_folder_file_path in cleanup_content_files
 
 
-def test_cleanup_folder_content_not_old_enough(request, tmpdir, monkeypatch):
+def test_cleanup_content_folder_not_old_enough(request, tmpdir, monkeypatch):
     content_cleanup_days = 90
     content_file = "Last Week Tonight With John Oliver S01E01.mp4"
     content_title = "Last Week Tonight With John Oliver"
