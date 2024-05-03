@@ -171,7 +171,7 @@ def cleanup_content_folder(content_folder, content_cleanup_days):
     os.chdir(content_folder)
     deleted_content_files = []
     today_date = datetime.datetime.now()
-    date_delta = today_date - datetime.timedelta(days=content_cleanup_days)
+    date_delta = today_date - datetime.timedelta(days=int(content_cleanup_days))
 
     specific_date = time.mktime(
         (date_delta.year, date_delta.month, date_delta.day, 0, 0, 0, 0, 0, 0)

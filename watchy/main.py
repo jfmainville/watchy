@@ -10,7 +10,12 @@ import unidecode
 from dotenv import load_dotenv, find_dotenv
 
 from eztv import eztv_extract_tv_show_episodes
-from folder import create_content_folders, get_folder_content, move_content_file
+from folder import (
+    cleanup_content_folder,
+    create_content_folders,
+    get_folder_content,
+    move_content_file,
+)
 from magnet import download_magnet_link
 from tmdb import (
     tmdb_authenticate,
@@ -212,6 +217,11 @@ def movie():
                                 content_title=None,
                                 return_code=return_code,
                             )
+                            # Cleanup TV shows content that is older than a certain date
+                            cleanup_content_folder(
+                                content_folder=movies_directory,
+                                content_cleanup_days=content_cleanup_days,
+                            )
                             # Remove the movie from the watchlist once it's downloaded
                             tmdb_remove_watchlist_movie(
                                 tmdb_api_url=tmdb_api_url,
@@ -333,6 +343,11 @@ def tv_show():
                         content_folder=tv_shows_directory,
                         content_title=tmdb_show_name,
                         return_code=return_code,
+                    )
+                    # Cleanup TV shows content that is older than a certain date
+                    cleanup_content_folder(
+                        content_folder=tv_shows_directory,
+                        content_cleanup_days=content_cleanup_days,
                     )
 
 
