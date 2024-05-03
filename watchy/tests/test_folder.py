@@ -215,3 +215,25 @@ def test_cleanup_folder_content_tv_show(request, tmpdir, monkeypatch):
 
     assert content_folder_file_path in cleanup_content_files
 
+
+def test_cleanup_folder_content_not_old_enough(request, tmpdir, monkeypatch):
+    content_cleanup_days = 90
+    content_file = "Last Week Tonight With John Oliver S01E01.mp4"
+    content_title = "Last Week Tonight With John Oliver"
+    content_folder = tmpdir.mkdir("TV Shows")
+    content_folder.mkdir(content_title)
+
+    today_date = datetime.datetime.now()
+    date_delta = today_date - datetime.timedelta(days=content_cleanup_days)
+    custom_creation_date = time.mktime((date_delta.year, date_delta.month, date_delta.day, 0, 0, 0, 0, 0, 0))
+
+    content_folder.join(content_title, content_file).write("")
+    content_folder_file_path = os.path.join(content_folder, content_title, content_file)
+    os.utime(content_folder_file_path, times=(custom_creation_date, custom_creation_date))
+
+    # Fake the change of folder to the content folder
+    monkeypatch.chdir(request.fspath.dirname)
+
+    cleanup_content_files = cleanup_content_folder(content_folder, content_cleanup_days)
+
+    assert cleanup_content_files == []
