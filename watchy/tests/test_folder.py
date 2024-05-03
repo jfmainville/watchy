@@ -176,7 +176,7 @@ def test_cleanup_folder_content_movie(request, tmpdir, monkeypatch):
     ]
 
     today_date = datetime.datetime.now()
-    date_delta = today_date - datetime.timedelta(days=180)
+    date_delta = today_date - datetime.timedelta(days=content_cleanup_days * 2)
     custom_creation_date = time.mktime((date_delta.year, date_delta.month, date_delta.day, 0, 0, 0, 0, 0, 0))
 
     for content_file in content_files:
@@ -201,7 +201,7 @@ def test_cleanup_folder_content_tv_show(request, tmpdir, monkeypatch):
     content_folder.mkdir(content_title)
 
     today_date = datetime.datetime.now()
-    date_delta = today_date - datetime.timedelta(days=180)
+    date_delta = today_date - datetime.timedelta(days=content_cleanup_days * 2)
     custom_creation_date = time.mktime((date_delta.year, date_delta.month, date_delta.day, 0, 0, 0, 0, 0, 0))
 
     content_folder.join(content_title, content_file).write("")
