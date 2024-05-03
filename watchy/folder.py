@@ -80,7 +80,12 @@ def move_content_file(
                             }
                         )
         # Extract the largest content file from the list
-        content_download_file = max(content_download_files, key=lambda d: d["size"])
+        try:
+            content_download_file = max(content_download_files, key=lambda d: d["size"])
+        except ValueError:
+            error_message = "Unable to move the content as the download directory is empty"
+            logger.error(error_message)
+            raise ValueError(error_message)
         # Move file only if the correct file is found with the right extension
         if content_download_file:
             # Update the file owner to use the main user
