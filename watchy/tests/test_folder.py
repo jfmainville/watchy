@@ -1,3 +1,4 @@
+import pytest
 import os
 import subprocess
 from ..folder import (
@@ -6,7 +7,6 @@ from ..folder import (
     delete_content_download_files,
     move_content_file,
 )
-
 
 def test_create_content_folders(tmpdir):
     content_folder = tmpdir.mkdir("Movies")
@@ -133,6 +133,31 @@ def test_move_content_file_download_timeout(tmpdir, monkeypatch):
     )
 
     assert destination_path == os.path.join(content_folder, content_file)
+
+
+def test_move_content_file_download_no_file(tmpdir, monkeypatch):
+    download_file = {"title": "The Creator (2023)"}
+    content_folder = tmpdir.mkdir("Movies")
+    content_download_folder = tmpdir.mkdir("Downloads")
+    content_title = None
+
+    def mock_chmod_check_output(command, **kwargs):
+        return b"mock chmod permission change"
+
+    # Fake the change of folder to the content folder
+    monkeypatch.setattr(subprocess, "check_output", mock_chmod_check_output)
+
+    return_code = 0
+    with pytest.raises(ValueError) as exception:  
+        move_content_file(
+            download_file,
+            str(content_download_folder),
+            content_folder,
+            content_title,
+            return_code,
+        )
+
+    assert str(exception.value) == "Unable to move the content as the download directory is empty"
 
 
 def test_move_content_file_download_dead(tmpdir, monkeypatch):
