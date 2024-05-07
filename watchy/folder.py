@@ -187,6 +187,7 @@ def cleanup_content_folder(content_folder, content_cleanup_days):
                 try:
                     os.remove(file_path)
                     deleted_content_files.append(file_path)
+                    logger.info("successfully completed the deletion of the following file: %s", file_path)
                 except:
                     logger.error("unable to delete the following file: %s", file_path)
     return deleted_content_files
