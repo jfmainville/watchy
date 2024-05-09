@@ -206,6 +206,7 @@ def tmdb_extract_show_details(tmdb_api_url, tmdb_api_key, tmdb_show):
 
 def tmdb_remove_watchlist_movie(tmdb_api_url, tmdb_account_id, tmdb_session_id, tmdb_api_key, tmdb_watchlist_movie):
     # Remove the movie from the watchlist
+    movie_watchlist_status = None
 
     try:
         tmdb_movie_id = str(tmdb_watchlist_movie["id"])
@@ -217,16 +218,16 @@ def tmdb_remove_watchlist_movie(tmdb_api_url, tmdb_account_id, tmdb_session_id, 
         movie_watchlist_status = requests.post(
             tmdb_api_url + "/3/account/" + tmdb_account_id + "/watchlist?api_key=" + tmdb_api_key + "&session_id=" + tmdb_session_id,
             json=tmdb_movie_data)
-        print(movie_watchlist_status)
     except requests.exceptions.ConnectionError as error:
         logger.error("requests connection error: %s", error)
     except requests.exceptions.Timeout as error:
         logger.error("requests connection timeout: %s", error)
     except requests.exceptions.HTTPError as error:
         logger.error("requests HTTP error: %s", error)
-    if movie_watchlist_status.status_code == 200:
-        logger.info("successfully removed the movie %s from the watchlist",
-                    tmdb_watchlist_movie["title"])
-    else:
-        logger.error("failed to remove the movie %s from the watchlist",
-                     tmdb_watchlist_movie["title"])
+    if movie_watchlist_status:
+        if movie_watchlist_status.status_code == 200:
+            logger.info("successfully removed the movie %s from the watchlist",
+                        tmdb_watchlist_movie["title"])
+        else:
+            logger.error("failed to remove the movie %s from the watchlist",
+                         tmdb_watchlist_movie["title"])
