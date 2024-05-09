@@ -217,7 +217,6 @@ def tmdb_remove_watchlist_movie(tmdb_api_url, tmdb_account_id, tmdb_session_id, 
         movie_watchlist_status = requests.post(
             tmdb_api_url + "/3/account/" + tmdb_account_id + "/watchlist?api_key=" + tmdb_api_key + "&session_id=" + tmdb_session_id,
             json=tmdb_movie_data)
-        print(movie_watchlist_status)
     except requests.exceptions.ConnectionError as error:
         logger.error("requests connection error: %s", error)
     except requests.exceptions.Timeout as error:
