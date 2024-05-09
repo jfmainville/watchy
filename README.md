@@ -12,7 +12,7 @@ purposes.
 The following applications need to be installed on the local computer in order to run the project locally:
 
 | Application | Minimum Version |                                       Link |
-|-------------|:---------------:|-------------------------------------------:|
+| ----------- | :-------------: | -----------------------------------------: |
 | Python      |    3.10.12 +    |  [Link](https://www.python.org/downloads/) |
 | Docker      |    24.0.5 +     | [Link](https://www.docker.com/get-started) |
 
@@ -21,7 +21,7 @@ The following applications need to be installed on the local computer in order t
 The following environment variables needs to be set to use this application:
 
 | Name                       | Description                                                                   | Example                          |
-|----------------------------|:------------------------------------------------------------------------------|:---------------------------------|
+| -------------------------- | :---------------------------------------------------------------------------- | :------------------------------- |
 | EZTV_URL                   | EZTV URL to use to extract the list of TV shows to download                   | https://eztv.re                  |
 | YTS_URL                    | LEET URL to use to extract the list of movies that are available              | https://yts.mx                   |
 | TMDB_API_URL               | TMDB API URL to use to extract the required data for the movies and TV shows  | https://api.themoviedb.org       |
@@ -41,13 +41,14 @@ The following environment variables needs to be set to use this application:
 | VPN_USERNAME               | Username used for the VPN split tunnel connection                             | vpn                              |
 | TORRENT_LISTEN_PORT        | Torrent port to use for the torrent download connection                       | 7777                             |
 | TORRENT_DHT_LISTEN_PORT    | Torrent DHT port to use for the torrent download connection                   | 6800                             |
+| CONTENT_CLEANUP_DAYS       | Amount of days to wait before the content is deleted                          | 90                               |
 
 ### Usage
 
 There are two commands with different arguments that are available to run depending on the TMDB Watchlist type:
 
 | TMDB Watchlist Type | Command                   |
-|:--------------------|:--------------------------|
+| :------------------ | :------------------------ |
 | TV Show             | `python3 main.py --tv`    |
 | Movie               | `python3 main.py --movie` |
 
@@ -72,3 +73,4 @@ environment by completing the following steps:
    environment:
 
    `docker-compose down`
+
