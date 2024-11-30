@@ -75,7 +75,6 @@ def tmdb_authenticate(tmdb_api_url, tmdb_username, tmdb_password, tmdb_api_key):
         return tmdb_session_id
     else:
         logger.error("failed to authenticate the user")
-        return request_token
 
 
 def tmdb_remove_session(tmdb_api_url, tmdb_session_id, tmdb_api_key):
