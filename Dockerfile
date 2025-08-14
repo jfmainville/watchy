@@ -6,9 +6,6 @@ RUN ln -snf /usr/share/zoneinfo/TIMEZONE /etc/localtime && echo $TIMEZONE > /etc
 RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get install --quiet --assume-yes python3-pip aria2 cron curl unzip sudo poetry
 RUN pipx install poetry
 RUN useradd --create-home titan && echo "titan:titan" | chpasswd && adduser titan sudo
-RUN adduser --disabled-login vpn
-RUN usermod -aG titan vpn
-RUN usermod -aG vpn titan
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN mkdir -p "/mnt/plexdata/TV Shows"
 RUN mkdir -p "/mnt/plexdata/Downloads/tv_shows"
