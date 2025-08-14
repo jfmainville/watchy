@@ -51,7 +51,6 @@ tmdb_username = os.environ.get("TMDB_USERNAME")
 tmdb_password = os.environ.get("TMDB_PASSWORD")
 tmdb_api_key = os.environ.get("TMDB_API_KEY")
 tmdb_account_id = os.environ.get("TMDB_ACCOUNT_ID")
-vpn_username = os.environ.get("VPN_USERNAME")
 torrent_listen_port = os.environ.get("TORRENT_LISTEN_PORT")
 torrent_dht_listen_port = os.environ.get("TORRENT_DHT_LISTEN_PORT")
 
@@ -205,7 +204,6 @@ def movie():
                                 download_directory=movies_download_directory,
                                 seeds_minimum_count=seeds_minimum_count,
                                 process_timeout=process_timeout,
-                                vpn_username=vpn_username,
                                 torrent_listen_port=torrent_listen_port,
                                 torrent_dht_listen_port=torrent_dht_listen_port,
                             )
@@ -332,7 +330,6 @@ def tv_show():
                         download_directory=tv_shows_download_directory,
                         seeds_minimum_count=seeds_minimum_count,
                         process_timeout=process_timeout,
-                        vpn_username=vpn_username,
                         torrent_listen_port=torrent_listen_port,
                         torrent_dht_listen_port=torrent_dht_listen_port,
                     )
