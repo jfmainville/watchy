@@ -4,7 +4,7 @@ services:
     build:
       context: .
     volumes:
-      - ./:/app/watchy/watchy
+      - ./:/app/watchy
       - ./plexdata:/mnt/plexdata
     env_file:
       - .env.docker
