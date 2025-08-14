@@ -3,10 +3,8 @@ services:
   watchy:
     build:
       context: .
-      dockerfile: Dockerfile.dev
     volumes:
-      - ./requirements:/app/watchy/requirements
-      - ./watchy:/app/watchy/watchy
+      - ./:/app/watchy/watchy
       - ./plexdata:/mnt/plexdata
     env_file:
-      - .env_docker
+      - .env.docker
