@@ -14,6 +14,7 @@ The following applications need to be installed on the local computer in order t
 | Application | Minimum Version |                                       Link |
 | ----------- | :-------------: | -----------------------------------------: |
 | Python      |    3.10.12 +    |  [Link](https://www.python.org/downloads/) |
+| Poetry      |     2.1.3 +     |    [Link](https://python-poetry.org/docs/) |
 | Docker      |    24.0.5 +     | [Link](https://www.docker.com/get-started) |
 
 ### Environment Variables
@@ -64,7 +65,13 @@ environment by completing the following steps:
 
    `cd watchy`
 
-3. You can now run the following command to start the development environment:
+3. Install the project dependencies, this command will install all dependencies specified in `pyproject.toml`:
+
+```bash
+poetry install
+```
+
+4. You can now run the following command to start the development environment:
 
 ```bash
 # Execute the below command to  download TV shows from the TMDB Watchlist
