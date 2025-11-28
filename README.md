@@ -66,9 +66,10 @@ environment by completing the following steps:
 
 3. You can now run the following command to start the development environment:
 
-   `docker-compose up --build`
+```bash
+# Execute the below command to  download TV shows from the TMDB Watchlist
+poetry run python3 main.py --tv
 
-4. When the development environment is no longer required, you can execute the below command to shutdown the
-   environment:
-
-   `docker-compose down`
+# Execute the below command to download movies from the TMDB Watchlist
+poetry run python3 main.py --movie
+```
