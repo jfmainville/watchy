@@ -93,7 +93,7 @@ def move_content_file(
             # Update the file owner to use the main user
             current_user = getpass.getuser()
             subprocess.check_output(
-                "sudo chown -R "
+                "chown -R "
                 + current_user
                 + ":"
                 + current_user
