@@ -46,10 +46,10 @@ The following environment variables needs to be set to use this application:
 
 There are two commands with different arguments that are available to run depending on the TMDB Watchlist type:
 
-| TMDB Watchlist Type | Command                   |
-| :------------------ | :------------------------ |
-| TV Show             | `python3 main.py --tv`    |
-| Movie               | `python3 main.py --movie` |
+| TMDB Watchlist Type | Command                              |
+| :------------------ | :----------------------------------- |
+| TV Show             | `poetry run python3 main.py --tv`    |
+| Movie               | `poetry run python3 main.py --movie` |
 
 ### Development
 
