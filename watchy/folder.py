@@ -85,7 +85,9 @@ def move_content_file(
         try:
             content_download_file = max(content_download_files, key=lambda d: d["size"])
         except ValueError:
-            error_message = "Unable to move the content as the download directory is empty"
+            error_message = (
+                "Unable to move the content as the download directory is empty"
+            )
             logger.error(error_message)
             raise ValueError(error_message)
         # Move file only if the correct file is found with the right extension
@@ -192,7 +194,10 @@ def cleanup_content_folder(content_folder, content_cleanup_days):
                 try:
                     os.remove(file_path)
                     deleted_content_files.append(file_path)
-                    logger.info("successfully completed the deletion of the following file: %s", file_path)
+                    logger.info(
+                        "successfully completed the deletion of the following file: %s",
+                        file_path,
+                    )
                 except:
                     logger.error("unable to delete the following file: %s", file_path)
     return deleted_content_files
