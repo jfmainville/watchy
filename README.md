@@ -23,7 +23,7 @@ The following environment variables needs to be set to use this application:
 | Name                       | Description                                                                   | Example                          |
 | -------------------------- | :---------------------------------------------------------------------------- | :------------------------------- |
 | EZTV_URL                   | EZTV URL to use to extract the list of TV shows to download                   | https://eztv.re                  |
-| YTS_URL                    | LEET URL to use to extract the list of movies that are available              | https://yts.mx                   |
+| YTS_URL                    | LEET URL to use to extract the list of movies that are available              | https://yts.lt                   |
 | TMDB_API_URL               | TMDB API URL to use to extract the required data for the movies and TV shows  | https://api.themoviedb.org       |
 | TMDB_USERNAME              | TMDB username used to login on the TMDB website                               | User1                            |
 | TMDB_PASSWORD              | TMDB password used to login on the TMDB website                               | Password!                        |
