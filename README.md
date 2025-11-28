@@ -14,6 +14,7 @@ The following applications need to be installed on the local computer in order t
 | Application | Minimum Version |                                       Link |
 | ----------- | :-------------: | -----------------------------------------: |
 | Python      |    3.10.12 +    |  [Link](https://www.python.org/downloads/) |
+| Poetry      |     2.1.3 +     |    [Link](https://python-poetry.org/docs/) |
 | Docker      |    24.0.5 +     | [Link](https://www.docker.com/get-started) |
 
 ### Environment Variables
@@ -23,7 +24,7 @@ The following environment variables needs to be set to use this application:
 | Name                       | Description                                                                   | Example                          |
 | -------------------------- | :---------------------------------------------------------------------------- | :------------------------------- |
 | EZTV_URL                   | EZTV URL to use to extract the list of TV shows to download                   | https://eztv.re                  |
-| YTS_URL                    | LEET URL to use to extract the list of movies that are available              | https://yts.mx                   |
+| YTS_URL                    | LEET URL to use to extract the list of movies that are available              | https://yts.lt                   |
 | TMDB_API_URL               | TMDB API URL to use to extract the required data for the movies and TV shows  | https://api.themoviedb.org       |
 | TMDB_USERNAME              | TMDB username used to login on the TMDB website                               | User1                            |
 | TMDB_PASSWORD              | TMDB password used to login on the TMDB website                               | Password!                        |
@@ -46,10 +47,10 @@ The following environment variables needs to be set to use this application:
 
 There are two commands with different arguments that are available to run depending on the TMDB Watchlist type:
 
-| TMDB Watchlist Type | Command                   |
-| :------------------ | :------------------------ |
-| TV Show             | `python3 main.py --tv`    |
-| Movie               | `python3 main.py --movie` |
+| TMDB Watchlist Type | Command                                     |
+| :------------------ | :------------------------------------------ |
+| TV Show             | `poetry run python3 watchy/main.py --tv`    |
+| Movie               | `poetry run python3 watchy/main.py --movie` |
 
 ### Development
 
@@ -64,11 +65,18 @@ environment by completing the following steps:
 
    `cd watchy`
 
-3. You can now run the following command to start the development environment:
+3. Install the project dependencies, this command will install all dependencies specified in `pyproject.toml`:
 
-   `docker-compose up --build`
+```bash
+poetry install
+```
 
-4. When the development environment is no longer required, you can execute the below command to shutdown the
-   environment:
+4. You can now run the following command to start the development environment:
 
-   `docker-compose down`
+```bash
+# Execute the below command to  download TV shows from the TMDB Watchlist
+poetry run python3 watchy/main.py --tv
+
+# Execute the below command to download movies from the TMDB Watchlist
+poetry run python3 watchy/main.py --movie
+```
