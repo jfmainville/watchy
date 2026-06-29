@@ -3,8 +3,7 @@ WORKDIR /app
 COPY ./ ./
 ENV TIMEZONE=America/New_York
 RUN ln -snf /usr/share/zoneinfo/TIMEZONE /etc/localtime && echo $TIMEZONE > /etc/timezone
-RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get install --quiet --assume-yes python3-pip aria2 cron curl unzip sudo poetry
-RUN pipx install poetry
+RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get install --quiet --assume-yes python3-pip aria2 cron curl unzip sudo
 RUN useradd --create-home titan && echo "titan:titan" | chpasswd && adduser titan sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN mkdir -p "/mnt/plexdata/TV Shows"

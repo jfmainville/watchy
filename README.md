@@ -14,7 +14,6 @@ The following applications need to be installed on the local computer in order t
 | Application | Minimum Version |                                       Link |
 | ----------- | :-------------: | -----------------------------------------: |
 | Python      |    3.10.12 +    |  [Link](https://www.python.org/downloads/) |
-| Poetry      |     2.1.3 +     |    [Link](https://python-poetry.org/docs/) |
 | Docker      |    24.0.5 +     | [Link](https://www.docker.com/get-started) |
 
 ### Environment Variables
@@ -47,10 +46,10 @@ The following environment variables needs to be set to use this application:
 
 There are two commands with different arguments that are available to run depending on the TMDB Watchlist type:
 
-| TMDB Watchlist Type | Command                                     |
-| :------------------ | :------------------------------------------ |
-| TV Show             | `poetry run python3 watchy/main.py --tv`    |
-| Movie               | `poetry run python3 watchy/main.py --movie` |
+| TMDB Watchlist Type | Command                          |
+| :------------------ | :------------------------------- |
+| TV Show             | `python3 watchy/main.py --tv`    |
+| Movie               | `python3 watchy/main.py --movie` |
 
 ### Development
 
@@ -65,18 +64,20 @@ environment by completing the following steps:
 
    `cd watchy`
 
-3. Install the project dependencies, this command will install all dependencies specified in `pyproject.toml`:
+3. Install the project dependencies by creating a virtual environment and activating it:
 
 ```bash
-poetry install
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
 4. You can now run the following command to start the development environment:
 
 ```bash
 # Execute the below command to  download TV shows from the TMDB Watchlist
-poetry run python3 watchy/main.py --tv
+python3 watchy/main.py --tv
 
 # Execute the below command to download movies from the TMDB Watchlist
-poetry run python3 watchy/main.py --movie
+python3 watchy/main.py --movie
 ```
